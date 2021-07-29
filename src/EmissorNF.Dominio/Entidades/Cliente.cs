@@ -11,6 +11,7 @@ namespace EmissorNF.Dominio.Entidades
     public class Cliente : Usuario
     {
 
+        //teste
         public string Cnpj { get; set; }
  
     }
