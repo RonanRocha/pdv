@@ -1,0 +1,120 @@
+﻿<Window x:Class="EmissorNF.Cliente.Telas.Caixa.WFPagamento"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Pagamentos" Height="768" Width="1024">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <WrapPanel Grid.Row="0" VerticalAlignment="Center" Margin="3">
+            <!--<ComboBox materialDesign:HintAssist.Hint="Forma de Pagamento" MinHeight="32" MinWidth="200" Margin="3"></ComboBox>-->
+            <ComboBox   x:Name="CmbFormasPagamento"
+                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                        Margin="3"
+                        materialDesign:HintAssist.Hint="Formas de Pagamento"
+                        ItemsSource="{Binding ShortStringList}"
+                        materialDesign:TextFieldAssist.HasClearButton="True"
+                        DisplayMemberPath="Nome"
+                        SelectedValuePath="Id"
+                        Width="200" MinHeight="32" />
+
+            <ComboBox   x:Name="CmbParcelas"
+                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                        Margin="3"
+                        materialDesign:TextFieldAssist.HasClearButton="True"
+                        materialDesign:HintAssist.Hint="Parcelas"
+                        ItemsSource="{Binding ShortStringList}"
+                        DisplayMemberPath="Nome"
+                        SelectedValuePath="Id"
+                        Width="200" MinHeight="32" />
+
+            <!--<ComboBox materialDesign:HintAssist.Hint="Parcelas" MinHeight="32" MinWidth="50" Margin="3"></ComboBox>-->
+
+            <TextBox materialDesign:HintAssist.Hint="Valor" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" MinWidth="200" Margin="3" Cursor="IBeam"></TextBox>
+            <Button MinHeight="48" Margin="3">Adicionar</Button>
+        </WrapPanel>
+        <GroupBox Grid.Row="1" Header="Pagamentos" Margin="3,0,0,20">
+            <DataGrid 
+                      x:Name="GridPagamentos" 
+                      AutoGenerateColumns="False"   
+                      SelectionUnit="FullRow"
+                      SelectionMode="Single"
+                      CanUserReorderColumns="True"
+                      CanUserAddRows="False" 
+                      CanUserResizeRows="True" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn  Binding="{Binding FormaPagamento}" IsReadOnly="True" Header="FORMA DE PAGAMENTO"/>
+                    <DataGridTextColumn Binding="{Binding Parcelas}" IsReadOnly="True" Header="PARCELAS"/>
+                    <DataGridTextColumn Binding="{Binding Valor}" IsReadOnly="True" Header="VALOR"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button HorizontalAlignment="Right" CommandParameter="{Binding}" Command="{Binding Path=DataContext.RemovePaymentCommand, RelativeSource= {RelativeSource FindAncestor,AncestorType={x:Type DataGrid}}}">
+                                    <materialDesign:PackIcon Kind="TrashCanOutline" />
+
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+        <GroupBox Grid.Row="2" Header="Total">
+            <StackPanel >
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBlock FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline5TextBlock}" Text="VALOR PAGO: " />
+                        <TextBlock FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline5TextBlock}" Text="100,00 R$" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="TOTAL: " />
+                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="100,00 R$" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="SUBTOTAL: " />
+                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="100,00 R$" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="TROCO: " />
+                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="100,00 R$" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="DESCONTO: " />
+                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="00,00 R$" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="ACRESCIMO: " />
+                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="00,00 R$" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <WrapPanel Grid.Row="3"  VerticalAlignment="Center" HorizontalAlignment="Right" >
+            <Button MinHeight="48" Margin="0,0,5, 0">Cancelar</Button>
+            <Button MinHeight="48">Fechar Venda</Button>
+        </WrapPanel>
+    </Grid>
+</Window>
