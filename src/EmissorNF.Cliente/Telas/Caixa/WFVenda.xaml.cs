@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EmissorNF.Cliente.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace EmissorNF.Cliente.Telas.Caixa
 {
@@ -19,9 +12,57 @@ namespace EmissorNF.Cliente.Telas.Caixa
     /// </summary>
     public partial class WFVenda : Window
     {
-        public WFVenda()
+
+
+      
+        private readonly IServiceScopeFactory _sp;
+
+        public WFVenda(OperacaoVendaViewModel viewModel, IServiceScopeFactory sp)
         {
+            _sp = sp;
             InitializeComponent();
+            viewModel.IniciarVenda += Invoke_IniciarVenda;
+            DataContext = viewModel;
+            
         }
+
+
+        public void IniciarVenda()
+        {
+
+            var scope = _sp.CreateScope();
+            var op = scope.ServiceProvider.GetRequiredService<OperacaoVendaViewModel>();
+            op.IniciarVenda += Invoke_IniciarVenda;
+            DataContext = op;
+              
+            
+        }
+
+
+        public void Invoke_IniciarVenda(object sender, EventArgs e)
+        {
+            IniciarVenda();
+        }
+
+
+        
+
+
+
+
+
+        public void IniciarVenda_OnClicked(object sender, RoutedEventArgs e)
+        {
+            IniciarVenda();
+        }
+
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+
     }
 }

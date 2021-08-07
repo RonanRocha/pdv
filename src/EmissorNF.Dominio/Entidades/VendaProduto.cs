@@ -73,6 +73,12 @@ namespace EmissorNF.Dominio.Entidades
             Calcular();
         }
 
+        public void Incrementar(int quantidade)
+        {
+            Quantidade += quantidade;
+            Calcular();
+        }
+
 
     }
 }

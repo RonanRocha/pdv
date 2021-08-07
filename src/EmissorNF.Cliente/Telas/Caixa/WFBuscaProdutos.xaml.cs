@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmissorNF.Cliente.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,52 @@ namespace EmissorNF.Cliente.Telas.Caixa
     /// </summary>
     public partial class WFBuscaProdutos : Window
     {
-        public WFBuscaProdutos()
+        public WFBuscaProdutos(OperacaoVendaViewModel viewModel)
         {
             InitializeComponent();
+            viewModel.FecharJanelaProdutos += Fechar;
+            DataContext = viewModel;
+            
         }
+
+
+        public void Fechar(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+     
+
+        //public void CarregarProdutos()
+        //{
+        //    var p = new List<dynamic>();
+
+        //    p.Add(new
+        //    {
+        //        Id = 1,
+        //        Codigo = "P0012435",
+        //        Descricao = "PERFUME VIP 01 - 500 ML",
+        //        Preco = 259.9M
+        //    });
+
+        //    p.Add(new
+        //    {
+        //        Id = 2,
+        //        Codigo = "P0012436",
+        //        Descricao = "PERFUME VIP 02 - 500 ML",
+        //        Preco = 259.9M
+        //    });
+
+        //    p.Add(new
+        //    {
+        //        Id = 1,
+        //        Codigo = "P0012437",
+        //        Descricao = "PERFUME VIP 03 - 500 ML",
+        //        Preco = 259.9M
+        //    });
+
+
+        //    GridProdutos.ItemsSource = p;
+        //}
+
     }
 }

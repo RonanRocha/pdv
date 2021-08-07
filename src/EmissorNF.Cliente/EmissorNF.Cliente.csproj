@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <StartupObject></StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="MaterialDesignThemes" Version="4.1.0" />
+    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +25,11 @@
 
   <ItemGroup>
     <Folder Include="Fake\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EmissorNF.Dal\EmissorNF.Dal.csproj" />
+    <ProjectReference Include="..\EmissorNF.Dominio\EmissorNF.Dominio.csproj" />
   </ItemGroup>
 
 </Project>

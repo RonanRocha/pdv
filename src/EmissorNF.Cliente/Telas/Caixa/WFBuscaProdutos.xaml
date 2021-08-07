@@ -4,18 +4,54 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EmissorNF.Cliente.Telas.Caixa"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
-        Title="Busca de Produtos" Height="450" Width="800">
-    <Grid>
+        WindowStartupLocation="CenterScreen"
+        Title="Busca de Produtos" Height="600" Width="800">
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="9*"></RowDefinition>
+            <RowDefinition Height="8*"></RowDefinition>
         </Grid.RowDefinitions>
         <WrapPanel Grid.Row="0" Margin="5" VerticalAlignment="Center">
-            <TextBox  MinWidth="50" Margin="3"></TextBox>
-            <TextBox  MinWidth="350" Margin="3"></TextBox>
-            <Button Margin="3">Adicionar</Button>
+            <TextBox Text="{Binding Quantidade, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Padding="10" materialDesign:HintAssist.Hint="Quantidade" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" MinWidth="130" Margin="0,0,5,0" Cursor="IBeam"></TextBox>
+            <TextBox Text="{Binding Busca,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Padding="10" Width="500" materialDesign:HintAssist.Hint="Busca por nome ou código do produto"  materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="0,0,5,0" Cursor="IBeam" >
+                <TextBox.InputBindings>
+                    <KeyBinding 
+                                            Key="Return" 
+                                            Command="{Binding ConsultarProdutosCommand}" 
+                                            CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}" />
+                </TextBox.InputBindings>
+            </TextBox>
+            <Button Command="{Binding ConsultarProdutosCommand }" Cursor="Hand"> Pesquisar</Button>
         </WrapPanel>
-        <DataGrid Grid.Row="2" Margin="5"></DataGrid>
+        <DataGrid  Grid.Row="1"
+                      x:Name="GridProdutos" 
+                    IsSynchronizedWithCurrentItem="True"
+                      AutoGenerateColumns="False"   
+                      SelectionUnit="FullRow"
+                      SelectionMode="Single"
+                      CanUserReorderColumns="True"
+                      CanUserAddRows="False" 
+      
+                      ItemsSource="{Binding Produtos,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                      CanUserResizeRows="True"  >
+            <DataGrid.Columns>
+                <DataGridTextColumn  Binding="{Binding Codigo}" IsReadOnly="True" Header="CÓDIGO"/>
+                <DataGridTextColumn Binding="{Binding Descricao}" IsReadOnly="True" Header="DESCRIÇÃO"/>
+                <DataGridTextColumn Binding="{Binding ValorVenda}" IsReadOnly="True" Header="PREÇO"/>
+            </DataGrid.Columns>
+            <DataGrid.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding SelecionarProdutoCommand}" CommandParameter="{Binding ElementName=GridProdutos, Path=SelectedItem}"/>
+                <KeyBinding Key="Return" Command="{Binding SelecionarProdutoCommand}" CommandParameter="{Binding ElementName=GridProdutos, Path=SelectedItem}"/>
+            </DataGrid.InputBindings>
+        </DataGrid>
     </Grid>
 </Window>

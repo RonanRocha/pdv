@@ -13,42 +13,48 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Pagamentos" Height="768" Width="1024">
+        Title="Pagamentos" Height="600" Width="800" Cursor="IBeam">
     <Grid Margin="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="70"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="4*"></RowDefinition>
-            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
-        <WrapPanel Grid.Row="0" VerticalAlignment="Center" Margin="3">
-            <!--<ComboBox materialDesign:HintAssist.Hint="Forma de Pagamento" MinHeight="32" MinWidth="200" Margin="3"></ComboBox>-->
+        <StackPanel VerticalAlignment="Center">
+            <TextBox materialDesign:HintAssist.Hint="Descrição"   
+                     Height="70"
+                     Padding="10"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap" 
+                     materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" MinWidth="200"  Cursor="IBeam"></TextBox>
+        </StackPanel>
+        <WrapPanel Grid.Row="1" VerticalAlignment="Center"  >
             <ComboBox   x:Name="CmbFormasPagamento"
                         Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                        Margin="3"
+                        
                         materialDesign:HintAssist.Hint="Formas de Pagamento"
-                        ItemsSource="{Binding ShortStringList}"
                         materialDesign:TextFieldAssist.HasClearButton="True"
-                        DisplayMemberPath="Nome"
-                        SelectedValuePath="Id"
-                        Width="200" MinHeight="32" />
+                        DisplayMemberPath="Descricao"
+                        ItemsSource="{Binding Pagamentos, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        SelectedValue ="{Binding Pagamento, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        
+                        Width="260" MinHeight="32" Padding="10" />
 
             <ComboBox   x:Name="CmbParcelas"
+                        Visibility="Collapsed"
                         Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                        Margin="3"
-                        materialDesign:TextFieldAssist.HasClearButton="True"
+                        Margin="5,0,0,0"
+                        Padding="10"
                         materialDesign:HintAssist.Hint="Parcelas"
-                        ItemsSource="{Binding ShortStringList}"
                         DisplayMemberPath="Nome"
                         SelectedValuePath="Id"
-                        Width="200" MinHeight="32" />
+                        Width="120" MinHeight="32" />
 
-            <!--<ComboBox materialDesign:HintAssist.Hint="Parcelas" MinHeight="32" MinWidth="50" Margin="3"></ComboBox>-->
-
-            <TextBox materialDesign:HintAssist.Hint="Valor" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" MinWidth="200" Margin="3" Cursor="IBeam"></TextBox>
-            <Button MinHeight="48" Margin="3">Adicionar</Button>
+            <TextBox materialDesign:HintAssist.Hint="Valor" Padding="10" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" MinWidth="100"  Margin="5,0,0,0" Cursor="IBeam" ></TextBox>
+            <Button  Margin="5,0,0,0">Adicionar</Button>
         </WrapPanel>
-        <GroupBox Grid.Row="1" Header="Pagamentos" Margin="3,0,0,20">
+        <GroupBox Grid.Row="2" Header="Pagamentos">
             <DataGrid 
                       x:Name="GridPagamentos" 
                       AutoGenerateColumns="False"   
@@ -56,7 +62,7 @@
                       SelectionMode="Single"
                       CanUserReorderColumns="True"
                       CanUserAddRows="False" 
-                      CanUserResizeRows="True" >
+                      CanUserResizeRows="True"  >
                 <DataGrid.Columns>
                     <DataGridTextColumn  Binding="{Binding FormaPagamento}" IsReadOnly="True" Header="FORMA DE PAGAMENTO"/>
                     <DataGridTextColumn Binding="{Binding Parcelas}" IsReadOnly="True" Header="PARCELAS"/>
@@ -74,47 +80,47 @@
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
-        <GroupBox Grid.Row="2" Header="Total">
-            <StackPanel >
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel Orientation="Horizontal" >
-                        <TextBlock FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline5TextBlock}" Text="VALOR PAGO: " />
-                        <TextBlock FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline5TextBlock}" Text="100,00 R$" />
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*"></ColumnDefinition>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <WrapPanel Grid.Row="0">
+                <StackPanel   Margin="0,10,0,0">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="TOTAL: " />
-                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="100,00 R$" />
+                        <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                            <TextBlock FontWeight="Bold" Style="{StaticResource MaterialDesignBody2TextBlock}" Text="TOTAL: " />
+                            <TextBlock  Style="{StaticResource MaterialDesignBody2TextBlock}" Text="100,00 R$" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"  Margin="0,0,10,0">
+                            <TextBlock FontWeight="Bold" Style="{StaticResource MaterialDesignBody2TextBlock}" Text="SUBTOTAL: " />
+                            <TextBlock  Style="{StaticResource MaterialDesignBody2TextBlock}" Text="100,00 R$" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"  Margin="0,0,10,0">
+                            <TextBlock FontWeight="Bold" Style="{StaticResource MaterialDesignBody2TextBlock}" Text="VALOR PAGO: " />
+                            <TextBlock  Style="{StaticResource MaterialDesignBody2TextBlock}" Text="100,00 R$" />
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
+
+                   
+                    
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="SUBTOTAL: " />
-                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="100,00 R$" />
+                        <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                            <TextBlock FontWeight="Bold" Style="{StaticResource MaterialDesignBody2TextBlock}" Text="DESCONTO: " />
+                            <TextBlock  Style="{StaticResource MaterialDesignBody2TextBlock}" Text="100,00 R$" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                            <TextBlock FontWeight="Bold" Style="{StaticResource MaterialDesignBody2TextBlock}" Text="ACRESCIMO: " />
+                            <TextBlock  Style="{StaticResource MaterialDesignBody2TextBlock}" Text="100,00 R$" />
+                        </StackPanel>
                     </StackPanel>
+
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="TROCO: " />
-                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="100,00 R$" />
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
-                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="DESCONTO: " />
-                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="00,00 R$" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="ACRESCIMO: " />
-                        <TextBlock  FontWeight="Bold" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="00,00 R$" />
-                    </StackPanel>
-                </StackPanel>
-            </StackPanel>
-        </GroupBox>
-        <WrapPanel Grid.Row="3"  VerticalAlignment="Center" HorizontalAlignment="Right" >
-            <Button MinHeight="48" Margin="0,0,5, 0">Cancelar</Button>
-            <Button MinHeight="48">Fechar Venda</Button>
-        </WrapPanel>
+            </WrapPanel>
+            <WrapPanel Grid.Column="1"   VerticalAlignment="Center" HorizontalAlignment="Right" >
+                <Button MinHeight="48" Margin="0,0,5, 0">Cancelar</Button>
+                <Button Command="{Binding FecharVendaCommand}" MinHeight="48">Fechar Venda</Button>
+            </WrapPanel>
+        </Grid>
     </Grid>
 </Window>

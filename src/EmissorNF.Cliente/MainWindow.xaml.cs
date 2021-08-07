@@ -24,8 +24,11 @@ namespace EmissorNF.Cliente
         public MainWindow()
         {
             InitializeComponent();
-            var p = new WFPagamento();
-            p.ShowDialog();
+      
         }
+
+
+
+    
     }
 }

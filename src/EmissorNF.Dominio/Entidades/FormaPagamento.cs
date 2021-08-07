@@ -15,6 +15,7 @@ namespace EmissorNF.Dominio.Entidades
         public string Descricao { get; set; }
         public string Codigo { get; set; }
         public int? Parcelas { get; set; }
+        public TipoPagamento TipoPagamento { get; set; }
         public List<VendaFormaPagamento> Vendas { get; set; }
         public SituacaoEntidade SituacaoEntidade { get; set; }
         public DateTime DataCadastro { get; set; }
