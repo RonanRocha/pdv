@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using EmissorNF.Dominio.Enums;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,6 @@ namespace EmissorNF.Cliente.ViewModels
             set => SetProperty(ref _id, value);
         }
 
-
         public string Descricao
         {
             get => _descricao;
@@ -47,6 +47,10 @@ namespace EmissorNF.Cliente.ViewModels
             get => _dataCadastro;
             set => SetProperty(ref _dataCadastro, value);
         }
+
+        public TipoPagamento TipoPagamento { get; set; }
+
+        public SituacaoEntidade SituacaoEntidade { get; set; }
 
     }
 }

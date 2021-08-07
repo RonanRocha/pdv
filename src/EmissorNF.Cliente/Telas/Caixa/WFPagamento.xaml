@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -13,7 +13,7 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Pagamentos" Height="600" Width="800" Cursor="IBeam">
+        Title="Pagamentos" Height="600" Width="800" Cursor="IBeam" Closed="WFPagamento_Closed">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="70"></RowDefinition>
@@ -38,17 +38,24 @@
                         DisplayMemberPath="Descricao"
                         ItemsSource="{Binding Pagamentos, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                         SelectedValue ="{Binding Pagamento, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                        
-                        Width="260" MinHeight="32" Padding="10" />
+  
+                        Width="260" MinHeight="32" Padding="10">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding TrocarFormaPagamentoCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
 
             <ComboBox   x:Name="CmbParcelas"
-                        Visibility="Collapsed"
+                        Visibility="{Binding MostrarParcela, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                         Style="{StaticResource MaterialDesignOutlinedComboBox}"
                         Margin="5,0,0,0"
                         Padding="10"
+                        ItemsSource="{Binding Parcelas, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                         materialDesign:HintAssist.Hint="Parcelas"
-                        DisplayMemberPath="Nome"
-                        SelectedValuePath="Id"
+                        DisplayMemberPath="Descricao"
+                        SelectedValuePath="Valor"
                         Width="120" MinHeight="32" />
 
             <TextBox materialDesign:HintAssist.Hint="Valor" Padding="10" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" MinWidth="100"  Margin="5,0,0,0" Cursor="IBeam" ></TextBox>

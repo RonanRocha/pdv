@@ -11,18 +11,21 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace EmissorNF.Cliente.ViewModels
 {
     public class OperacaoVendaViewModel : ObservableObject
     {
+
+        #region private attributes
+
         private readonly IProdutoRepositorio _produtoRepositorio;
         private readonly IUsuarioRepositorio _usuarioRepositorio;
         private readonly IFormaPagamentoRepositorio _formaPagamentoRepositorio;
         private readonly IServiceProvider _sp;  
         private readonly IMapper _mapper;
-
         private  VendaViewModel _venda;
         private string _busca = String.Empty;
         private bool _cpfNota;
@@ -30,16 +33,21 @@ namespace EmissorNF.Cliente.ViewModels
         private decimal? _desconto;
         private decimal? _acrescimo;
         private int _quantidade = 1;
+        private Visibility _mostrarParcela = Visibility.Collapsed;
         private FormaPagamentoViewModel _pagamento;
         private ObservableCollection<ProdutoViewModel> _produtos = new ObservableCollection<ProdutoViewModel>();
         private ObservableCollection<FormaPagamentoViewModel> _pagamentos = new ObservableCollection<FormaPagamentoViewModel>();
+        private ObservableCollection<ParcelaViewModel> _parcelas = new ObservableCollection<ParcelaViewModel>();
 
+        #endregion
+        #region events
 
         public event EventHandler IniciarVenda;
         public event EventHandler FecharJanelaPagamentos;
         public event EventHandler FecharJanelaProdutos;
 
-
+        #endregion
+        #region constructors
         public OperacaoVendaViewModel(IProdutoRepositorio produtoRepositorio,IServiceProvider sp, IFormaPagamentoRepositorio formaPagamentoRepositorio, IUsuarioRepositorio usuarioRepositorio, IMapper mapper, VendaViewModel viewModel)
         {
 
@@ -49,8 +57,7 @@ namespace EmissorNF.Cliente.ViewModels
             this._produtoRepositorio = produtoRepositorio;
             this._usuarioRepositorio = usuarioRepositorio;
             this._formaPagamentoRepositorio = formaPagamentoRepositorio;
-
-           
+         
             FecharVendaCommand = new RelayCommand(FecharVenda, () => true);
             BuscarProdutoCommand = new RelayCommand(BuscarProduto, () => true);
             IniciarVendaCommand = new RelayCommand(IniciarOperacao, () => true);
@@ -58,11 +65,15 @@ namespace EmissorNF.Cliente.ViewModels
             RemoverProdutoVendaCommand = new RelayCommand<VendaProdutoViewModel>((vendaProduto) => RemoverProdutoVenda(vendaProduto));
             ConsultarProdutosCommand = new RelayCommand(ConsultarProdutos, () => true);
             SelecionarProdutoCommand = new RelayCommand<ProdutoViewModel>((product) => SelecionarProduto(product));
+            TrocarFormaPagamentoCommand = new RelayCommand(TrocarFormaPagamento, () => true);
+
 
             CarregarVendedores();
             CarregarPagamentos();
         }
 
+        #endregion
+        #region public attributes
         public bool CpfNota
         {
             get => _cpfNota;
@@ -123,10 +134,14 @@ namespace EmissorNF.Cliente.ViewModels
             set => SetProperty(ref _busca, value);
         }
 
+
+        public Visibility MostrarParcela
+        {
+            get => _mostrarParcela;
+            set => SetProperty(ref _mostrarParcela, value);
+        }
+
         public ObservableCollection<UsuarioViewModel> Vendedores { get; set; } = new ObservableCollection<UsuarioViewModel>();
-
-      
-
 
         public ObservableCollection<FormaPagamentoViewModel> Pagamentos
         {
@@ -139,7 +154,15 @@ namespace EmissorNF.Cliente.ViewModels
             get => _produtos;
             set => SetProperty(ref _produtos, value);
         }
-       
+
+        public ObservableCollection<ParcelaViewModel> Parcelas
+        {
+            get => _parcelas;
+            set => SetProperty(ref _parcelas, value);
+        }
+
+        #endregion
+        #region commands
 
         public ICommand FecharVendaCommand { get; set; }
 
@@ -155,6 +178,11 @@ namespace EmissorNF.Cliente.ViewModels
 
         public ICommand SelecionarProdutoCommand { get; set; }
 
+        public ICommand TrocarFormaPagamentoCommand { get; set; }
+
+
+        #endregion
+        #region methods
         public void RemoverProdutoVenda(VendaProdutoViewModel vendaProduto)
         {
             _venda.RemoverProduto(vendaProduto);
@@ -232,7 +260,6 @@ namespace EmissorNF.Cliente.ViewModels
             FecharJanelaPagamentos.Invoke(this, EventArgs.Empty);
         }
 
-
         private void IniciarPagamentos()
         {
             var wfPagamento = _sp.GetRequiredService<WFPagamento>();
@@ -244,6 +271,30 @@ namespace EmissorNF.Cliente.ViewModels
             IniciarVenda.Invoke(this, EventArgs.Empty);
             
         }
-      
+
+        #endregion
+
+
+        private void TrocarFormaPagamento()
+        {
+            if (Pagamento == null)
+            {
+                MostrarParcela = Visibility.Collapsed;
+                
+            }else
+            {
+                if (Pagamento.TipoPagamento == Dominio.Enums.TipoPagamento.Credito)
+                {
+                    Parcelas = new ObservableCollection<ParcelaViewModel>(ParcelaViewModel.GerarParcelas(Pagamento.Parcelas.GetValueOrDefault()));
+                    MostrarParcela = Visibility.Visible;
+                }else
+                {
+                    MostrarParcela = Visibility.Collapsed;
+                }
+            }
+
+         
+        }
+
     }
 }

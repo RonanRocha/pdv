@@ -1,5 +1,6 @@
 ﻿using EmissorNF.Cliente.ViewModels;
 using EmissorNF.Dal.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,21 +23,35 @@ namespace EmissorNF.Cliente.Telas.Caixa
     public partial class WFPagamento : Window
     {
 
-    
+
+        private readonly IServiceScopeFactory _sp;
+        private readonly OperacaoVendaViewModel _viewModel;
 
 
-        public WFPagamento(OperacaoVendaViewModel viewModel)
+        public WFPagamento(OperacaoVendaViewModel viewModel, IServiceScopeFactory sp)
         {
+            _sp = sp;
+            _viewModel = viewModel;
             InitializeComponent();
             viewModel.FecharJanelaPagamentos += FecharJanela;
-            DataContext = viewModel;
+            DataContext = _viewModel;
+            
+           
         }
 
 
-        
+ 
         private void FecharJanela(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+
+        private void WFPagamento_Closed(object sender, EventArgs e)
+        {
+            var scope = _sp.CreateScope();
+            var op = scope.ServiceProvider.GetRequiredService<VendaFormaPagamentoViewModel>();
+            _viewModel.Pagamento = null;
         }
 
 
@@ -51,7 +66,7 @@ namespace EmissorNF.Cliente.Telas.Caixa
 
         //    if((int) CmbFormasPagamento.SelectedValue == 2)
         //    {
-                
+
         //        MostrarParcelas();
         //        CarregarParcelas();
         //        return;
