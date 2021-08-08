@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using EmissorNF.Dominio.Enums;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,11 +55,18 @@ namespace EmissorNF.Cliente.ViewModels
             set => SetProperty(ref _dataCadastro, value);
         }
 
+        public SituacaoEntidade SituacaoEntidade { get; set; }
+
         public void AdicionarPagamento(FormaPagamentoViewModel formaPagamento, decimal valor, int parcelas = 1)
         {
             FormaPagamento = formaPagamento;
             ValorPago = valor;
             DivididoEm = parcelas;
+        }
+
+        public void IncrementarValor(decimal valor)
+        {
+            ValorPago += valor;
         }
 
     }

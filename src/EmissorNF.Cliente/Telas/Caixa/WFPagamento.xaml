@@ -13,7 +13,17 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Pagamentos" Height="600" Width="800" Cursor="IBeam" Closed="WFPagamento_Closed">
+        Title="Pagamentos" Height="600" Width="800" Cursor="IBeam">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding AbrirJanelaPagamentoCommand}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding FecharJanelaPagamentoCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="70"></RowDefinition>
@@ -55,11 +65,11 @@
                         ItemsSource="{Binding Parcelas, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                         materialDesign:HintAssist.Hint="Parcelas"
                         DisplayMemberPath="Descricao"
-                        SelectedValuePath="Valor"
+                        SelectedValue="{Binding ParcelaPagamento, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                         Width="120" MinHeight="32" />
 
-            <TextBox materialDesign:HintAssist.Hint="Valor" Padding="10" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" MinWidth="100"  Margin="5,0,0,0" Cursor="IBeam" ></TextBox>
-            <Button  Margin="5,0,0,0">Adicionar</Button>
+            <TextBox Text="{Binding ValorPagamento, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=C}" materialDesign:HintAssist.Hint="Valor" Padding="10" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" MinWidth="100"  Margin="5,0,0,0" Cursor="IBeam" ></TextBox>
+            <Button  Margin="5,0,0,0" Command="{Binding AdicionarPagamentoCommand}">Adicionar</Button>
         </WrapPanel>
         <GroupBox Grid.Row="2" Header="Pagamentos">
             <DataGrid 
@@ -69,15 +79,16 @@
                       SelectionMode="Single"
                       CanUserReorderColumns="True"
                       CanUserAddRows="False" 
+                      ItemsSource="{Binding Venda.Pagamentos, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                       CanUserResizeRows="True"  >
                 <DataGrid.Columns>
-                    <DataGridTextColumn  Binding="{Binding FormaPagamento}" IsReadOnly="True" Header="FORMA DE PAGAMENTO"/>
-                    <DataGridTextColumn Binding="{Binding Parcelas}" IsReadOnly="True" Header="PARCELAS"/>
-                    <DataGridTextColumn Binding="{Binding Valor}" IsReadOnly="True" Header="VALOR"/>
+                    <DataGridTextColumn  Binding="{Binding FormaPagamento.Descricao}" IsReadOnly="True" Header="FORMA DE PAGAMENTO"/>
+                    <DataGridTextColumn Binding="{Binding DivididoEm}" IsReadOnly="True" Header="PARCELAS"/>
+                    <DataGridTextColumn Binding="{Binding ValorPago, StringFormat=C}" IsReadOnly="True" Header="VALOR"/>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button HorizontalAlignment="Right" CommandParameter="{Binding}" Command="{Binding Path=DataContext.RemovePaymentCommand, RelativeSource= {RelativeSource FindAncestor,AncestorType={x:Type DataGrid}}}">
+                                <Button HorizontalAlignment="Right" CommandParameter="{Binding}" Command="{Binding Path=DataContext.RemovePagamentoCommand, RelativeSource= {RelativeSource FindAncestor,AncestorType={x:Type DataGrid}}}">
                                     <materialDesign:PackIcon Kind="TrashCanOutline" />
 
                                 </Button>
@@ -97,31 +108,27 @@
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
                             <TextBlock FontWeight="Bold" Style="{StaticResource MaterialDesignBody2TextBlock}" Text="TOTAL: " />
-                            <TextBlock  Style="{StaticResource MaterialDesignBody2TextBlock}" Text="100,00 R$" />
+                            <TextBlock  Style="{StaticResource MaterialDesignBody2TextBlock}" Text="{Binding Venda.Total, StringFormat=C, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal"  Margin="0,0,10,0">
                             <TextBlock FontWeight="Bold" Style="{StaticResource MaterialDesignBody2TextBlock}" Text="SUBTOTAL: " />
-                            <TextBlock  Style="{StaticResource MaterialDesignBody2TextBlock}" Text="100,00 R$" />
+                            <TextBlock  Style="{StaticResource MaterialDesignBody2TextBlock}" Text="{Binding Venda.Subtotal, StringFormat=C, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal"  Margin="0,0,10,0">
                             <TextBlock FontWeight="Bold" Style="{StaticResource MaterialDesignBody2TextBlock}" Text="VALOR PAGO: " />
-                            <TextBlock  Style="{StaticResource MaterialDesignBody2TextBlock}" Text="100,00 R$" />
+                            <TextBlock  Style="{StaticResource MaterialDesignBody2TextBlock}" Text="{Binding Venda.ValorPago, StringFormat=C, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
                         </StackPanel>
                     </StackPanel>
-
-                   
-                    
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
                             <TextBlock FontWeight="Bold" Style="{StaticResource MaterialDesignBody2TextBlock}" Text="DESCONTO: " />
-                            <TextBlock  Style="{StaticResource MaterialDesignBody2TextBlock}" Text="100,00 R$" />
+                            <TextBlock  Style="{StaticResource MaterialDesignBody2TextBlock}" Text="{Binding Venda.ValorDesconto, StringFormat=C, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
                             <TextBlock FontWeight="Bold" Style="{StaticResource MaterialDesignBody2TextBlock}" Text="ACRESCIMO: " />
-                            <TextBlock  Style="{StaticResource MaterialDesignBody2TextBlock}" Text="100,00 R$" />
+                            <TextBlock  Style="{StaticResource MaterialDesignBody2TextBlock}" Text="{Binding Venda.ValorAcrescimo, StringFormat=C, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
                         </StackPanel>
                     </StackPanel>
-
                 </StackPanel>
             </WrapPanel>
             <WrapPanel Grid.Column="1"   VerticalAlignment="Center" HorizontalAlignment="Right" >

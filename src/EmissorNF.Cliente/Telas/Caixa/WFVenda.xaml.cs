@@ -13,36 +13,15 @@ namespace EmissorNF.Cliente.Telas.Caixa
     public partial class WFVenda : Window
     {
 
-        private readonly IServiceScopeFactory _sp;
 
-        public WFVenda(OperacaoVendaViewModel viewModel, IServiceScopeFactory sp)
+        public WFVenda(OperacaoVendaViewModel viewModel)
         {
-            _sp = sp;
+
             InitializeComponent();
-            viewModel.IniciarVenda += Invoke_IniciarVenda;
             DataContext = viewModel;
-            
+         
         }
 
-        public void IniciarVenda()
-        {
-
-            var scope = _sp.CreateScope();
-            var op = scope.ServiceProvider.GetRequiredService<OperacaoVendaViewModel>();
-            op.IniciarVenda += Invoke_IniciarVenda;
-            DataContext = op;
-                          
-        }
-
-        public void Invoke_IniciarVenda(object sender, EventArgs e)
-        {
-            IniciarVenda();
-        }
-
-        public void IniciarVenda_OnClicked(object sender, RoutedEventArgs e)
-        {
-            IniciarVenda();
-        }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {

@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using EmissorNF.Dominio.Enums;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,7 +22,7 @@ namespace EmissorNF.Cliente.ViewModels
         private decimal _valorPago;
         private DateTime _dataFechamento;
         private DateTime _dataCadastro;
-
+        
 
         public int Id
         {
@@ -95,6 +96,8 @@ namespace EmissorNF.Cliente.ViewModels
             set => SetProperty(ref _dataFechamento, value);
         }
 
+
+        public SituacaoEntidade  SituacaoEntidade { get; set; }
 
 
         public ObservableCollection<VendaProdutoViewModel> Produtos { get; set; } = new ObservableCollection<VendaProdutoViewModel>();
@@ -209,23 +212,43 @@ namespace EmissorNF.Cliente.ViewModels
         {
             if (formaPagamento == null) return;
 
-
             if (valor <= 0) return;
 
-            var vendaFormaPagamento = new VendaFormaPagamentoViewModel
+            var pagamentoAdicionado = Pagamentos.Where(x => x.FormaPagamento.Id == formaPagamento.Id && x.DivididoEm == parcelas).FirstOrDefault();
+
+            if(pagamentoAdicionado != null)
             {
+                pagamentoAdicionado.IncrementarValor(valor);
+            }
+            else
+            {
+                var vendaFormaPagamento = new VendaFormaPagamentoViewModel
+                {
 
-                DataCadastro = DateTime.Now,
-                Venda = this
-            };
+                    DataCadastro = DateTime.Now,
+                    Venda = this
+                };
 
-            vendaFormaPagamento.AdicionarPagamento(formaPagamento, valor, parcelas);
+                vendaFormaPagamento.AdicionarPagamento(formaPagamento, valor, parcelas);
 
-            Pagamentos.Add(vendaFormaPagamento);
+                Pagamentos.Add(vendaFormaPagamento);
+            }
+
 
             CalcularTotais();
 
         }
+
+
+        public void RemoverPagamento(VendaFormaPagamentoViewModel pagamentoViewModel)
+        {
+            var produto = Pagamentos.Where(x => x.Id == pagamentoViewModel.Id).FirstOrDefault();
+            if (produto == null) return;
+            Pagamentos.Remove(produto);
+            CalcularTotais();
+        }
+
+
 
 
 

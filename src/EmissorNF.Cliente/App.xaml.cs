@@ -50,7 +50,8 @@ namespace EmissorNF.Cliente
             services.AddScoped<VendaFormaPagamentoViewModel>();
 
 
-            services.AddTransient<WFVenda>();
+            services.AddScoped<WFVenda>();
+
             services.AddTransient<WFPagamento>();
             services.AddTransient<WFBuscaProdutos>();
 

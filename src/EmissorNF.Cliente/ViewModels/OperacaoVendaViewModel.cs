@@ -24,7 +24,8 @@ namespace EmissorNF.Cliente.ViewModels
         private readonly IProdutoRepositorio _produtoRepositorio;
         private readonly IUsuarioRepositorio _usuarioRepositorio;
         private readonly IFormaPagamentoRepositorio _formaPagamentoRepositorio;
-        private readonly IServiceProvider _sp;  
+        private readonly IServiceProvider _sp;
+        private readonly IServiceScopeFactory _sc;
         private readonly IMapper _mapper;
         private  VendaViewModel _venda;
         private string _busca = String.Empty;
@@ -32,6 +33,8 @@ namespace EmissorNF.Cliente.ViewModels
         private bool _enviarEmail;
         private decimal? _desconto;
         private decimal? _acrescimo;
+        private decimal _valorPagamento;
+        private ParcelaViewModel _parcelaPagamento = GerarParcelaPadrao();
         private int _quantidade = 1;
         private Visibility _mostrarParcela = Visibility.Collapsed;
         private FormaPagamentoViewModel _pagamento;
@@ -40,19 +43,21 @@ namespace EmissorNF.Cliente.ViewModels
         private ObservableCollection<ParcelaViewModel> _parcelas = new ObservableCollection<ParcelaViewModel>();
 
         #endregion
-        #region events
 
-        public event EventHandler IniciarVenda;
-        public event EventHandler FecharJanelaPagamentos;
-        public event EventHandler FecharJanelaProdutos;
+        #region actions
+ 
+        public Action FecharJanelaPagamentoAction { get; set; }
+        public Action FecharJanelaProdutosAction { get; set; }
 
         #endregion
+
         #region constructors
-        public OperacaoVendaViewModel(IProdutoRepositorio produtoRepositorio,IServiceProvider sp, IFormaPagamentoRepositorio formaPagamentoRepositorio, IUsuarioRepositorio usuarioRepositorio, IMapper mapper, VendaViewModel viewModel)
+        public OperacaoVendaViewModel(IProdutoRepositorio produtoRepositorio,IServiceProvider sp, IServiceScopeFactory sc, IFormaPagamentoRepositorio formaPagamentoRepositorio, IUsuarioRepositorio usuarioRepositorio, IMapper mapper, VendaViewModel viewModel)
         {
 
             _venda = viewModel;
             this._sp = sp;
+            this._sc = sc;
             this._mapper = mapper;
             this._produtoRepositorio = produtoRepositorio;
             this._usuarioRepositorio = usuarioRepositorio;
@@ -66,13 +71,18 @@ namespace EmissorNF.Cliente.ViewModels
             ConsultarProdutosCommand = new RelayCommand(ConsultarProdutos, () => true);
             SelecionarProdutoCommand = new RelayCommand<ProdutoViewModel>((product) => SelecionarProduto(product));
             TrocarFormaPagamentoCommand = new RelayCommand(TrocarFormaPagamento, () => true);
-
+            AdicionarPagamentoCommand = new RelayCommand(AdicionarPagamento, () => true);
+            RemovePagamentoCommand = new RelayCommand<VendaFormaPagamentoViewModel>((pagamento) => RemoverPagamento(pagamento));
+            AbrirJanelaPagamentoCommand = new RelayCommand(AbrirJanelaPagamentos, () => true);
+            FecharJanelaPagamentoCommand = new RelayCommand(FecharJanelaPagamentos, () => true);
 
             CarregarVendedores();
-            CarregarPagamentos();
+           
+            
         }
 
         #endregion
+
         #region public attributes
         public bool CpfNota
         {
@@ -96,6 +106,18 @@ namespace EmissorNF.Cliente.ViewModels
         {
             get => _acrescimo;
             set => SetProperty(ref _acrescimo, value);
+        }
+
+        public decimal ValorPagamento
+        {
+            get => _valorPagamento;
+            set => SetProperty(ref _valorPagamento, value);
+        }
+
+        public ParcelaViewModel ParcelaPagamento
+        {
+            get => _parcelaPagamento;
+            set => SetProperty(ref _parcelaPagamento, value);
         }
 
         public int Quantidade
@@ -134,7 +156,6 @@ namespace EmissorNF.Cliente.ViewModels
             set => SetProperty(ref _busca, value);
         }
 
-
         public Visibility MostrarParcela
         {
             get => _mostrarParcela;
@@ -162,6 +183,7 @@ namespace EmissorNF.Cliente.ViewModels
         }
 
         #endregion
+
         #region commands
 
         public ICommand FecharVendaCommand { get; set; }
@@ -180,9 +202,30 @@ namespace EmissorNF.Cliente.ViewModels
 
         public ICommand TrocarFormaPagamentoCommand { get; set; }
 
+        public ICommand AdicionarPagamentoCommand { get; set; }
+
+        public ICommand RemovePagamentoCommand { get; set; }
+
+        public ICommand AbrirJanelaPagamentoCommand { get; set; }
+
+        public ICommand FecharJanelaPagamentoCommand { get; set; }
+
 
         #endregion
+
         #region methods
+
+        public void AbrirJanelaPagamentos()
+        {
+            CarregarPagamentos();
+            CalcularValorRestante();
+        }
+
+        public void FecharJanelaPagamentos()
+        {
+            LimparPagamentos();
+        }
+
         public void RemoverProdutoVenda(VendaProdutoViewModel vendaProduto)
         {
             _venda.RemoverProduto(vendaProduto);
@@ -193,10 +236,8 @@ namespace EmissorNF.Cliente.ViewModels
 
             var  usuarios = _mapper.Map<List<Usuario>, List<UsuarioViewModel>>(_usuarioRepositorio.RecuperTodos());
 
-            foreach(var usuario in usuarios)
-            {
-                Vendedores.Add(usuario);
-            }
+            Vendedores = new ObservableCollection<UsuarioViewModel>(usuarios);
+
 
         }
 
@@ -205,10 +246,8 @@ namespace EmissorNF.Cliente.ViewModels
 
             var pagamentos = _mapper.Map<List<FormaPagamento>, List<FormaPagamentoViewModel>>(_formaPagamentoRepositorio.RecuperarTodas());
 
-            foreach (var pagamento in pagamentos)
-            {
-                Pagamentos.Add(pagamento);
-            }
+            Pagamentos = new ObservableCollection<FormaPagamentoViewModel>(pagamentos);
+         
 
         }
 
@@ -235,12 +274,23 @@ namespace EmissorNF.Cliente.ViewModels
         private void SelecionarProduto(ProdutoViewModel produto)
         {
             AdicionarProduto(produto);
-            FecharJanelaProdutos.Invoke(this, EventArgs.Empty);
+            FecharJanelaProdutosAction.Invoke();
         }
 
         private void  AdicionarProduto(ProdutoViewModel produto)
         {
             _venda.AdicionarProduto(produto, Quantidade);
+        }
+
+        private void AdicionarPagamento()
+        {
+            _venda.AdicionarFormaPagamento(Pagamento, ValorPagamento, ParcelaPagamento.Valor);
+            CalcularValorRestante();
+        }
+
+        private void RemoverPagamento(VendaFormaPagamentoViewModel pagamento)
+        {
+            _venda.RemoverPagamento(pagamento);
         }
 
         private void ConsultarProdutos()
@@ -256,8 +306,9 @@ namespace EmissorNF.Cliente.ViewModels
 
         private void FecharVenda()
         {
-            IniciarVenda.Invoke(this, EventArgs.Empty);
-            FecharJanelaPagamentos.Invoke(this, EventArgs.Empty);
+            IniciarVenda();
+            FecharJanelaPagamentoAction.Invoke();
+           
         }
 
         private void IniciarPagamentos()
@@ -268,33 +319,75 @@ namespace EmissorNF.Cliente.ViewModels
 
         private void IniciarOperacao()
         {
-            IniciarVenda.Invoke(this, EventArgs.Empty);
-            
+            IniciarVenda();
+                   
         }
-
-        #endregion
-
 
         private void TrocarFormaPagamento()
         {
             if (Pagamento == null)
             {
+                ParcelaPagamento = GerarParcelaPadrao();
                 MostrarParcela = Visibility.Collapsed;
-                
-            }else
+               
+            }
+            else
             {
                 if (Pagamento.TipoPagamento == Dominio.Enums.TipoPagamento.Credito)
                 {
                     Parcelas = new ObservableCollection<ParcelaViewModel>(ParcelaViewModel.GerarParcelas(Pagamento.Parcelas.GetValueOrDefault()));
+                    ParcelaPagamento = Parcelas.FirstOrDefault();
                     MostrarParcela = Visibility.Visible;
-                }else
+                   
+                }
+                else
                 {
+                    ParcelaPagamento = GerarParcelaPadrao();
                     MostrarParcela = Visibility.Collapsed;
+                    
                 }
             }
-
-         
         }
+
+        private void CalcularValorRestante()
+        {
+            ValorPagamento = Venda.Total - Venda.Pagamentos.Sum(x => x.ValorPago);   
+        }
+
+        private void LimparPagamentos()
+        {
+             Pagamento = null;
+             ValorPagamento = 0M;
+             ParcelaPagamento.Valor = 1;
+             Venda.Pagamentos = new ObservableCollection<VendaFormaPagamentoViewModel>();
+        }
+
+        private static ParcelaViewModel GerarParcelaPadrao()
+        {
+            var parcela = new ParcelaViewModel();
+            parcela.Valor = 1;
+            return parcela;
+        }
+
+        private void IniciarVenda()
+        {
+            try
+            {
+                var wfVenda = _sp.GetRequiredService<WFVenda>();
+                var scopo = _sc.CreateScope();
+                var novaOperacao = scopo.ServiceProvider.GetRequiredService<OperacaoVendaViewModel>();
+       
+               
+                wfVenda.DataContext = novaOperacao;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            
+        }
+
+        #endregion
 
     }
 }

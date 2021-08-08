@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using EmissorNF.Dominio.Enums;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,6 +85,8 @@ namespace EmissorNF.Cliente.ViewModels
             get => _dataCadastro;
             set => SetProperty(ref _dataCadastro, value);
         }
+
+        public SituacaoEntidade SituacaoEntidade { get; set; }
 
     }
 }
