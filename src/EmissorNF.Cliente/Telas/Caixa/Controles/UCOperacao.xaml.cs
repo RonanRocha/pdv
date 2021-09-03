@@ -1,5 +1,4 @@
-﻿using EmissorNF.Cliente.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,21 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EmissorNF.Cliente.Telas.Caixa
+namespace EmissorNF.Cliente.Telas.Caixa.Controles
 {
     /// <summary>
-    /// Lógica interna para WFBuscaProdutos.xaml
+    /// Interação lógica para UCOperacao.xam
     /// </summary>
-    public partial class WFBuscaProdutos : Window
+    public partial class UCOperacao : UserControl
     {
-        public WFBuscaProdutos(OperacaoVendaViewModel viewModel)
+        public UCOperacao()
         {
             InitializeComponent();
-            viewModel.FecharJanelaProdutosAction = new Action(this.Close);
-            DataContext = viewModel;         
         }
-
     }
 }

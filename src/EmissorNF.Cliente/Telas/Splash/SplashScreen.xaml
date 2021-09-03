@@ -1,0 +1,18 @@
+﻿<Window x:Class="EmissorNF.Cliente.Telas.Splash.SplashScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EmissorNF.Cliente.Telas.Splash"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        Background="Purple"
+        Title="SplashScreen" Height="500" Width="500">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Image Width="200" Source="/Asserts/Images/logo.png"></Image>
+            <Label HorizontalAlignment="Center" FontSize="12" Foreground="White">Carregando sistema...</Label>
+        </StackPanel>
+    </Grid>
+</Window>

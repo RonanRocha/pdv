@@ -24,6 +24,7 @@ namespace EmissorNF.Cliente.ViewModels
         private readonly IProdutoRepositorio _produtoRepositorio;
         private readonly IUsuarioRepositorio _usuarioRepositorio;
         private readonly IFormaPagamentoRepositorio _formaPagamentoRepositorio;
+        private readonly IVendaRepositorio _vendaRepositorio;
         private readonly IServiceProvider _sp;
         private readonly IServiceScopeFactory _sc;
         private readonly IMapper _mapper;
@@ -49,10 +50,12 @@ namespace EmissorNF.Cliente.ViewModels
         public Action FecharJanelaPagamentoAction { get; set; }
         public Action FecharJanelaProdutosAction { get; set; }
 
+        public Action FecharJanelaConclusaoVenda { get; set; }
+
         #endregion
 
         #region constructors
-        public OperacaoVendaViewModel(IProdutoRepositorio produtoRepositorio,IServiceProvider sp, IServiceScopeFactory sc, IFormaPagamentoRepositorio formaPagamentoRepositorio, IUsuarioRepositorio usuarioRepositorio, IMapper mapper, VendaViewModel viewModel)
+        public OperacaoVendaViewModel(IProdutoRepositorio produtoRepositorio,IServiceProvider sp,IVendaRepositorio vendaRepositorio, IServiceScopeFactory sc, IFormaPagamentoRepositorio formaPagamentoRepositorio, IUsuarioRepositorio usuarioRepositorio, IMapper mapper, VendaViewModel viewModel)
         {
 
             _venda = viewModel;
@@ -61,6 +64,7 @@ namespace EmissorNF.Cliente.ViewModels
             this._mapper = mapper;
             this._produtoRepositorio = produtoRepositorio;
             this._usuarioRepositorio = usuarioRepositorio;
+            this._vendaRepositorio = vendaRepositorio;
             this._formaPagamentoRepositorio = formaPagamentoRepositorio;
          
             FecharVendaCommand = new RelayCommand(FecharVenda, () => true);
@@ -75,6 +79,7 @@ namespace EmissorNF.Cliente.ViewModels
             RemovePagamentoCommand = new RelayCommand<VendaFormaPagamentoViewModel>((pagamento) => RemoverPagamento(pagamento));
             AbrirJanelaPagamentoCommand = new RelayCommand(AbrirJanelaPagamentos, () => true);
             FecharJanelaPagamentoCommand = new RelayCommand(FecharJanelaPagamentos, () => true);
+            FinalizarOperacaoCommand  = new RelayCommand(FinalizarOperacao, () => true);
 
             CarregarVendedores();
            
@@ -98,14 +103,16 @@ namespace EmissorNF.Cliente.ViewModels
 
         public decimal? Desconto
         {
-            get => _desconto;
-            set => SetProperty(ref _desconto, value);
+            get => _venda.ValorDesconto;
+            //set => SetProperty(ref _desconto, value);
+            set => SetProperty(_venda.ValorDesconto, value, _venda, (v, d) => v.AplicarDesconto(d.GetValueOrDefault()));
         }
 
         public decimal? Acrescimo
         {
-            get => _acrescimo;
-            set => SetProperty(ref _acrescimo, value);
+            get => _venda.ValorAcrescimo;
+            set => SetProperty(_venda.ValorAcrescimo, value, _venda, (v, a) => v.AplicarAcrescimo(a.GetValueOrDefault()));
+            //set => SetProperty(ref _acrescimo, value);
         }
 
         public decimal ValorPagamento
@@ -210,6 +217,8 @@ namespace EmissorNF.Cliente.ViewModels
 
         public ICommand FecharJanelaPagamentoCommand { get; set; }
 
+        public ICommand FinalizarOperacaoCommand { get; set; }
+
 
         #endregion
 
@@ -291,6 +300,7 @@ namespace EmissorNF.Cliente.ViewModels
         private void RemoverPagamento(VendaFormaPagamentoViewModel pagamento)
         {
             _venda.RemoverPagamento(pagamento);
+            CalcularValorRestante();
         }
 
         private void ConsultarProdutos()
@@ -306,9 +316,37 @@ namespace EmissorNF.Cliente.ViewModels
 
         private void FecharVenda()
         {
-            IniciarVenda();
-            FecharJanelaPagamentoAction.Invoke();
+
            
+
+            try
+            {
+                var venda = _mapper.Map<Venda>(_venda);
+                venda.DataFechamento = DateTime.Now;
+                _vendaRepositorio.Salvar(venda);
+                var wfVendaConcluida = _sp.GetRequiredService<WFVendaConcluida>();
+                wfVendaConcluida.ShowDialog();
+                
+
+
+            }catch(Exception e)
+            {
+
+            }
+
+
+           
+           
+        }
+
+
+
+        private void FinalizarOperacao()
+        {
+            
+            FecharJanelaPagamentoAction.Invoke();
+            IniciarOperacao();
+
         }
 
         private void IniciarPagamentos()
@@ -319,8 +357,7 @@ namespace EmissorNF.Cliente.ViewModels
 
         private void IniciarOperacao()
         {
-            IniciarVenda();
-                   
+            IniciarVenda();                 
         }
 
         private void TrocarFormaPagamento()
@@ -351,7 +388,17 @@ namespace EmissorNF.Cliente.ViewModels
 
         private void CalcularValorRestante()
         {
-            ValorPagamento = Venda.Total - Venda.Pagamentos.Sum(x => x.ValorPago);   
+           
+            var pagamentos = Venda.Pagamentos.Sum(x => x.ValorPago);
+
+            if(pagamentos >= Venda.Total)
+            {
+                ValorPagamento = 0M;
+
+            }else
+            {
+                ValorPagamento = Venda.Total - pagamentos;
+            }
         }
 
         private void LimparPagamentos()
@@ -375,9 +422,7 @@ namespace EmissorNF.Cliente.ViewModels
             {
                 var wfVenda = _sp.GetRequiredService<WFVenda>();
                 var scopo = _sc.CreateScope();
-                var novaOperacao = scopo.ServiceProvider.GetRequiredService<OperacaoVendaViewModel>();
-       
-               
+                var novaOperacao = scopo.ServiceProvider.GetRequiredService<OperacaoVendaViewModel>();            
                 wfVenda.DataContext = novaOperacao;
             }
             catch (Exception e)

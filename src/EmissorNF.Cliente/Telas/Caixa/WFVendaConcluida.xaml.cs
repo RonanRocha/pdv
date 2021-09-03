@@ -16,16 +16,20 @@ using System.Windows.Shapes;
 namespace EmissorNF.Cliente.Telas.Caixa
 {
     /// <summary>
-    /// Lógica interna para WFBuscaProdutos.xaml
+    /// Lógica interna para WFVendaConcluida.xaml
     /// </summary>
-    public partial class WFBuscaProdutos : Window
+    public partial class WFVendaConcluida : Window
     {
-        public WFBuscaProdutos(OperacaoVendaViewModel viewModel)
+        public WFVendaConcluida(OperacaoVendaViewModel viewModel)
         {
             InitializeComponent();
-            viewModel.FecharJanelaProdutosAction = new Action(this.Close);
-            DataContext = viewModel;         
+            viewModel.FecharJanelaConclusaoVenda = new Action(this.Close);
+            DataContext = viewModel;
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

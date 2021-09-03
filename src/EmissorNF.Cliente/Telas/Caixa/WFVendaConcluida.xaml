@@ -1,0 +1,29 @@
+﻿<Window x:Class="EmissorNF.Cliente.Telas.Caixa.WFVendaConcluida"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:EmissorNF.Cliente.Telas.Caixa" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        WindowStartupLocation="CenterScreen"
+        Title="Venda Concluida" Height="250" Width="400">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding FinalizarOperacaoCommand, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Label FontSize="30"> Venda Concluida</Label>
+
+            <StackPanel Margin="10">
+                <Button Click="Button_Click" Cursor="Hand">OK</Button>
+            </StackPanel>
+           
+        </StackPanel>
+    </Grid>
+</Window>

@@ -9,6 +9,9 @@ using System.Globalization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
+using EmissorNF.Cliente.Telas.Splash;
+using SplashScreen = EmissorNF.Cliente.Telas.Splash.SplashScreen;
+using EmissorNF.Cliente.Telas.Caixa.Controles;
 
 namespace EmissorNF.Cliente
 {
@@ -39,6 +42,7 @@ namespace EmissorNF.Cliente
             services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
             services.AddScoped<IFormaPagamentoRepositorio, FormaPagamentoRepositorio>();
             services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+            services.AddScoped<IVendaRepositorio, VendaRepositorio>();
 
             services.AddScoped<OperacaoVendaViewModel>();
             services.AddScoped<VendaViewModel>();
@@ -50,10 +54,14 @@ namespace EmissorNF.Cliente
             services.AddScoped<VendaFormaPagamentoViewModel>();
 
 
-            services.AddScoped<WFVenda>();
+            services.AddSingleton<WFVenda>();
+            services.AddSingleton<UCOperacao>();
 
+
+            services.AddTransient<Telas.Splash.SplashScreen>();
             services.AddTransient<WFPagamento>();
             services.AddTransient<WFBuscaProdutos>();
+            services.AddTransient<WFVendaConcluida>();
 
             
 
@@ -80,6 +88,10 @@ namespace EmissorNF.Cliente
                 cfg.CreateMap<VendaProdutoViewModel, VendaProduto>();
                 cfg.CreateMap<VendaProduto, VendaProdutoViewModel>();
 
+                cfg.CreateMap<VendaViewModel, Venda>();
+                cfg.CreateMap<Venda, VendaViewModel>();
+
+
             });
 
             IMapper mapper = config.CreateMapper();
@@ -90,8 +102,11 @@ namespace EmissorNF.Cliente
             ServiceProvider service = services.BuildServiceProvider();
 
 
-            WFVenda  wf = service.GetRequiredService<WFVenda>();
-            wf.Show();
+            Telas.Splash.SplashScreen splash = service.GetRequiredService<SplashScreen>();
+            splash.Show();
+          
+            //WFVenda  wf = service.GetRequiredService<WFVenda>();
+            //wf.Show();
 
 
 

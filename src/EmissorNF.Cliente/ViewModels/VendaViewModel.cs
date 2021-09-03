@@ -22,6 +22,13 @@ namespace EmissorNF.Cliente.ViewModels
         private decimal _valorPago;
         private DateTime _dataFechamento;
         private DateTime _dataCadastro;
+
+
+        public VendaViewModel()
+        {
+            SituacaoEntidade = SituacaoEntidade.Ativo;
+            DataCadastro = DateTime.Now;
+        }
         
 
         public int Id
@@ -123,9 +130,11 @@ namespace EmissorNF.Cliente.ViewModels
 
         public void AplicarDesconto(decimal valor)
         {
-            if ((valor <= 0 && valor >= Subtotal) && Produtos.ToList().Count == 0) return;
+            if ((valor <= 0 && valor >= Subtotal)) return;
 
-            var porcentagem = (valor * 100) / Subtotal;
+            if (Produtos.ToList().Count == 0) return;
+
+            var porcentagem = ((valor * 100) / Subtotal);
 
             foreach (var produto in Produtos)
             {
@@ -137,9 +146,11 @@ namespace EmissorNF.Cliente.ViewModels
 
         public void AplicarAcrescimo(decimal valor)
         {
-            if ((valor <= 0 && valor >= Subtotal) && Produtos.ToList().Count == 0) return;
+            if ((valor <= 0 && valor >= Subtotal)) return;
 
-            var porcentagem = (valor * 100) / Subtotal;
+            if (Produtos.Count == 0) return;
+
+            var porcentagem = ((valor * 100) / Subtotal);
 
             foreach (var produto in Produtos)
             {
@@ -194,18 +205,26 @@ namespace EmissorNF.Cliente.ViewModels
                 {
 
                     DataCadastro = DateTime.Now,
+                    SituacaoEntidade = SituacaoEntidade.Ativo,
                     Venda = this
                 };
 
                 vendaProduto.AdicionarProduto(produto, quantidade);
+                
 
                 Produtos.Add(vendaProduto);
             }
 
-          
 
+            RecalcularDescontosAcrescimos();
             CalcularTotais();
 
+        }
+
+        private void RecalcularDescontosAcrescimos()
+        {
+            AplicarDesconto(ValorDesconto);
+            AplicarAcrescimo(ValorAcrescimo);
         }
 
         public void AdicionarFormaPagamento(FormaPagamentoViewModel formaPagamento, decimal valor, int parcelas = 1)
@@ -226,6 +245,7 @@ namespace EmissorNF.Cliente.ViewModels
                 {
 
                     DataCadastro = DateTime.Now,
+                    SituacaoEntidade = SituacaoEntidade.Ativo,
                     Venda = this
                 };
 
