@@ -1,11 +1,9 @@
 ﻿using EmissorNF.Dominio.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace EmissorNF.Cliente.ViewModels
 {
@@ -30,13 +28,11 @@ namespace EmissorNF.Cliente.ViewModels
             DataCadastro = DateTime.Now;
         }
         
-
         public int Id
         {
             get => _id;
             set => SetProperty(ref _id, value);
         }
-
 
         public UsuarioViewModel Usuario
         {
@@ -50,20 +46,17 @@ namespace EmissorNF.Cliente.ViewModels
             set => SetProperty(ref _cliente, value);
         }
 
-
         public decimal Total
         {
             get => _total;
             set => SetProperty(ref _total, value);
         }
 
-
         public decimal Subtotal
         {
             get => _subtotal;
             set => SetProperty(ref _subtotal, value);
         }
-
 
         public decimal ValorDesconto
         {
@@ -83,13 +76,11 @@ namespace EmissorNF.Cliente.ViewModels
             set => SetProperty(ref _valorTroco, value);
         }
 
-
         public decimal ValorPago
         {
             get => _valorPago;
             set => SetProperty(ref _valorPago, value);
         }
-
 
         public DateTime DataCadastro
         {
@@ -103,14 +94,11 @@ namespace EmissorNF.Cliente.ViewModels
             set => SetProperty(ref _dataFechamento, value);
         }
 
-
         public SituacaoEntidade  SituacaoEntidade { get; set; }
 
 
         public ObservableCollection<VendaProdutoViewModel> Produtos { get; set; } = new ObservableCollection<VendaProdutoViewModel>();
         public ObservableCollection<VendaFormaPagamentoViewModel> Pagamentos { get; set; } = new ObservableCollection<VendaFormaPagamentoViewModel>();
-
-
 
 
         public void AdicionarUsuario(UsuarioViewModel usuario)
@@ -125,8 +113,6 @@ namespace EmissorNF.Cliente.ViewModels
             Cliente = cliente;
 
         }
-
-
 
         public void AplicarDesconto(decimal valor)
         {
@@ -148,7 +134,7 @@ namespace EmissorNF.Cliente.ViewModels
         {
             if ((valor <= 0 && valor >= Subtotal)) return;
 
-            if (Produtos.Count == 0) return;
+            if (Produtos.ToList().Count == 0) return;
 
             var porcentagem = ((valor * 100) / Subtotal);
 
@@ -160,20 +146,17 @@ namespace EmissorNF.Cliente.ViewModels
             CalcularTotais();
         }
 
-
-
         public void CalcularTotais()
         {
-            Total = Produtos.Sum(x => x.Total);
-            Subtotal = Produtos.Sum(x => x.Subtotal);
-            ValorDesconto = Produtos.Sum(x => x.ValorDesconto);
-            ValorAcrescimo = Produtos.Sum(x => x.ValorAcrescimo);
-            ValorPago = Pagamentos.Sum(x => x.ValorPago);
-            ValorTroco = ValorPago <= Total ? 0 : ValorPago - Total;
+            Total = Math.Round(Produtos.Sum(x => x.Total), 2);
+            Subtotal = Math.Round(Produtos.Sum(x => x.Subtotal), 2);
+            ValorDesconto = Math.Round(Produtos.Sum(x => x.ValorDesconto), 2);
+            ValorAcrescimo = Math.Round(Produtos.Sum(x => x.ValorAcrescimo),2);
+            ValorPago = Math.Round(Pagamentos.Sum(x => x.ValorPago), 2);
+            ValorTroco = ValorPago <= Total ? 0 : Math.Round(ValorPago - Total, 2);
 
            
         }
-
 
         public void RemoverProduto(VendaProdutoViewModel vendaProdutoVm)
         {
@@ -259,7 +242,6 @@ namespace EmissorNF.Cliente.ViewModels
 
         }
 
-
         public void RemoverPagamento(VendaFormaPagamentoViewModel pagamentoViewModel)
         {
             var produto = Pagamentos.Where(x => x.Id == pagamentoViewModel.Id).FirstOrDefault();
@@ -267,10 +249,6 @@ namespace EmissorNF.Cliente.ViewModels
             Pagamentos.Remove(produto);
             CalcularTotais();
         }
-
-
-
-
 
     }
 }

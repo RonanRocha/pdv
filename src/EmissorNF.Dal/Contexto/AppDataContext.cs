@@ -13,7 +13,7 @@ namespace EmissorNF.Dal.Contexto
         {
 
             var config = new ConfigurationBuilder().AddUserSecrets("0f929eaa-c58c-4c74-a293-2c25a792a4ef").Build();
-            var connectionString = config["Tenant:ConnectionString"];
+            var connectionString = config["Pdv:ConnectionString"];
 
            optionsBuilder.UseNpgsql(connectionString);
             optionsBuilder.UseLowerCaseNamingConvention();

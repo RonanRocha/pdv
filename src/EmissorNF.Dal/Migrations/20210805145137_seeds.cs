@@ -25,7 +25,7 @@ namespace EmissorNF.Dal.Migrations
                     { 2, "04", new DateTime(2021, 8, 5, 11, 51, 36, 70, DateTimeKind.Local).AddTicks(2197), "Visa Débito", 1, 1, 1 },
                     { 3, "04", new DateTime(2021, 8, 5, 11, 51, 36, 70, DateTimeKind.Local).AddTicks(2204), "Elo Débito", 1, 1, 1 },
                     { 4, "01", new DateTime(2021, 8, 5, 11, 51, 36, 70, DateTimeKind.Local).AddTicks(2206), "Dinheiro", 1, 1, 2 },
-                    { 5, "03", new DateTime(2021, 8, 5, 11, 51, 36, 70, DateTimeKind.Local).AddTicks(2256), "Master Crédito", 12, 1, 1 }
+                    { 5, "03", new DateTime(2021, 8, 5, 11, 51, 36, 70, DateTimeKind.Local).AddTicks(2256), "Master Crédito", 12, 1, 0 }
                 });
 
             migrationBuilder.InsertData(

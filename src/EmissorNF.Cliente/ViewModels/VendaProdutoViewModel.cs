@@ -1,10 +1,7 @@
 ﻿using EmissorNF.Dominio.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace EmissorNF.Cliente.ViewModels
 {
@@ -58,6 +55,7 @@ namespace EmissorNF.Cliente.ViewModels
             get => _total;
             set => SetProperty(ref _total, value);
         }
+
         public decimal Subtotal
         {
             get => _subtotal;
@@ -82,26 +80,24 @@ namespace EmissorNF.Cliente.ViewModels
             set => SetProperty(ref _dataCadastro, value);
         }
 
-
         public SituacaoEntidade SituacaoEntidade { get; set; }
-
 
         public void Calcular()
         {
-            Subtotal = ValorUnitario * Quantidade;
-            Total = (ValorUnitario * Quantidade) - ValorDesconto + ValorAcrescimo;
+            Subtotal = Math.Round(ValorUnitario * Quantidade, 2);
+            Total = Math.Round((ValorUnitario * Quantidade) - ValorDesconto + ValorAcrescimo, 2);
 
         }
 
         public void AplicarDesconto(decimal porcentagem)
         {
-            ValorDesconto = (ValorUnitario * Quantidade * porcentagem) / 100;
+            ValorDesconto = Math.Round((ValorUnitario * Quantidade * porcentagem) / 100, 2);
             Calcular();
         }
 
         public void AplicarAcrescimo(decimal porcentagem)
         {
-            ValorAcrescimo = (ValorUnitario * Quantidade * porcentagem) / 100;
+            ValorAcrescimo = Math.Round((ValorUnitario * Quantidade * porcentagem) / 100, 2);
             Calcular();
         }
 

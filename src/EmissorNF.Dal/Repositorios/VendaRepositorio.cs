@@ -1,7 +1,7 @@
 ﻿using EmissorNF.Dal.Contexto;
 using EmissorNF.Dal.Interfaces;
 using EmissorNF.Dominio.Entidades;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace EmissorNF.Dal.Repositorios
 {
