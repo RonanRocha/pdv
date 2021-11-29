@@ -44,16 +44,31 @@ namespace EmissorNF.Dominio.Entidades
 
         }
 
-        public void AplicarDesconto(decimal porcentagem)
+        public void AplicarDesconto(decimal valor)
         {
-            ValorDesconto = (ValorUnitario * Quantidade * porcentagem) / 100 ;
-            Calcular();
+
+            int count = 0;
+
+            while (count < Quantidade)
+            {
+                ValorDesconto = Math.Round(valor * Quantidade, 2);
+                Calcular();
+                count++;
+            }
+
+   
         }
 
-        public void AplicarAcrescimo(decimal porcentagem)
+        public void AplicarAcrescimo(decimal valor)
         {
-            ValorAcrescimo = (ValorUnitario * Quantidade * porcentagem) / 100;
-            Calcular();
+            int count = 0;
+
+            while (count < Quantidade)
+            {
+                ValorAcrescimo = Math.Round(valor * Quantidade, 2);
+                Calcular();
+                count++;
+            }
         }
 
         public void AdicionarProduto(Produto produto, int quantidade)

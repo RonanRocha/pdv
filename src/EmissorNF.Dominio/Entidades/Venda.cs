@@ -32,31 +32,43 @@ namespace EmissorNF.Dominio.Entidades
 
         public void AplicarDesconto(decimal valor)
         {
-            if ((valor <= 0 && valor >= Subtotal) && Produtos.Where(x => x.SituacaoEntidade == SituacaoEntidade.Ativo).ToList().Count == 0 ) return ;
+            var valorRateio = CalcularRateio(valor);
 
-            var porcentagem = (valor * 100) / Subtotal;
-           
-            foreach(var produto in Produtos.Where(x => x.SituacaoEntidade == SituacaoEntidade.Ativo))
+            foreach (var produto in Produtos.Where(x => x.SituacaoEntidade == SituacaoEntidade.Ativo))
             {
-                produto.AplicarDesconto(porcentagem);
+                produto.AplicarDesconto(valorRateio);
             }
 
             CalcularTotais();
         }
 
         public void AplicarAcrescimo(decimal valor)
-        {
-            if ((valor <= 0 && valor >= Subtotal) && Produtos.Where(x => x.SituacaoEntidade == SituacaoEntidade.Ativo).ToList().Count == 0) return;
 
-            var porcentagem = (valor * 100) / Subtotal;
+        {
+
+            var valorRateio = CalcularRateio(valor);
 
             foreach (var produto in Produtos.Where(x => x.SituacaoEntidade == SituacaoEntidade.Ativo))
             {
-                produto.AplicarAcrescimo(porcentagem);
+                produto.AplicarAcrescimo(valorRateio);
             }
 
             CalcularTotais();
         }
+
+
+        private decimal CalcularRateio(decimal valor)
+        {
+            var quantidadeProdutos = Produtos.Sum(x => x.Quantidade);
+
+            if ((valor <= 0 && valor >= Subtotal)) return 0;
+
+            if (quantidadeProdutos == 0) return 0;
+
+            return valor / quantidadeProdutos;
+
+        }
+
 
         public void AdicionarUsuario(Usuario usuario)
         {
@@ -91,23 +103,34 @@ namespace EmissorNF.Dominio.Entidades
         {
             if (produto == null) return;
 
-            if (produto.SituacaoEntidade == SituacaoEntidade.Inativo) return;
-
             if (quantidade <= 0) return;
 
-            var vendaProduto = new VendaProduto { 
-       
-                SituacaoEntidade = SituacaoEntidade.Ativo,
-                DataCadastro = DateTime.Now,
-                Venda = this
-            };
+            var produtoAdicionado = Produtos.Where(x => x.Produto.Id == produto.Id).FirstOrDefault();
 
-            vendaProduto.AdicionarProduto(produto,quantidade);
+            if (produtoAdicionado != null)
+            {
+                produtoAdicionado.Incrementar(quantidade);
+            }
+            else
+            {
 
-            Produtos.Add(vendaProduto);
+                var vendaProduto = new VendaProduto
+                {
 
-            CalcularTotais();
-           
+                    SituacaoEntidade = SituacaoEntidade.Ativo,
+                    DataCadastro = DateTime.Now,
+                    Venda = this
+                };
+
+                vendaProduto.AdicionarProduto(produto, quantidade);
+
+                Produtos.Add(vendaProduto);
+            }
+
+
+            AplicarAcrescimo(ValorAcrescimo);
+            AplicarDesconto(ValorDesconto);
+     
         }
 
         public void AdicionarFormaPagamento(FormaPagamento formaPagamento, decimal valor, int parcelas = 1)

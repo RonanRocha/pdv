@@ -103,15 +103,12 @@ namespace EmissorNF.Cliente.ViewModels
 
         public void AdicionarUsuario(UsuarioViewModel usuario)
         {
-
             Usuario = usuario;
         }
 
         public void AdicionarCliente(ClienteViewModel cliente)
         {
-
             Cliente = cliente;
-
         }
 
         public void AplicarDesconto(decimal valor)
@@ -139,7 +136,6 @@ namespace EmissorNF.Cliente.ViewModels
 
             CalcularTotais();
         }
-
 
         private decimal CalcularRateio(decimal valor)
         {
@@ -181,11 +177,7 @@ namespace EmissorNF.Cliente.ViewModels
 
             if (quantidade <= 0) return;
 
-     
-
             var produtoAdicionado = Produtos.Where(x => x.Produto.Id == produto.Id).FirstOrDefault();
-
-
            
             if (produtoAdicionado != null)
             {
@@ -211,7 +203,6 @@ namespace EmissorNF.Cliente.ViewModels
 
             AplicarAcrescimo(ValorAcrescimo);
             AplicarDesconto(ValorDesconto);
-            CalcularTotais();
 
         }
 

@@ -89,8 +89,8 @@ namespace EmissorNF.Testes.Dominio
             vendaProduto.AplicarDesconto(10M);
 
             Assert.AreEqual(79.98M, vendaProduto.Subtotal);
-            Assert.AreEqual(71.982M, vendaProduto.Total);
-            Assert.AreEqual(7.998M, vendaProduto.ValorDesconto);
+            Assert.AreEqual(59.98M, vendaProduto.Total);
+            Assert.AreEqual(20M, vendaProduto.ValorDesconto);
         }
 
 
@@ -115,8 +115,8 @@ namespace EmissorNF.Testes.Dominio
             vendaProduto.AplicarAcrescimo(10M);
 
             Assert.AreEqual(79.98M, vendaProduto.Subtotal);
-            Assert.AreEqual(87.978M, vendaProduto.Total);
-            Assert.AreEqual(7.998M, vendaProduto.ValorAcrescimo);
+            Assert.AreEqual(99.98M, vendaProduto.Total);
+            Assert.AreEqual(20M, vendaProduto.ValorAcrescimo);
         }
     }
 }
