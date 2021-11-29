@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:EmissorNF.Cliente.Telas.Caixa"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
         xmlns:controles="clr-namespace:EmissorNF.Cliente.Telas.Caixa.Controles"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -15,6 +14,7 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
         WindowState="Maximized"
+        WindowStyle="None"
         Title="Venda" Height="768" Width="1360">
     <Grid>
 
@@ -25,10 +25,23 @@
 
 
         <materialDesign:ColorZone  Grid.Row="0" Mode="PrimaryMid" Padding="5">
-            <StackPanel Orientation="Horizontal">
-                <ToggleButton Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />
-                <TextBlock VerticalAlignment="Center" Margin="16 0 0 0" Text="TOUTI UNIDADE SP" />
-            </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <ToggleButton Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />
+                    <TextBlock VerticalAlignment="Center" Margin="16 0 0 0" Text="TOUTI UNIDADE SP" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,5,0" >
+                    <controles:UCWindowActions x:Name="winActions"></controles:UCWindowActions>
+                </StackPanel>
+            </Grid>
+                
         </materialDesign:ColorZone>
 
         <Grid Grid.Row="1" x:Name="CaixaConteudo">

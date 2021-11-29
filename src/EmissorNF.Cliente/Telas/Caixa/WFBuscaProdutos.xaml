@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EmissorNF.Cliente.Telas.Caixa"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:controles="clr-namespace:EmissorNF.Cliente.Telas.Caixa.Controles"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -13,14 +13,40 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
+        WindowStyle="None"
+        BorderThickness="1"
+        ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Title="Busca de Produtos" Height="600" Width="800">
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="60"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="8*"></RowDefinition>
         </Grid.RowDefinitions>
-        <WrapPanel Grid.Row="0" Margin="5" VerticalAlignment="Center">
+
+        <materialDesign:ColorZone  Grid.Row="0" Mode="PrimaryMid" Padding="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+
+                    <TextBlock VerticalAlignment="Center" Margin="10 0 0 0" Text="PRODUTOS" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,5,0" >
+                    <controles:UCWindowActions x:Name="winActions"></controles:UCWindowActions>
+                </StackPanel>
+            </Grid>
+
+        </materialDesign:ColorZone>
+
+
+        <WrapPanel Grid.Row="1" Margin="5" VerticalAlignment="Center">
             <TextBox Text="{Binding Quantidade, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Padding="10" materialDesign:HintAssist.Hint="Quantidade" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" MinWidth="130" Margin="0,0,5,0" Cursor="IBeam"></TextBox>
             <TextBox Text="{Binding Busca,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Padding="10" Width="500" materialDesign:HintAssist.Hint="Busca por nome ou código do produto"  materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="0,0,5,0" Cursor="IBeam" >
                 <TextBox.InputBindings>
@@ -32,7 +58,7 @@
             </TextBox>
             <Button Command="{Binding ConsultarProdutosCommand }" Cursor="Hand"> Pesquisar</Button>
         </WrapPanel>
-        <DataGrid  Grid.Row="1"
+        <DataGrid Margin="10" Grid.Row="2"
                       x:Name="GridProdutos" 
                     IsSynchronizedWithCurrentItem="True"
                       AutoGenerateColumns="False"   

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:controles="clr-namespace:EmissorNF.Cliente.Telas.Caixa.Controles"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -12,6 +12,9 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
+        ResizeMode="NoResize"  
+        WindowStyle="None"
+        BorderThickness="1"
         WindowStartupLocation="CenterScreen"
         Title="Pagamentos" Height="600" Width="800" Cursor="IBeam">
 
@@ -24,14 +27,41 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="70"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="5*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel VerticalAlignment="Center">
+
+
+
+        <materialDesign:ColorZone  Grid.Row="0" Mode="PrimaryMid" Padding="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                   
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                   
+                    <TextBlock VerticalAlignment="Center" Margin="10 0 0 0" Text="PAGAMENTO" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,5,0" >
+                    <controles:UCWindowActions x:Name="winActions"></controles:UCWindowActions>
+                </StackPanel>
+            </Grid>
+
+        </materialDesign:ColorZone>
+
+
+
+
+        <StackPanel Grid.Row="1" Margin="10" VerticalAlignment="Center">
             <TextBox materialDesign:HintAssist.Hint="Descrição"   
                      Height="70"
                      Padding="10"
@@ -39,7 +69,7 @@
                      TextWrapping="Wrap" 
                      materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" MinWidth="200"  Cursor="IBeam"></TextBox>
         </StackPanel>
-        <WrapPanel Grid.Row="1" VerticalAlignment="Center"  >
+        <WrapPanel Grid.Row="2" Margin="10" VerticalAlignment="Center"  >
             <ComboBox   x:Name="CmbFormasPagamento"
                         Style="{StaticResource MaterialDesignOutlinedComboBox}"
                         
@@ -71,7 +101,7 @@
             <TextBox Text="{Binding ValorPagamento, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=C}" materialDesign:HintAssist.Hint="Valor" Padding="10" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" MinWidth="100"  Margin="5,0,0,0" Cursor="IBeam" ></TextBox>
             <Button  Margin="5,0,0,0" Command="{Binding AdicionarPagamentoCommand}">Adicionar</Button>
         </WrapPanel>
-        <GroupBox Grid.Row="2" Header="Pagamentos">
+        <GroupBox Grid.Row="3" Margin="10" Header="Pagamentos">
             <DataGrid 
                       x:Name="GridPagamentos" 
                       AutoGenerateColumns="False"   
@@ -98,10 +128,10 @@
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="4" Margin="10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="7*"></ColumnDefinition>
-                <ColumnDefinition Width="3*"></ColumnDefinition>
+                <ColumnDefinition Width="6*"></ColumnDefinition>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <WrapPanel Grid.Row="0">
                 <StackPanel   Margin="0,10,0,0">
@@ -132,8 +162,8 @@
                 </StackPanel>
             </WrapPanel>
             <WrapPanel Grid.Column="1"   VerticalAlignment="Center" HorizontalAlignment="Right" >
-                <Button MinHeight="48" Margin="0,0,5, 0">Cancelar</Button>
-                <Button Command="{Binding FecharVendaCommand}" MinHeight="48">Fechar Venda</Button>
+                <Button Margin="0,0,5, 0">CANCELAR</Button>
+                <Button Command="{Binding FecharVendaCommand}">FECHAR VENDA</Button>
             </WrapPanel>
         </Grid>
     </Grid>
