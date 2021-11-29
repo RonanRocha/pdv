@@ -5,6 +5,8 @@ using EmissorNF.Cliente.ViewModels;
 using EmissorNF.Dal.Interfaces;
 using EmissorNF.Dal.Repositorios;
 using EmissorNF.Dominio.Entidades;
+using EmissorNF.Dominio.Validacoes;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -75,6 +77,9 @@ namespace EmissorNF.Cliente.Config
                 IMapper mapper = config.CreateMapper();
 
                 services.AddSingleton(mapper);
+
+
+                services.AddScoped<IValidator<Venda>, ValidacaoVenda>();
 
 
 

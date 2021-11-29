@@ -116,15 +116,12 @@ namespace EmissorNF.Cliente.ViewModels
 
         public void AplicarDesconto(decimal valor)
         {
-            if ((valor <= 0 && valor >= Subtotal)) return;
 
-            if (Produtos.ToList().Count == 0) return;
-
-            var porcentagem = ((valor * 100) / Subtotal);
+            var valorRateio = CalcularRateio(valor);
 
             foreach (var produto in Produtos)
-            {
-                produto.AplicarDesconto(porcentagem);
+            {              
+                produto.AplicarDesconto(valorRateio);
             }
 
             CalcularTotais();
@@ -132,22 +129,33 @@ namespace EmissorNF.Cliente.ViewModels
 
         public void AplicarAcrescimo(decimal valor)
         {
-            if ((valor <= 0 && valor >= Subtotal)) return;
 
-            if (Produtos.ToList().Count == 0) return;
-
-            var porcentagem = ((valor * 100) / Subtotal);
+            var valorRateio = CalcularRateio(valor);
 
             foreach (var produto in Produtos)
             {
-                produto.AplicarAcrescimo(porcentagem);
+                produto.AplicarAcrescimo(valorRateio);
             }
 
             CalcularTotais();
         }
 
+
+        private decimal CalcularRateio(decimal valor)
+        {
+            var quantidadeProdutos = Produtos.Sum(x => x.Quantidade);
+
+            if ((valor <= 0 && valor >= Subtotal)) return 0;
+
+            if (quantidadeProdutos == 0) return 0;
+
+            return valor / quantidadeProdutos;
+
+        }
+
         public void CalcularTotais()
         {
+            
             Total = Math.Round(Produtos.Sum(x => x.Total), 2);
             Subtotal = Math.Round(Produtos.Sum(x => x.Subtotal), 2);
             ValorDesconto = Math.Round(Produtos.Sum(x => x.ValorDesconto), 2);
@@ -160,10 +168,11 @@ namespace EmissorNF.Cliente.ViewModels
 
         public void RemoverProduto(VendaProdutoViewModel vendaProdutoVm)
         {
-            var produto = Produtos.Where(x => x.Id == vendaProdutoVm.Id).FirstOrDefault();
+            var produto = Produtos.Where(x => x.Produto.Id == vendaProdutoVm.Produto.Id).FirstOrDefault();
             if (produto == null) return;
             Produtos.Remove(produto);
-            CalcularTotais();
+            AplicarDesconto(ValorDesconto);
+            AplicarAcrescimo(ValorAcrescimo);
         }
 
         public void AdicionarProduto(ProdutoViewModel produto, int quantidade)
@@ -175,11 +184,12 @@ namespace EmissorNF.Cliente.ViewModels
      
 
             var produtoAdicionado = Produtos.Where(x => x.Produto.Id == produto.Id).FirstOrDefault();
+
+
            
-            if(produtoAdicionado != null)
+            if (produtoAdicionado != null)
             {
                 produtoAdicionado.Incrementar(quantidade);
-
             }
             else
             {
@@ -199,15 +209,10 @@ namespace EmissorNF.Cliente.ViewModels
             }
 
 
-            RecalcularDescontosAcrescimos();
+            AplicarAcrescimo(ValorAcrescimo);
+            AplicarDesconto(ValorDesconto);
             CalcularTotais();
 
-        }
-
-        private void RecalcularDescontosAcrescimos()
-        {
-            AplicarDesconto(ValorDesconto);
-            AplicarAcrescimo(ValorAcrescimo);
         }
 
         public void AdicionarFormaPagamento(FormaPagamentoViewModel formaPagamento, decimal valor, int parcelas = 1)

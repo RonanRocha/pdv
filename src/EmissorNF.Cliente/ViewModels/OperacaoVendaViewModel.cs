@@ -2,6 +2,7 @@
 using EmissorNF.Cliente.Telas.Caixa;
 using EmissorNF.Dal.Interfaces;
 using EmissorNF.Dominio.Entidades;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -25,6 +26,7 @@ namespace EmissorNF.Cliente.ViewModels
         private readonly IVendaRepositorio _vendaRepositorio;
         private readonly IServiceProvider _sp;
         private readonly IServiceScopeFactory _sc;
+        private readonly IValidator<Venda> _validator;
         private readonly IMapper _mapper;
         private  VendaViewModel _venda;
         private string _busca = String.Empty;
@@ -53,7 +55,17 @@ namespace EmissorNF.Cliente.ViewModels
         #endregion
 
         #region constructors
-        public OperacaoVendaViewModel(IProdutoRepositorio produtoRepositorio,IServiceProvider sp,IVendaRepositorio vendaRepositorio, IServiceScopeFactory sc, IFormaPagamentoRepositorio formaPagamentoRepositorio, IUsuarioRepositorio usuarioRepositorio, IMapper mapper, VendaViewModel viewModel)
+        public OperacaoVendaViewModel(
+            IProdutoRepositorio produtoRepositorio,
+            IServiceProvider sp,
+            IVendaRepositorio vendaRepositorio, 
+            IServiceScopeFactory sc,
+            IFormaPagamentoRepositorio formaPagamentoRepositorio,
+            IUsuarioRepositorio usuarioRepositorio,
+            IMapper mapper, VendaViewModel viewModel,
+            IValidator<Venda> validator
+
+        )
         {
 
             _venda = viewModel;
@@ -64,6 +76,7 @@ namespace EmissorNF.Cliente.ViewModels
             this._usuarioRepositorio = usuarioRepositorio;
             this._vendaRepositorio = vendaRepositorio;
             this._formaPagamentoRepositorio = formaPagamentoRepositorio;
+            this._validator = validator;
          
             FecharVendaCommand = new RelayCommand(FecharVenda, () => true);
             BuscarProdutoCommand = new RelayCommand(BuscarProduto, () => true);
@@ -272,8 +285,7 @@ namespace EmissorNF.Cliente.ViewModels
                 
                 var wfBuscaProdutos = _sp.GetRequiredService<WFBuscaProdutos>();
                 wfBuscaProdutos.ShowDialog();
-               
-               
+                            
             }
    
         }
@@ -321,9 +333,19 @@ namespace EmissorNF.Cliente.ViewModels
             {
                 var venda = _mapper.Map<Venda>(_venda);
                 venda.DataFechamento = DateTime.Now;
-                _vendaRepositorio.Salvar(venda);
-                var wfVendaConcluida = _sp.GetRequiredService<WFVendaConcluida>();
-                wfVendaConcluida.ShowDialog();
+
+                var validationResult = this._validator.Validate(venda);
+
+                if (!validationResult.IsValid) throw new Exception("Erro de validação");
+
+                if(validationResult.IsValid)
+                {
+
+                    _vendaRepositorio.Salvar(venda);
+                    var wfVendaConcluida = _sp.GetRequiredService<WFVendaConcluida>();
+                    wfVendaConcluida.ShowDialog();
+                }
+
                 
 
 
@@ -336,8 +358,6 @@ namespace EmissorNF.Cliente.ViewModels
            
            
         }
-
-
 
         private void FinalizarOperacao()
         {

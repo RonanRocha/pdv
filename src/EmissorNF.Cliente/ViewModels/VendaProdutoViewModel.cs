@@ -89,16 +89,31 @@ namespace EmissorNF.Cliente.ViewModels
 
         }
 
-        public void AplicarDesconto(decimal porcentagem)
+        public void AplicarDesconto(decimal valor)
         {
-            ValorDesconto = Math.Round((ValorUnitario * Quantidade * porcentagem) / 100, 2);
-            Calcular();
+
+            int count = 0;
+
+            while(count < Quantidade)
+            {
+                ValorDesconto = Math.Round(valor * Quantidade  , 2);
+                Calcular();
+                count++;
+            }
+
+          
         }
 
-        public void AplicarAcrescimo(decimal porcentagem)
+        public void AplicarAcrescimo(decimal valor)
         {
-            ValorAcrescimo = Math.Round((ValorUnitario * Quantidade * porcentagem) / 100, 2);
-            Calcular();
+            int count = 0;
+
+            while (count < Quantidade)
+            {
+                ValorAcrescimo = Math.Round(valor * Quantidade, 2);
+                Calcular();
+                count++;
+            }
         }
 
         public void AdicionarProduto(ProdutoViewModel produto, int quantidade)
@@ -121,6 +136,21 @@ namespace EmissorNF.Cliente.ViewModels
             Quantidade += quantidade;
             Calcular();
         }
+
+        public void Limpar()
+        {
+            ValorUnitario = 0;
+            ValorDesconto = 0;
+            Total = 0;
+            Subtotal = 0;
+            Produto = null;
+            Quantidade = 0;
+
+            Calcular();
+
+        }
+
+
 
     }
 }
