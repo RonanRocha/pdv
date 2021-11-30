@@ -25,15 +25,15 @@
 
 #### PRODUTOS
 <div style="margin:20">
-  <img src="https://user-images.githubusercontent.com/7989768/144102059-a419fb03-4b4b-4d67-b409-63f104448386.PNG" width="1000" />
+  <img src="https://user-images.githubusercontent.com/7989768/144102059-a419fb03-4b4b-4d67-b409-63f104448386.PNG" width="500" />
 </div>
 
 #### PAGAMENTOS
 <div style="margin:20">
-  <img src="https://user-images.githubusercontent.com/7989768/144102057-867bc93d-6253-4191-b09a-28033ed6c5ca.PNG" width="1000" />
+  <img src="https://user-images.githubusercontent.com/7989768/144102057-867bc93d-6253-4191-b09a-28033ed6c5ca.PNG" width="500" />
 </div>
 
 #### CONCLUSAO
 <div style="margin:20">
-  <img src="https://user-images.githubusercontent.com/7989768/144102062-dbed352a-f6bf-4c36-ac3f-259fcff37354.PNG" width="1000" />
+  <img src="https://user-images.githubusercontent.com/7989768/144102062-dbed352a-f6bf-4c36-ac3f-259fcff37354.PNG" width="500" />
 </div>
