@@ -8,7 +8,8 @@
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         Background="Purple"
-        Title="SplashScreen" Height="300" Width="500">
+        ResizeMode="NoResize"
+        Title="SplashScreen" Height="400" Width="600">
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <Image Width="200" Source="/Asserts/Images/logo.png"></Image>
