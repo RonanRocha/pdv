@@ -118,5 +118,32 @@ namespace EmissorNF.Testes.Dominio
             Assert.AreEqual(99.98M, vendaProduto.Total);
             Assert.AreEqual(20M, vendaProduto.ValorAcrescimo);
         }
+
+
+        [TestMethod]
+        public void Incrementar()
+        {
+
+            var produto = new Produto();
+
+            produto.Codigo = "P193UJD0WEDJ";
+            produto.CodigoDeBarras = "SEM GTIN";
+            produto.Cest = "1230983";
+            produto.Ncm = "14564651";
+            produto.Descricao = "Camiseta Basica";
+            produto.ValorVenda = 39.99M;
+            produto.ValorCompra = 39.99M;
+            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.Id = 1;
+
+            var vendaProduto = new VendaProduto();
+            vendaProduto.AdicionarProduto(produto, 2);
+            vendaProduto.Incrementar(1);
+
+            Assert.AreEqual(3, vendaProduto.Quantidade);
+        }
+
+
+
     }
 }

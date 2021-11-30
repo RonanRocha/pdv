@@ -9,7 +9,8 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         WindowStartupLocation="CenterScreen"
-        Title="Venda Concluida" Height="250" Width="400">
+        WindowStyle="None"
+        Title="Venda Concluida" Height="300" Width="500">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding FinalizarOperacaoCommand, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
@@ -17,13 +18,31 @@
     </i:Interaction.Triggers>
 
     <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Label FontSize="30"> Venda Concluida</Label>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid Margin="0" VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center">TOTAL DA VENDA</Label>
+                <Label ContentStringFormat="C" Content="{Binding Venda.Total, StringFormat=C, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Grid.Column="1" FontSize="20" FontWeight="Bold" Grid.Row="0" HorizontalAlignment="Center"></Label>
 
-            <StackPanel Margin="10">
-                <Button Click="Button_Click" Cursor="Hand">OK</Button>
-            </StackPanel>
-           
-        </StackPanel>
+                <Label Grid.Column="0" Grid.Row="1" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center">VALOR PAGO</Label>
+                <Label ContentStringFormat="C" Content="{Binding Venda.ValorPago, StringFormat=C, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Grid.Column="1"  FontSize="16" FontWeight="Bold" Grid.Row="1" HorizontalAlignment="Center"></Label>
+
+                <Label Grid.Column="0" Grid.Row="2" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center">TROCO</Label>
+                <Label ContentStringFormat="C" Content="{Binding Venda.ValorTroco, StringFormat=C, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  Grid.Column="1"  FontSize="16" FontWeight="Bold" Grid.Row="2" HorizontalAlignment="Center"></Label>
+            </Grid>
+        </Grid>
+        <Button Grid.Row="1" Width="200" Click="Button_Click" Cursor="Hand">NOVA VENDA</Button>
     </Grid>
 </Window>

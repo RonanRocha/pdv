@@ -57,7 +57,7 @@ namespace EmissorNF.Dominio.Entidades
         }
 
 
-        private decimal CalcularRateio(decimal valor)
+        public decimal CalcularRateio(decimal valor)
         {
             var quantidadeProdutos = Produtos.Sum(x => x.Quantidade);
 

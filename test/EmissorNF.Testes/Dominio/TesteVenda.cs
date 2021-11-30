@@ -471,6 +471,7 @@ namespace EmissorNF.Testes.Dominio
             venda.AplicarDesconto(10M);
             venda.AplicarAcrescimo(5M);
 
+
             Assert.AreEqual(94.97M, venda.Total);
             Assert.AreEqual(99.97M, venda.Subtotal);
             Assert.AreEqual(10M, venda.ValorDesconto);
@@ -478,6 +479,57 @@ namespace EmissorNF.Testes.Dominio
 
 
         }
+
+
+
+        [TestMethod]
+        public void Calcular_Totais_Venda_Ao_Adicionar_Produto_Quando_Desconto_Acrescimo_Ja_Foi_Informado()
+        {
+
+            var produto = new Produto();
+
+            produto.Codigo = "P193UJD0WEDJ";
+            produto.CodigoDeBarras = "SEM GTIN";
+            produto.Cest = "1230983";
+            produto.Ncm = "14564651";
+            produto.Descricao = "Camiseta Basica";
+            produto.ValorVenda = 39.99M;
+            produto.ValorCompra = 39.99M;
+            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.Id = 1;
+
+
+            var segundoProduto = new Produto();
+
+            segundoProduto.Codigo = "P123123WEDJ";
+            segundoProduto.CodigoDeBarras = "SEM GTIN";
+            segundoProduto.Cest = "56780734";
+            segundoProduto.Ncm = "12354577";
+            segundoProduto.Descricao = "Camiseta Nike";
+            segundoProduto.ValorVenda = 19.99M;
+            segundoProduto.ValorCompra = 19.99M;
+            segundoProduto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            segundoProduto.Id = 2;
+
+            var venda = new Venda();
+            venda.AdicionarProduto(produto, 1);
+
+            venda.AplicarDesconto(10M);
+            venda.AplicarAcrescimo(5M);
+
+            venda.AdicionarProduto(segundoProduto, 1);
+
+
+
+            Assert.AreEqual(54.98M, venda.Total);
+            Assert.AreEqual(59.98M, venda.Subtotal);
+            Assert.AreEqual(10M, venda.ValorDesconto);
+            Assert.AreEqual(5M, venda.ValorAcrescimo);
+
+
+        }
+
+
 
         [TestMethod]
         public void Calcular_Valor_Pago_Troco_Venda()
@@ -570,6 +622,35 @@ namespace EmissorNF.Testes.Dominio
 
 
         }
+
+
+
+        [TestMethod]
+        public void Calcular_Valor_Rateio()
+        {
+
+            var produto = new Produto();
+
+            produto.Codigo = "P193UJD0WEDJ";
+            produto.CodigoDeBarras = "SEM GTIN";
+            produto.Cest = "1230983";
+            produto.Ncm = "14564651";
+            produto.Descricao = "Camiseta Basica";
+            produto.ValorVenda = 39.99M;
+            produto.ValorCompra = 39.99M;
+            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.Id = 1;
+
+            var venda = new Venda();
+            venda.AdicionarProduto(produto, 2);
+            var rateio = venda.CalcularRateio(10);
+
+            Assert.AreEqual(5M, rateio);
+
+
+        }
+
+
 
 
     }
