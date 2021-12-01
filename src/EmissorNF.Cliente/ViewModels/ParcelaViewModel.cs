@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 
-namespace EmissorNF.Cliente.ViewModels
+namespace PDV.Cliente.ViewModels
 {
     public class ParcelaViewModel
     {

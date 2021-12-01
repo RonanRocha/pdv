@@ -1,6 +1,6 @@
 ﻿
 
-namespace EmissorNF.Cliente.ViewModels
+namespace PDV.Cliente.ViewModels
 {
     public class ClienteViewModel : UsuarioViewModel 
     {

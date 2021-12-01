@@ -1,4 +1,4 @@
-﻿using EmissorNF.Dominio.Entidades;
+﻿using PDV.Dominio.Entidades;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmissorNF.Testes.Dominio.Entidades
+namespace PDV.Testes.Dominio.Entidades
 {
     [TestClass]
     public class TesteVenda
@@ -25,7 +25,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             produto.Descricao = "Camiseta Basica";
             produto.ValorVenda = 39.99M;
             produto.ValorCompra = 39.99M;
-            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             produto.Id = 1;
 
             var venda = new Venda();
@@ -68,7 +68,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             produto.Descricao = "Camiseta Basica";
             produto.ValorVenda = 39.99M;
             produto.ValorCompra = 39.99M;
-            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             produto.Id = 1;
 
             var venda = new Venda();
@@ -97,7 +97,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             produto.Descricao = "Camiseta Basica";
             produto.ValorVenda = 39.99M;
             produto.ValorCompra = 39.99M;
-            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             produto.Id = 1;
 
             var venda = new Venda();
@@ -126,7 +126,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             produto.Descricao = "Camiseta Basica";
             produto.ValorVenda = 39.99M;
             produto.ValorCompra = 39.99M;
-            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             produto.Id = 1;
 
             var venda = new Venda();
@@ -154,7 +154,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             produto.Descricao = "Camiseta Basica";
             produto.ValorVenda = 39.99M;
             produto.ValorCompra = 39.99M;
-            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             produto.Id = 1;
 
             var venda = new Venda();
@@ -182,7 +182,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             produto.Descricao = "Camiseta Basica";
             produto.ValorVenda = 39.99M;
             produto.ValorCompra = 39.99M;
-            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             produto.Id = 1;
 
             var venda = new Venda();
@@ -210,7 +210,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             produto.Descricao = "Camiseta Basica";
             produto.ValorVenda = 39.99M;
             produto.ValorCompra = 39.99M;
-            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             produto.Id = 1;
 
 
@@ -223,7 +223,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             segundoProduto.Descricao = "Camiseta Nike";
             segundoProduto.ValorVenda = 19.99M;
             segundoProduto.ValorCompra = 19.99M;
-            segundoProduto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            segundoProduto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             segundoProduto.Id = 2;
 
             var venda = new Venda();
@@ -252,7 +252,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             produto.Descricao = "Camiseta Basica";
             produto.ValorVenda = 39.99M;
             produto.ValorCompra = 39.99M;
-            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             produto.Id = 1;
 
 
@@ -265,7 +265,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             segundoProduto.Descricao = "Camiseta Nike";
             segundoProduto.ValorVenda = 19.99M;
             segundoProduto.ValorCompra = 19.99M;
-            segundoProduto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Inativo;
+            segundoProduto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Inativo;
             segundoProduto.Id = 2;
 
             var venda = new Venda();
@@ -293,7 +293,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             produto.Descricao = "Camiseta Basica";
             produto.ValorVenda = 39.99M;
             produto.ValorCompra = 39.99M;
-            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             produto.Id = 1;
 
             var venda = new Venda();
@@ -321,7 +321,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             produto.Descricao = "Camiseta Basica";
             produto.ValorVenda = 39.99M;
             produto.ValorCompra = 39.99M;
-            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             produto.Id = 1;
 
             var venda = new Venda();
@@ -349,7 +349,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             produto.Descricao = "Camiseta Basica";
             produto.ValorVenda = 39.99M;
             produto.ValorCompra = 39.99M;
-            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             produto.Id = 1;
 
 
@@ -362,7 +362,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             segundoProduto.Descricao = "Camiseta Nike";
             segundoProduto.ValorVenda = 19.99M;
             segundoProduto.ValorCompra = 19.99M;
-            segundoProduto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            segundoProduto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             segundoProduto.Id = 2;
 
             var venda = new Venda();
@@ -391,7 +391,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             produto.Descricao = "Camiseta Basica";
             produto.ValorVenda = 39.99M;
             produto.ValorCompra = 39.99M;
-            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             produto.Id = 1;
 
             var venda = new Venda();
@@ -420,7 +420,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             produto.Descricao = "Camiseta Basica";
             produto.ValorVenda = 39.99M;
             produto.ValorCompra = 39.99M;
-            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             produto.Id = 1;
 
             var venda = new Venda();
@@ -449,7 +449,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             produto.Descricao = "Camiseta Basica";
             produto.ValorVenda = 39.99M;
             produto.ValorCompra = 39.99M;
-            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             produto.Id = 1;
 
 
@@ -462,7 +462,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             segundoProduto.Descricao = "Camiseta Nike";
             segundoProduto.ValorVenda = 19.99M;
             segundoProduto.ValorCompra = 19.99M;
-            segundoProduto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            segundoProduto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             segundoProduto.Id = 2;
 
             var venda = new Venda();
@@ -496,7 +496,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             produto.Descricao = "Camiseta Basica";
             produto.ValorVenda = 39.99M;
             produto.ValorCompra = 39.99M;
-            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             produto.Id = 1;
 
 
@@ -509,7 +509,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             segundoProduto.Descricao = "Camiseta Nike";
             segundoProduto.ValorVenda = 19.99M;
             segundoProduto.ValorCompra = 19.99M;
-            segundoProduto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            segundoProduto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             segundoProduto.Id = 2;
 
             var venda = new Venda();
@@ -545,14 +545,14 @@ namespace EmissorNF.Testes.Dominio.Entidades
             produto.Descricao = "Camiseta Basica";
             produto.ValorVenda = 39.99M;
             produto.ValorCompra = 39.99M;
-            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             produto.Id = 1;
 
             var formaPagamento = new FormaPagamento();
             formaPagamento.Descricao = "Dinheiro";
             formaPagamento.Codigo = "01";
             formaPagamento.DataCadastro = DateTime.Now;
-            formaPagamento.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            formaPagamento.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             formaPagamento.Parcelas = 1;
             
 
@@ -587,21 +587,21 @@ namespace EmissorNF.Testes.Dominio.Entidades
             produto.Descricao = "Camiseta Basica";
             produto.ValorVenda = 39.99M;
             produto.ValorCompra = 39.99M;
-            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             produto.Id = 1;
 
             var formaPagamento = new FormaPagamento();
             formaPagamento.Descricao = "Dinheiro";
             formaPagamento.Codigo = "01";
             formaPagamento.DataCadastro = DateTime.Now;
-            formaPagamento.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            formaPagamento.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             formaPagamento.Parcelas = 1;
 
             var segundaFormaPagamento = new FormaPagamento();
             segundaFormaPagamento.Descricao = "Debito";
             segundaFormaPagamento.Codigo = "02";
             segundaFormaPagamento.DataCadastro = DateTime.Now;
-            segundaFormaPagamento.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            segundaFormaPagamento.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             segundaFormaPagamento.Parcelas = 1;
 
 
@@ -639,7 +639,7 @@ namespace EmissorNF.Testes.Dominio.Entidades
             produto.Descricao = "Camiseta Basica";
             produto.ValorVenda = 39.99M;
             produto.ValorCompra = 39.99M;
-            produto.SituacaoEntidade = EmissorNF.Dominio.Enums.SituacaoEntidade.Ativo;
+            produto.SituacaoEntidade = PDV.Dominio.Enums.SituacaoEntidade.Ativo;
             produto.Id = 1;
 
             var venda = new Venda();

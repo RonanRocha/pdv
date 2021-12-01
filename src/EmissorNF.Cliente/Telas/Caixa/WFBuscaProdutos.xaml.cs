@@ -1,9 +1,9 @@
-﻿using EmissorNF.Cliente.ViewModels;
+﻿using PDV.Cliente.ViewModels;
 using System;
 using System.Windows;
 
 
-namespace EmissorNF.Cliente.Telas.Caixa
+namespace PDV.Cliente.Telas.Caixa
 {
     /// <summary>
     /// Lógica interna para WFBuscaProdutos.xaml

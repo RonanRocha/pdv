@@ -1,4 +1,4 @@
-﻿using EmissorNF.Dominio.Enums;
+﻿using PDV.Dominio.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmissorNF.Dominio.Entidades
+namespace PDV.Dominio.Entidades
 {
     [Table("vendaproduto")]
     public class VendaProduto

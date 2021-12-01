@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EmissorNF.Cliente.Telas.Caixa.Controles
+namespace PDV.Cliente.Telas.Caixa.Controles
 {
     /// <summary>
     /// Interação lógica para UCCaixaFechado.xam

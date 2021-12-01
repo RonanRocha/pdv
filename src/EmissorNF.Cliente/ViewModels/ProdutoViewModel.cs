@@ -1,9 +1,9 @@
-﻿using EmissorNF.Dominio.Enums;
+﻿using PDV.Dominio.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 
 
-namespace EmissorNF.Cliente.ViewModels
+namespace PDV.Cliente.ViewModels
 {
     public class ProdutoViewModel : ObservableObject
     {

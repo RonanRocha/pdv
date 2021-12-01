@@ -5,7 +5,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
 
-namespace EmissorNF.Cliente.Config
+namespace PDV.Cliente.Config
 {
     public class Linguagem
     {

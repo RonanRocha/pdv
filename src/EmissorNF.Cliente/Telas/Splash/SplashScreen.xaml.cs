@@ -1,6 +1,6 @@
-﻿using EmissorNF.Cliente.Config;
-using EmissorNF.Cliente.Telas.Caixa;
-using EmissorNF.Cliente.Telas.Caixa.Controles;
+﻿using PDV.Cliente.Config;
+using PDV.Cliente.Telas.Caixa;
+using PDV.Cliente.Telas.Caixa.Controles;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 
 
-namespace EmissorNF.Cliente.Telas.Splash
+namespace PDV.Cliente.Telas.Splash
 {
     /// <summary>
     /// Lógica interna para SplashScreen.xaml

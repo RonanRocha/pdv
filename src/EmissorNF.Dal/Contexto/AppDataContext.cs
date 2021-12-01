@@ -1,8 +1,8 @@
-﻿using EmissorNF.Dominio.Entidades;
+﻿using PDV.Dominio.Entidades;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace EmissorNF.Dal.Contexto
+namespace PDV.Dal.Contexto
 {
     public class AppDataContext : DbContext
     {

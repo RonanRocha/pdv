@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace EmissorNF.Dal.Migrations
+namespace PDV.Dal.Migrations
 {
     public partial class initial : Migration
     {
@@ -47,6 +47,7 @@ namespace EmissorNF.Dal.Migrations
                     descricao = table.Column<string>(type: "text", nullable: true),
                     codigo = table.Column<string>(type: "text", nullable: true),
                     parcelas = table.Column<int>(type: "integer", nullable: true),
+                    tipopagamento = table.Column<int>(type: "integer", nullable: false),
                     situacaoentidade = table.Column<int>(type: "integer", nullable: false),
                     datacadastro = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
@@ -181,6 +182,7 @@ namespace EmissorNF.Dal.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     usuarioid = table.Column<int>(type: "integer", nullable: true),
                     clienteid = table.Column<int>(type: "integer", nullable: true),
+                    descricao = table.Column<string>(type: "text", nullable: true),
                     total = table.Column<decimal>(type: "numeric", nullable: false),
                     subtotal = table.Column<decimal>(type: "numeric", nullable: false),
                     valordesconto = table.Column<decimal>(type: "numeric", nullable: false),
@@ -278,6 +280,52 @@ namespace EmissorNF.Dal.Migrations
                         principalTable: "vendas",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                schema: "public",
+                table: "formapagamento",
+                columns: new[] { "id", "codigo", "datacadastro", "descricao", "parcelas", "situacaoentidade", "tipopagamento" },
+                values: new object[,]
+                {
+                    { 1, "04", new DateTime(2021, 12, 1, 10, 32, 22, 984, DateTimeKind.Local).AddTicks(32), "Maestro", 1, 1, 1 },
+                    { 2, "04", new DateTime(2021, 12, 1, 10, 32, 22, 984, DateTimeKind.Local).AddTicks(320), "Visa Débito", 1, 1, 1 },
+                    { 3, "04", new DateTime(2021, 12, 1, 10, 32, 22, 984, DateTimeKind.Local).AddTicks(323), "Elo Débito", 1, 1, 1 },
+                    { 4, "01", new DateTime(2021, 12, 1, 10, 32, 22, 984, DateTimeKind.Local).AddTicks(324), "Dinheiro", 1, 1, 2 },
+                    { 5, "03", new DateTime(2021, 12, 1, 10, 32, 22, 984, DateTimeKind.Local).AddTicks(325), "Master Crédito", 12, 1, 1 }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "public",
+                table: "grupoproduto",
+                columns: new[] { "id", "datacadastro", "descricao", "situacaoentidade" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2021, 12, 1, 10, 32, 22, 982, DateTimeKind.Local).AddTicks(3433), "Perfumes", 1 },
+                    { 2, new DateTime(2021, 12, 1, 10, 32, 22, 982, DateTimeKind.Local).AddTicks(9692), "Sabonetes", 1 },
+                    { 3, new DateTime(2021, 12, 1, 10, 32, 22, 982, DateTimeKind.Local).AddTicks(9704), "Essencias", 1 }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "public",
+                table: "usuarios",
+                columns: new[] { "id", "cpf", "datacadastro", "email", "nome", "senha", "situacaoentidade" },
+                values: new object[,]
+                {
+                    { 1, "388477898", new DateTime(2021, 12, 1, 10, 32, 22, 983, DateTimeKind.Local).AddTicks(8764), "ronan.rochasouza@gmail.com", "Ronan Rocha", "1234", 1 },
+                    { 2, "67371822080", new DateTime(2021, 12, 1, 10, 32, 22, 983, DateTimeKind.Local).AddTicks(9055), "mvp@gmail.com", "Marcos Poli", "1234", 1 },
+                    { 3, "69947008010", new DateTime(2021, 12, 1, 10, 32, 22, 983, DateTimeKind.Local).AddTicks(9058), "michael@gmail.com", "Michael", "1234", 1 }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "public",
+                table: "produtos",
+                columns: new[] { "id", "cest", "codigo", "codigodebarras", "datacadastro", "descricao", "grupoprodutoid", "ncm", "situacaoentidade", "valorcompra", "valorvenda" },
+                values: new object[,]
+                {
+                    { 1, "2000800", "001", "SEM GTIN", new DateTime(2021, 12, 1, 10, 32, 22, 983, DateTimeKind.Local).AddTicks(7522), "VIP 01 - MASCULINO", 1, "33030020", 1, 30m, 69.9m },
+                    { 2, "2000800", "002", "SEM GTIN", new DateTime(2021, 12, 1, 10, 32, 22, 983, DateTimeKind.Local).AddTicks(7801), "VIP 02 - FEMININO", 1, "33030020", 1, 30m, 69.9m },
+                    { 3, "2000800", "003", "SEM GTIN", new DateTime(2021, 12, 1, 10, 32, 22, 983, DateTimeKind.Local).AddTicks(7805), "VIP 03 - MASCULINO", 1, "33030020", 1, 30m, 69.9m }
                 });
 
             migrationBuilder.CreateIndex(

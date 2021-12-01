@@ -21,14 +21,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Asserts\Images\logo.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <ProjectReference Include="..\EmissorNF.Dal\PDV.Dal.csproj" />
+    <ProjectReference Include="..\EmissorNF.Dominio\PDV.Dominio.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EmissorNF.Dal\EmissorNF.Dal.csproj" />
-    <ProjectReference Include="..\EmissorNF.Dominio\EmissorNF.Dominio.csproj" />
+    <Resource Include="Asserts\Images\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

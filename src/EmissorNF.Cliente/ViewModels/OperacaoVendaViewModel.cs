@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using EmissorNF.Cliente.Telas.Caixa;
-using EmissorNF.Dal.Interfaces;
-using EmissorNF.Dominio.Entidades;
+using PDV.Cliente.Telas.Caixa;
+using PDV.Dal.Interfaces;
+using PDV.Dominio.Entidades;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
-namespace EmissorNF.Cliente.ViewModels
+namespace PDV.Cliente.ViewModels
 {
     public class OperacaoVendaViewModel : ObservableObject
     {

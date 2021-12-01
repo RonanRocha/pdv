@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace EmissorNF.Cliente
+namespace PDV.Cliente
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

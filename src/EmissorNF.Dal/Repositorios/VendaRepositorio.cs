@@ -1,9 +1,9 @@
-﻿using EmissorNF.Dal.Contexto;
-using EmissorNF.Dal.Interfaces;
-using EmissorNF.Dominio.Entidades;
+﻿using PDV.Dal.Contexto;
+using PDV.Dal.Interfaces;
+using PDV.Dominio.Entidades;
 
 
-namespace EmissorNF.Dal.Repositorios
+namespace PDV.Dal.Repositorios
 {
     public class VendaRepositorio : IVendaRepositorio
     {

@@ -1,7 +1,7 @@
-﻿using EmissorNF.Dominio.Entidades;
+﻿using PDV.Dominio.Entidades;
 
 
-namespace EmissorNF.Dal.Interfaces
+namespace PDV.Dal.Interfaces
 {
     public interface IVendaRepositorio
     {

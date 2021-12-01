@@ -1,17 +1,18 @@
-﻿using EmissorNF.Dominio.Enums;
+﻿using PDV.Dominio.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 
-namespace EmissorNF.Cliente.ViewModels
+namespace PDV.Cliente.ViewModels
 {
     public class VendaViewModel : ObservableObject
     {
         private int _id;
         private UsuarioViewModel _usuario;
         private ClienteViewModel _cliente;
+        private string _descricao;
         private decimal _total;
         private decimal _subtotal;
         private decimal _valorDesconto;
@@ -44,6 +45,12 @@ namespace EmissorNF.Cliente.ViewModels
         {
             get => _cliente;
             set => SetProperty(ref _cliente, value);
+        }
+
+        public string Descricao
+        {
+            get => _descricao;
+            set => SetProperty(ref _descricao, value);
         }
 
         public decimal Total

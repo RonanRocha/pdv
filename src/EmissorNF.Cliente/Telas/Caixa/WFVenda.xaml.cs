@@ -1,9 +1,9 @@
-﻿using EmissorNF.Cliente.ViewModels;
+﻿using PDV.Cliente.ViewModels;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 
-namespace EmissorNF.Cliente.Telas.Caixa
+namespace PDV.Cliente.Telas.Caixa
 {
     /// <summary>
     /// Lógica interna para WFVenda.xaml

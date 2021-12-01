@@ -1,14 +1,14 @@
-﻿using EmissorNF.Cliente.Telas.Caixa;
+﻿using PDV.Cliente.Telas.Caixa;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
-using SplashScreen = EmissorNF.Cliente.Telas.Splash.SplashScreen;
-using EmissorNF.Cliente.Telas.Caixa.Controles;
+using SplashScreen = PDV.Cliente.Telas.Splash.SplashScreen;
+using PDV.Cliente.Telas.Caixa.Controles;
 using System.Threading.Tasks;
-using EmissorNF.Cliente.Config;
+using PDV.Cliente.Config;
 using Serilog;
 using System;
 
-namespace EmissorNF.Cliente
+namespace PDV.Cliente
 {
     /// <summary>
     /// Interaction logic for App.xaml

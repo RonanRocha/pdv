@@ -1,8 +1,8 @@
-﻿using EmissorNF.Dominio.Entidades;
+﻿using PDV.Dominio.Entidades;
 using System.Collections.Generic;
 
 
-namespace EmissorNF.Dal.Interfaces
+namespace PDV.Dal.Interfaces
 {
     public interface IFormaPagamentoRepositorio
     {

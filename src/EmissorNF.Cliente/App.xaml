@@ -1,7 +1,7 @@
-﻿<Application x:Class="EmissorNF.Cliente.App"
+﻿<Application x:Class="PDV.Cliente.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:EmissorNF.Cliente" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:PDV.Cliente" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              >
     <Application.Resources>
         <ResourceDictionary>

@@ -1,18 +1,18 @@
 ﻿using AutoMapper;
-using EmissorNF.Cliente.Telas.Caixa;
-using EmissorNF.Cliente.Telas.Caixa.Controles;
-using EmissorNF.Cliente.ViewModels;
-using EmissorNF.Dal.Interfaces;
-using EmissorNF.Dal.Repositorios;
-using EmissorNF.Dominio.Entidades;
-using EmissorNF.Dominio.Validacoes;
+using PDV.Cliente.Telas.Caixa;
+using PDV.Cliente.Telas.Caixa.Controles;
+using PDV.Cliente.ViewModels;
+using PDV.Dal.Interfaces;
+using PDV.Dal.Repositorios;
+using PDV.Dominio.Entidades;
+using PDV.Dominio.Validacoes;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System;
 
 
-namespace EmissorNF.Cliente.Config
+namespace PDV.Cliente.Config
 {
     public class IoC
     {
@@ -61,8 +61,8 @@ namespace EmissorNF.Cliente.Config
                     cfg.CreateMap<UsuarioViewModel, Usuario>();
                     cfg.CreateMap<Usuario, UsuarioViewModel>();
 
-                    cfg.CreateMap<ClienteViewModel, EmissorNF.Dominio.Entidades.Cliente>();
-                    cfg.CreateMap<EmissorNF.Dominio.Entidades.Cliente, ClienteViewModel>();
+                    cfg.CreateMap<ClienteViewModel, PDV.Dominio.Entidades.Cliente>();
+                    cfg.CreateMap<PDV.Dominio.Entidades.Cliente, ClienteViewModel>();
 
                     cfg.CreateMap<FormaPagamentoViewModel, FormaPagamento>();
                     cfg.CreateMap<FormaPagamento, FormaPagamentoViewModel>();

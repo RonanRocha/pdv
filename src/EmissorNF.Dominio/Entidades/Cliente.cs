@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmissorNF.Dominio.Entidades
+namespace PDV.Dominio.Entidades
 {
     [Table("clientes")]
     public class Cliente : Usuario

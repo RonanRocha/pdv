@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 
 
-namespace EmissorNF.Cliente.Telas.Caixa.Controles
+namespace PDV.Cliente.Telas.Caixa.Controles
 {
     /// <summary>
     /// Interação lógica para UCOperacao.xam

@@ -1,8 +1,8 @@
-﻿using EmissorNF.Dominio.Entidades;
+﻿using PDV.Dominio.Entidades;
 using FluentValidation;
 using System.Linq;
 
-namespace EmissorNF.Dominio.Validacoes
+namespace PDV.Dominio.Validacoes
 {
    public class ValidacaoVenda : AbstractValidator<Venda>
    {

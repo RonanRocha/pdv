@@ -1,11 +1,11 @@
-﻿using EmissorNF.Dominio.Enums;
+﻿using PDV.Dominio.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmissorNF.Dominio.Entidades
+namespace PDV.Dominio.Entidades
 {
     public class Produto
     {

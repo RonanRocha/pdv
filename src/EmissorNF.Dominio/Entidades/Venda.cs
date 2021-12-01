@@ -1,23 +1,23 @@
-﻿using EmissorNF.Dominio.Enums;
+﻿using PDV.Dominio.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 
-namespace EmissorNF.Dominio.Entidades
+namespace PDV.Dominio.Entidades
 {
     public class Venda
     {
         public int Id { get; set; }
         public Usuario Usuario { get; set; }
         public Cliente Cliente { get; set; }
+        public string Descricao { get; set; }
         public decimal Total { get; set; }
         public decimal Subtotal { get; set; }
         public decimal ValorDesconto { get; set; }
         public decimal ValorAcrescimo { get; set; }
         public decimal ValorTroco { get; set; }
         public decimal ValorPago { get; set; }
-        public string Descricao { get; set; }
         public DateTime? DataFechamento { get; set; }
         public SituacaoEntidade SituacaoEntidade { get; set; }
         public DateTime DataCadastro { get; set; }
