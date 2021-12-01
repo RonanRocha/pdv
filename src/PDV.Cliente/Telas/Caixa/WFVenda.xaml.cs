@@ -20,15 +20,9 @@ namespace PDV.Cliente.Telas.Caixa
             winActions.ButtonClose.Click += WindowClose;
             winActions.ButtonMaximize.Click += WindowMaximize;
             winActions.ButtonMinimize.Click += WindowMinimize;
-         
+       
         }
 
-
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
 
 
         private void WindowMinimize(object sender, RoutedEventArgs e)
@@ -52,6 +46,9 @@ namespace PDV.Cliente.Telas.Caixa
 
             this.WindowState = WindowState.Maximized;
         }
+
+
+   
 
     }
 }

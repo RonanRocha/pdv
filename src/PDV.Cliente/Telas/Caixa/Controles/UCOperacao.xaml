@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="350"></ColumnDefinition>
+            <ColumnDefinition Width="320"></ColumnDefinition>
             <ColumnDefinition Width="7*"></ColumnDefinition>
             <!--<ColumnDefinition Width="4*"></ColumnDefinition>-->
         </Grid.ColumnDefinitions>
@@ -16,9 +16,9 @@
         <Grid Margin="10,10,0,10"  Grid.Column="0" >
             <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth1" Padding="10">
                 <StackPanel>
-                    <Button Margin="10" Command="{Binding IniciarVendaCommand}" Cursor="Hand">NOVA VENDA</Button>
+                    <Button Margin="10" Click="IniciarVenda_OnClick" Cursor="Hand">NOVA VENDA</Button>
                     <Button Margin="10" Cursor="Hand">CANCELAR VENDA</Button>
-                    <Button Margin="10" Command="{Binding IniciarPagamentosCommand}">FECHAR VENDA</Button>
+                    <Button Margin="10" Click="IniciaPagamento_OnClick">FECHAR VENDA</Button>
                     <TextBox Padding="10" materialDesign:HintAssist.Hint="CPF DO CLIENTE"  materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="10" ></TextBox>
                     <CheckBox IsChecked="{Binding CpfNota, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Style="{StaticResource MaterialDesignUserForegroundCheckBox}" Content="CPF NA NOTA" Margin="10" />
                     <CheckBox IsChecked="{Binding EnviarEmail, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Style="{StaticResource MaterialDesignUserForegroundCheckBox}" Content="ENVIAR NOTA" Margin="10" />
@@ -78,93 +78,14 @@
                         </StackPanel>
 
                         <StackPanel Grid.Column="1">
-                            <TextBox Padding="10"  Text="{Binding Busca, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" materialDesign:HintAssist.Hint="BUSCA POR CÓDIGO OU DESCRIÇÃO DO PRODUTO"  materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="10" Cursor="IBeam" >
-                                <TextBox.InputBindings>
-                                    <KeyBinding 
-                                            Key="Return" 
-                                            Command="{Binding BuscarProdutoCommand}" 
-                                            CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}" />
-                                </TextBox.InputBindings>
+                            <TextBox Padding="10" KeyDown="TxtBusca_OnKeyDown"  Text="{Binding Busca, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" materialDesign:HintAssist.Hint="BUSCA POR CÓDIGO OU DESCRIÇÃO DO PRODUTO"  materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="10" Cursor="IBeam" >
+
                             </TextBox>
                         </StackPanel>
 
                     </Grid>
 
                     <Grid Grid.Row="2" >
-
-                     <DataGrid   Grid.Row="2" Margin="10"
-                      x:Name="GridProdutos" 
-                      AutoGenerateColumns="False"   
-                      SelectionUnit="FullRow"                     
-                      ItemsSource="{Binding Venda.Produtos, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                      SelectionMode="Single"
-                      CanUserReorderColumns="True"
-                      CanUserAddRows="False" 
-                      CanUserResizeRows="True"  >
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Produto.Codigo}" IsReadOnly="True" Header="CODIGO"/>
-                                <DataGridTextColumn Binding="{Binding Produto.Descricao}" IsReadOnly="True" Header="DESCRICAO"/>
-                                <DataGridTextColumn Binding="{Binding Quantidade}" IsReadOnly="True" Header="QUANTIDADE"/>
-                                <DataGridTextColumn Binding="{Binding Total, StringFormat=C}" IsReadOnly="True" Header="TOTAL"/>
-                                <DataGridTextColumn Binding="{Binding Subtotal, StringFormat=C}" IsReadOnly="True" Header="SUBTOTAL"/>
-                                <DataGridTemplateColumn>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button HorizontalAlignment="Right" CommandParameter="{Binding}" Command="{Binding DataContext.RemoverProdutoVendaCommand, RelativeSource= {RelativeSource FindAncestor,AncestorType={x:Type DataGrid}}}">
-                                                <materialDesign:PackIcon  Kind="TrashCanOutline" />
-
-                                            </Button>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-
-                    </Grid>
-                </Grid>
-            </materialDesign:Card>
-        </Grid>
-
-        <!--<Grid Margin="10" Grid.Column="2">
-            <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth1" Padding="10">
-                <Grid>
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="60"></RowDefinition>
-                        <RowDefinition Height="6*"></RowDefinition>
-                        <RowDefinition Height="3*"></RowDefinition>
-                    </Grid.RowDefinitions>
-
-                    <Grid  Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="6*"></ColumnDefinition>
-                            <ColumnDefinition Width="3*"></ColumnDefinition>
-                            <ColumnDefinition Width="3*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-
-                        <StackPanel Grid.Column="0">
-                            <ComboBox  Padding="10"  x:Name="CmbVendedores"
-                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                       materialDesign:TextFieldAssist.HasClearButton="True"
-                        Margin="10"
-                        ItemsSource="{Binding Vendedores, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"                 
-                        materialDesign:HintAssist.Hint="VENDEDOR"
-                        DisplayMemberPath="Nome"
-                        SelectedValue="{Binding Vendedor, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                         />
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="1">
-                            <TextBox Padding="10" Text="{Binding Desconto, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay, StringFormat=C2}"  materialDesign:HintAssist.Hint="Desconto"  materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="10" Cursor="IBeam" ></TextBox>
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="2">
-                            <TextBox Padding="10" Text="{Binding Acrescimo, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay, StringFormat=C2}"  materialDesign:HintAssist.Hint="Acrescimo"  materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="10" Cursor="IBeam" ></TextBox>
-                        </StackPanel>
-                    </Grid>
-
-                    <Grid Grid.Row="1" >
-
                         <DataGrid   Grid.Row="2" Margin="10"
                       x:Name="GridProdutos" 
                       AutoGenerateColumns="False"   
@@ -183,8 +104,8 @@
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button HorizontalAlignment="Right" CommandParameter="{Binding}" Command="{Binding DataContext.RemoverProdutoVendaCommand, RelativeSource= {RelativeSource FindAncestor,AncestorType={x:Type DataGrid}}}">
-                                                <materialDesign:PackIcon Kind="TrashCanOutline" />
+                                            <Button HorizontalAlignment="Right" Click="DataRowGrid_OnClick" >
+                                                <materialDesign:PackIcon  Kind="TrashCanOutline" />
 
                                             </Button>
                                         </DataTemplate>
@@ -194,21 +115,8 @@
                         </DataGrid>
 
                     </Grid>
-
-                    <Grid Grid.Row="2">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="9*"></RowDefinition>
-                            <RowDefinition Height="70"></RowDefinition>
-                        </Grid.RowDefinitions>
-
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1" Margin="10">
-                            <Button Command="{Binding IniciarPagamentosCommand}">FECHAR VENDA</Button>
-                        </StackPanel>
-
-                    </Grid>
-
                 </Grid>
             </materialDesign:Card>
-        </Grid>-->
+        </Grid>
     </Grid>
 </UserControl>

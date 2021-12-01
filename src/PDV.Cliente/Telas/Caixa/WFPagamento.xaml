@@ -18,16 +18,6 @@
         BorderThickness="1"
         WindowStartupLocation="CenterScreen"
         Title="Pagamentos" Height="600" Width="800" Cursor="IBeam">
-
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding AbrirJanelaPagamentoCommand}"/>
-        </i:EventTrigger>
-        <i:EventTrigger EventName="Closed">
-            <i:InvokeCommandAction Command="{Binding FecharJanelaPagamentoCommand}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"></RowDefinition>
@@ -80,13 +70,9 @@
                         DisplayMemberPath="Descricao"
                         ItemsSource="{Binding Pagamentos, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                         SelectedValue ="{Binding Pagamento, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-  
+                        SelectionChanged="FormasPagamento_OnChanged"
                         Width="260" MinHeight="32" Padding="10">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding TrocarFormaPagamentoCommand}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+           
             </ComboBox>
 
             <ComboBox   x:Name="CmbParcelas"
@@ -101,7 +87,7 @@
                         Width="120" MinHeight="32" />
 
             <TextBox Text="{Binding ValorPagamento, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=C}" materialDesign:HintAssist.Hint="Valor" Padding="10" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" MinWidth="100"  Margin="5,0,0,0" Cursor="IBeam" ></TextBox>
-            <Button  Margin="5,0,0,0" Command="{Binding AdicionarPagamentoCommand}">Adicionar</Button>
+            <Button  Margin="5,0,0,0" Cursor="Hand" Click="AdicionarFormaPagamento_OnClick">Adicionar</Button>
         </WrapPanel>
         <GroupBox Grid.Row="3" Margin="10" Header="Pagamentos">
             <DataGrid 
@@ -120,7 +106,7 @@
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button HorizontalAlignment="Right" CommandParameter="{Binding}" Command="{Binding Path=DataContext.RemovePagamentoCommand, RelativeSource= {RelativeSource FindAncestor,AncestorType={x:Type DataGrid}}}">
+                                <Button HorizontalAlignment="Right" Click="DataRowGrid_OnClick">
                                     <materialDesign:PackIcon Kind="TrashCanOutline" />
 
                                 </Button>
@@ -165,7 +151,7 @@
             </WrapPanel>
             <WrapPanel Grid.Column="1"   VerticalAlignment="Center" HorizontalAlignment="Right" >
                 <Button Margin="0,0,5, 0">CANCELAR</Button>
-                <Button Command="{Binding FecharVendaCommand}">FECHAR VENDA</Button>
+                <Button Click="FecharVenda_OnClick">FECHAR VENDA</Button>
             </WrapPanel>
         </Grid>
     </Grid>
