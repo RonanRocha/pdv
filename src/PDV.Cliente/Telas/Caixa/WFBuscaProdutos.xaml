@@ -48,15 +48,10 @@
 
         <WrapPanel Grid.Row="1" Margin="5" VerticalAlignment="Center">
             <TextBox Text="{Binding Quantidade, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Padding="10" materialDesign:HintAssist.Hint="Quantidade" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" MinWidth="130" Margin="0,0,5,0" Cursor="IBeam"></TextBox>
-            <TextBox Text="{Binding Busca,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Padding="10" Width="500" materialDesign:HintAssist.Hint="Busca por nome ou código do produto"  materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="0,0,5,0" Cursor="IBeam" >
-                <TextBox.InputBindings>
-                    <KeyBinding 
-                                            Key="Return" 
-                                            Command="{Binding ConsultarProdutosCommand}" 
-                                            CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}" />
-                </TextBox.InputBindings>
+            <TextBox KeyDown="TxtPesquisar_OnKeyDown" Text="{Binding Busca,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Padding="10" Width="500" materialDesign:HintAssist.Hint="Busca por nome ou código do produto"  materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="0,0,5,0" Cursor="IBeam" >
+          
             </TextBox>
-            <Button Command="{Binding ConsultarProdutosCommand }" Cursor="Hand"> Pesquisar</Button>
+            <Button Click="Pesquisar_OnClick"  Cursor="Hand"> Pesquisar</Button>
         </WrapPanel>
         <DataGrid Margin="10" Grid.Row="2"
                       x:Name="GridProdutos" 
@@ -74,10 +69,12 @@
                 <DataGridTextColumn Binding="{Binding Descricao}" IsReadOnly="True" Header="DESCRIÇÃO"/>
                 <DataGridTextColumn Binding="{Binding ValorVenda}" IsReadOnly="True" Header="PREÇO"/>
             </DataGrid.Columns>
-            <DataGrid.InputBindings>
-                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding SelecionarProdutoCommand}" CommandParameter="{Binding ElementName=GridProdutos, Path=SelectedItem}"/>
-                <KeyBinding Key="Return" Command="{Binding SelecionarProdutoCommand}" CommandParameter="{Binding ElementName=GridProdutos, Path=SelectedItem}"/>
-            </DataGrid.InputBindings>
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                    <EventSetter Event="MouseDoubleClick" Handler="DatagridRow_DoubleClick"/>
+                    <EventSetter Event="KeyDown" Handler="DatagridRow_KeyDown"/>
+                </Style>
+            </DataGrid.Resources>
         </DataGrid>
     </Grid>
 </Window>

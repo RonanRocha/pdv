@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using PDV.Cliente.Telas.Caixa.Controles;
 
 namespace PDV.Cliente.ViewModels
 {
@@ -81,7 +82,6 @@ namespace PDV.Cliente.ViewModels
             FecharVendaCommand = new RelayCommand(FecharVenda, () => true);
             BuscarProdutoCommand = new RelayCommand(BuscarProduto, () => true);
             IniciarVendaCommand = new RelayCommand(IniciarOperacao, () => true);
-            IniciarPagamentosCommand = new RelayCommand(IniciarPagamentos, () => true);
             RemoverProdutoVendaCommand = new RelayCommand<VendaProdutoViewModel>((vendaProduto) => RemoverProdutoVenda(vendaProduto));
             ConsultarProdutosCommand = new RelayCommand(ConsultarProdutos, () => true);
             SelecionarProdutoCommand = new RelayCommand<ProdutoViewModel>((product) => SelecionarProduto(product));
@@ -210,8 +210,6 @@ namespace PDV.Cliente.ViewModels
 
         public ICommand IniciarVendaCommand { get; set; }
 
-        public ICommand IniciarPagamentosCommand { get; set; }
-
         public ICommand RemoverProdutoVendaCommand { get; set; }
 
         public ICommand ConsultarProdutosCommand { get; set; }
@@ -265,28 +263,14 @@ namespace PDV.Cliente.ViewModels
         {
 
             var pagamentos = _mapper.Map<List<FormaPagamento>, List<FormaPagamentoViewModel>>(_formaPagamentoRepositorio.RecuperarTodas());
-
             Pagamentos = new ObservableCollection<FormaPagamentoViewModel>(pagamentos);
-         
-
+        
         }
 
         private void BuscarProduto()
         {
 
             ConsultarProdutosCommand.Execute(null);
-
-            if(Produtos.Count  == 1)
-            {
-                AdicionarProduto(Produtos.FirstOrDefault());
-               
-            }else
-            {
-                
-                var wfBuscaProdutos = _sp.GetRequiredService<WFBuscaProdutos>();
-                wfBuscaProdutos.ShowDialog();
-                            
-            }
    
         }
 
@@ -367,11 +351,7 @@ namespace PDV.Cliente.ViewModels
 
         }
 
-        private void IniciarPagamentos()
-        {
-            var wfPagamento = _sp.GetRequiredService<WFPagamento>();
-            wfPagamento.ShowDialog();
-        }
+
 
         private void IniciarOperacao()
         {
@@ -436,18 +416,13 @@ namespace PDV.Cliente.ViewModels
 
         private void IniciarVenda()
         {
-            try
-            {
-                var wfVenda = _sp.GetRequiredService<WFVenda>();
-                var scopo = _sc.CreateScope();
-                var novaOperacao = scopo.ServiceProvider.GetRequiredService<OperacaoVendaViewModel>();            
-                wfVenda.DataContext = novaOperacao;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+        
+           var wfVenda = _sp.GetRequiredService<UCOperacao>();
+           var scopo = _sc.CreateScope();
+           var novaOperacao = scopo.ServiceProvider.GetRequiredService<OperacaoVendaViewModel>();            
+           wfVenda.DataContext = novaOperacao;
             
+                
         }
 
         #endregion
