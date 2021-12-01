@@ -27,7 +27,6 @@ namespace PDV.Cliente.ViewModels
         private readonly IVendaRepositorio _vendaRepositorio;
         private readonly IServiceProvider _sp;
         private readonly IServiceScopeFactory _sc;
-        private readonly IValidator<Venda> _validator;
         private readonly IMapper _mapper;
         private  VendaViewModel _venda;
         private string _busca = String.Empty;
@@ -63,8 +62,7 @@ namespace PDV.Cliente.ViewModels
             IServiceScopeFactory sc,
             IFormaPagamentoRepositorio formaPagamentoRepositorio,
             IUsuarioRepositorio usuarioRepositorio,
-            IMapper mapper, VendaViewModel viewModel,
-            IValidator<Venda> validator
+            IMapper mapper, VendaViewModel viewModel
 
         )
         {
@@ -77,9 +75,9 @@ namespace PDV.Cliente.ViewModels
             this._usuarioRepositorio = usuarioRepositorio;
             this._vendaRepositorio = vendaRepositorio;
             this._formaPagamentoRepositorio = formaPagamentoRepositorio;
-            this._validator = validator;
+            
          
-            FecharVendaCommand = new RelayCommand(FecharVenda, () => true);
+            FecharVendaCommand = new RelayCommand<Venda>((venda) => FecharVenda(venda));
             BuscarProdutoCommand = new RelayCommand(BuscarProduto, () => true);
             IniciarVendaCommand = new RelayCommand(IniciarOperacao, () => true);
             RemoverProdutoVendaCommand = new RelayCommand<VendaProdutoViewModel>((vendaProduto) => RemoverProdutoVenda(vendaProduto));
@@ -308,39 +306,14 @@ namespace PDV.Cliente.ViewModels
             
         }
 
-        private void FecharVenda()
+        private void FecharVenda(Venda venda)
         {
 
-           
-
-            try
-            {
-                var venda = _mapper.Map<Venda>(_venda);
-                venda.DataFechamento = DateTime.Now;
-
-                var validationResult = this._validator.Validate(venda);
-
-                if (!validationResult.IsValid) throw new Exception("Erro de validação");
-
-                if(validationResult.IsValid)
-                {
-
-                    _vendaRepositorio.Salvar(venda);
-                    var wfVendaConcluida = _sp.GetRequiredService<WFVendaConcluida>();
-                    wfVendaConcluida.ShowDialog();
-                }
-
-                
+ 
+            venda.DataFechamento = DateTime.Now;
+            _vendaRepositorio.Salvar(venda);
 
 
-            }catch(Exception e)
-            {
-
-            }
-
-
-           
-           
         }
 
         private void FinalizarOperacao()
