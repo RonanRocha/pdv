@@ -5,6 +5,8 @@ using SplashScreen = EmissorNF.Cliente.Telas.Splash.SplashScreen;
 using EmissorNF.Cliente.Telas.Caixa.Controles;
 using System.Threading.Tasks;
 using EmissorNF.Cliente.Config;
+using Serilog;
+using System;
 
 namespace EmissorNF.Cliente
 {
@@ -22,36 +24,33 @@ namespace EmissorNF.Cliente
 
 
             base.OnStartup(e);
-            Linguagem.Configurar();
-            var services = IoC.Configurar();
+
+            Log.Logger = new LoggerConfiguration()
+            .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
+
+
+            try
+            {
+                Task.Factory.StartNew(() =>
+                {
+
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        var splash = new SplashScreen();
+                        splash.Show();
+
+                    });
+                });
+            }
+            catch(Exception ex)
+            {
+                Log.Error("Erro ao iniciar sistema");
+                Log.Error(ex.Message);
+            }
 
           
-            ServiceProvider service = services.BuildServiceProvider();
-
-
-           var splash = service.GetRequiredService<SplashScreen>();
-       
-
-            splash.Show();
-
-
-            Task.Factory.StartNew(() =>
-            {
-                //simulate some work being done
-                System.Threading.Thread.Sleep(3000);
-
-                //since we're not on the UI thread
-                //once we're done we need to use the Dispatcher
-                //to create and show the main window
-                this.Dispatcher.Invoke(() =>
-                {
-                    var main = service.GetRequiredService<WFVenda>();
-                    var op = service.GetRequiredService<UCOperacao>();
-                    main.CaixaConteudo.Children.Add(op);
-                    main.Show();
-                    splash.Close();
-                });
-            });
 
 
         }

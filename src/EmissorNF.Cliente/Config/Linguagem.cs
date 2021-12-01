@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Globalization;
 using System.Threading;
 using System.Windows;
@@ -19,10 +20,12 @@ namespace EmissorNF.Cliente.Config
 
                 FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
+
             }
             catch(Exception ex)
             {
-
+                Log.Error("Erro ao configurar linguagem");
+                Log.Error(ex.Message);
             }
         }
     }

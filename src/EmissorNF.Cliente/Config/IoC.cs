@@ -8,6 +8,7 @@ using EmissorNF.Dominio.Entidades;
 using EmissorNF.Dominio.Validacoes;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using System;
 
 
@@ -15,37 +16,44 @@ namespace EmissorNF.Cliente.Config
 {
     public class IoC
     {
+        public ServiceCollection Services { get; set; }
 
-        public static ServiceCollection Configurar()
+        public IoC()
+        {
+            Services = new ServiceCollection();
+        }
+
+
+        public void Configurar()
         {
             try
             {
 
-                ServiceCollection services = new ServiceCollection();
+           
 
-                services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
-                services.AddScoped<IFormaPagamentoRepositorio, FormaPagamentoRepositorio>();
-                services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
-                services.AddScoped<IVendaRepositorio, VendaRepositorio>();
+                Services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
+                Services.AddScoped<IFormaPagamentoRepositorio, FormaPagamentoRepositorio>();
+                Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+                Services.AddScoped<IVendaRepositorio, VendaRepositorio>();
 
-                services.AddScoped<OperacaoVendaViewModel>();
-                services.AddScoped<VendaViewModel>();
-                services.AddScoped<ProdutoViewModel>();
-                services.AddScoped<UsuarioViewModel>();
-                services.AddScoped<ClienteViewModel>();
-                services.AddScoped<FormaPagamentoViewModel>();
-                services.AddScoped<VendaProdutoViewModel>();
-                services.AddScoped<VendaFormaPagamentoViewModel>();
-
-
-                services.AddSingleton<WFVenda>();
-                services.AddSingleton<UCOperacao>();
+                Services.AddScoped<OperacaoVendaViewModel>();
+                Services.AddScoped<VendaViewModel>();
+                Services.AddScoped<ProdutoViewModel>();
+                Services.AddScoped<UsuarioViewModel>();
+                Services.AddScoped<ClienteViewModel>();
+                Services.AddScoped<FormaPagamentoViewModel>();
+                Services.AddScoped<VendaProdutoViewModel>();
+                Services.AddScoped<VendaFormaPagamentoViewModel>();
 
 
-                services.AddTransient<Telas.Splash.SplashScreen>();
-                services.AddTransient<WFPagamento>();
-                services.AddTransient<WFBuscaProdutos>();
-                services.AddTransient<WFVendaConcluida>();
+                Services.AddSingleton<WFVenda>();
+                Services.AddSingleton<UCOperacao>();
+
+
+                Services.AddTransient<Telas.Splash.SplashScreen>();
+                Services.AddTransient<WFPagamento>();
+                Services.AddTransient<WFBuscaProdutos>();
+                Services.AddTransient<WFVendaConcluida>();
 
 
                 var config = new AutoMapper.MapperConfiguration(cfg =>
@@ -76,20 +84,21 @@ namespace EmissorNF.Cliente.Config
 
                 IMapper mapper = config.CreateMapper();
 
-                services.AddSingleton(mapper);
+                Services.AddSingleton(mapper);
 
 
-                services.AddScoped<IValidator<Venda>, ValidacaoVenda>();
+                Services.AddScoped<IValidator<Venda>, ValidacaoVenda>();
 
 
-
-                return services;
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return null;
+                Log.Error("Erro ao configurar serviços");
+                Log.Error(ex.Message);
             }
         }
+
+       
     }
 }

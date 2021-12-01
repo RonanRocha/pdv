@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmissorNF.Testes.Dominio
+namespace EmissorNF.Testes.Dominio.Entidades
 {
     [TestClass]
     public class TesteVendaProduto

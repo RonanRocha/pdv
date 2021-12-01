@@ -13,7 +13,7 @@
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <Image Width="200" Source="/Asserts/Images/logo.png"></Image>
-            <Label HorizontalAlignment="Center" FontSize="12" Foreground="White">Carregando sistema...</Label>
+            <Label x:Name="Info" HorizontalAlignment="Center" FontSize="12" Foreground="White">Carregando sistema...</Label>
         </StackPanel>
     </Grid>
 </Window>

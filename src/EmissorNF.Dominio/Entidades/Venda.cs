@@ -17,6 +17,7 @@ namespace EmissorNF.Dominio.Entidades
         public decimal ValorAcrescimo { get; set; }
         public decimal ValorTroco { get; set; }
         public decimal ValorPago { get; set; }
+        public string Descricao { get; set; }
         public DateTime? DataFechamento { get; set; }
         public SituacaoEntidade SituacaoEntidade { get; set; }
         public DateTime DataCadastro { get; set; }
@@ -56,7 +57,6 @@ namespace EmissorNF.Dominio.Entidades
             CalcularTotais();
         }
 
-
         public decimal CalcularRateio(decimal valor)
         {
             var quantidadeProdutos = Produtos.Sum(x => x.Quantidade);
@@ -68,7 +68,6 @@ namespace EmissorNF.Dominio.Entidades
             return valor / quantidadeProdutos;
 
         }
-
 
         public void AdicionarUsuario(Usuario usuario)
         {
