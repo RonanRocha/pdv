@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EmissorNF.Dominio\PDV.Dominio.csproj" />
+    <ProjectReference Include="..\PDV.Dominio\PDV.Dominio.csproj" />
   </ItemGroup>
 
 </Project>

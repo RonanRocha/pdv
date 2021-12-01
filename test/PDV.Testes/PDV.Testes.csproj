@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\EmissorNF.Dominio\PDV.Dominio.csproj" />
+    <ProjectReference Include="..\..\src\PDV.Dominio\PDV.Dominio.csproj" />
   </ItemGroup>
 
 </Project>

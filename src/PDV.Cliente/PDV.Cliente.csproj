@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EmissorNF.Dal\PDV.Dal.csproj" />
-    <ProjectReference Include="..\EmissorNF.Dominio\PDV.Dominio.csproj" />
+    <ProjectReference Include="..\PDV.Dal\PDV.Dal.csproj" />
+    <ProjectReference Include="..\PDV.Dominio\PDV.Dominio.csproj" />
   </ItemGroup>
 
   <ItemGroup>
