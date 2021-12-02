@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using PDV.Cliente.Config;
 using Serilog;
 using System;
+using System.Threading;
+using System.Diagnostics;
+using System.Linq;
 
 namespace PDV.Cliente
 {
@@ -16,11 +19,24 @@ namespace PDV.Cliente
     public partial class App : Application
     {
 
-   
+
+
+        private Mutex _instanceMutex;
+
 
         protected override void OnStartup(StartupEventArgs e)
         {
 
+
+            bool createdNew;
+            _instanceMutex = new Mutex(true, "6a85bee0-2d96-4b25-a20f-983fe20818b8", out createdNew);
+            if (!createdNew)
+            {
+                MessageBox.Show("Aplicação já está sendo executada");
+                _instanceMutex = null;
+                Application.Current.Shutdown();
+                return;
+            }
 
 
             base.OnStartup(e);
@@ -51,9 +67,16 @@ namespace PDV.Cliente
             }
 
           
-
-
         }
-    
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            if (_instanceMutex != null)
+                _instanceMutex.ReleaseMutex();
+            base.OnExit(e);
+        }
+
+
+
     }
 }
