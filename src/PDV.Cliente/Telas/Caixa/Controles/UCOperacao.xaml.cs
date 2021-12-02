@@ -33,12 +33,12 @@ namespace PDV.Cliente.Telas.Caixa.Controles
             {
                 _viewModel.IniciarVendaCommand.Execute(null);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Error("Erro ao iniciar a venda");
                 Log.Error(ex.Message);
             }
-                
+
         }
 
         private void IniciaPagamento_OnClick(object sender, RoutedEventArgs e)
@@ -48,9 +48,10 @@ namespace PDV.Cliente.Telas.Caixa.Controles
 
                 var wfPagamento = _sp.GetRequiredService<WFPagamento>();
                 wfPagamento.ShowDialog();
-               
 
-            }catch(Exception ex)
+
+            }
+            catch (Exception ex)
             {
                 Log.Error("Erro ao inicia pagamentos");
                 Log.Error(ex.Message);
@@ -65,25 +66,25 @@ namespace PDV.Cliente.Telas.Caixa.Controles
                 if (e.Key == Key.Return)
                 {
                     _viewModel.BuscarProdutoCommand.Execute(null);
-                    
-                    if(_viewModel.Produtos.Count == 1)
+
+                    if (_viewModel.Produtos.Count == 1)
                     {
                         _viewModel.Venda.AdicionarProduto(_viewModel.Produtos.FirstOrDefault(), _viewModel.Quantidade);
                         return;
                     }
 
-                        var wfBuscaProdutos = _sp.GetRequiredService<WFBuscaProdutos>();
-                        wfBuscaProdutos.ShowDialog();
+                    var wfBuscaProdutos = _sp.GetRequiredService<WFBuscaProdutos>();
+                    wfBuscaProdutos.ShowDialog();
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Error("Erro ao buscar produtos");
                 Log.Error(ex.Message);
             }
 
-         
+
         }
 
 
@@ -94,7 +95,7 @@ namespace PDV.Cliente.Telas.Caixa.Controles
                 VendaProdutoViewModel vendaProdutoVm = ((FrameworkElement)sender).DataContext as VendaProdutoViewModel;
                 _viewModel.RemoverProdutoVendaCommand.Execute(vendaProdutoVm);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Error("Erro ao remover produto da venda [datagrid]");
                 Log.Error(ex.Message);

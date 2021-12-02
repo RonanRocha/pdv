@@ -43,6 +43,6 @@
                 <Label ContentStringFormat="C" Content="{Binding Venda.ValorTroco, StringFormat=C, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  Grid.Column="1"  FontSize="16" FontWeight="Bold" Grid.Row="2" HorizontalAlignment="Center"></Label>
             </Grid>
         </Grid>
-        <Button Grid.Row="1" Width="200" Click="Button_Click" Cursor="Hand">NOVA VENDA</Button>
+        <Button HorizontalAlignment="Right" Margin="0,0,10,0" Grid.Row="1" Width="200" Click="Button_Click" Cursor="Hand">NOVA VENDA</Button>
     </Grid>
 </Window>

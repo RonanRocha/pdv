@@ -2,14 +2,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using SplashScreen = PDV.Cliente.Telas.Splash.SplashScreen;
-using PDV.Cliente.Telas.Caixa.Controles;
 using System.Threading.Tasks;
-using PDV.Cliente.Config;
 using Serilog;
 using System;
 using System.Threading;
-using System.Diagnostics;
-using System.Linq;
+
 
 namespace PDV.Cliente
 {
@@ -29,12 +26,17 @@ namespace PDV.Cliente
 
 
             bool createdNew;
+
             _instanceMutex = new Mutex(true, "6a85bee0-2d96-4b25-a20f-983fe20818b8", out createdNew);
+
             if (!createdNew)
             {
                 MessageBox.Show("Aplicação já está sendo executada");
+
                 _instanceMutex = null;
+
                 Application.Current.Shutdown();
+
                 return;
             }
 
@@ -65,18 +67,16 @@ namespace PDV.Cliente
                 Log.Error("Erro ao iniciar sistema");
                 Log.Error(ex.Message);
             }
-
-          
+       
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
             if (_instanceMutex != null)
                 _instanceMutex.ReleaseMutex();
+
             base.OnExit(e);
         }
-
-
 
     }
 }

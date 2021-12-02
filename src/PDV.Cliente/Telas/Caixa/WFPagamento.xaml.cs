@@ -125,7 +125,8 @@ namespace PDV.Cliente.Telas.Caixa
         {
             try
             {
-                VendaFormaPagamentoViewModel vendaProdutoVm = ((FrameworkElement)sender).DataContext as VendaFormaPagamentoViewModel;
+                var vendaProdutoVm = ((FrameworkElement)sender).DataContext as VendaFormaPagamentoViewModel;
+
                 _viewModel.RemovePagamentoCommand.Execute(vendaProdutoVm);
             }
             catch (Exception ex)

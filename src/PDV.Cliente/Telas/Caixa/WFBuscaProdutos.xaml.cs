@@ -55,7 +55,8 @@ namespace PDV.Cliente.Telas.Caixa
             try
             {
 
-                ProdutoViewModel produtoVm = ((FrameworkElement)sender).DataContext as ProdutoViewModel;
+                var produtoVm = ((FrameworkElement)sender).DataContext as ProdutoViewModel;
+
                 _viewModel.SelecionarProdutoCommand.Execute(produtoVm);
 
             }
@@ -103,7 +104,8 @@ namespace PDV.Cliente.Telas.Caixa
 
                 if (e.Key == Key.Return)
                 {
-                    ProdutoViewModel produtoVm = ((FrameworkElement)sender).DataContext as ProdutoViewModel;
+                    var  produtoVm = ((FrameworkElement)sender).DataContext as ProdutoViewModel;
+
                     _viewModel.SelecionarProdutoCommand.Execute(produtoVm);
                 }
 
@@ -113,11 +115,9 @@ namespace PDV.Cliente.Telas.Caixa
                 Log.Error("Erro no enter  row [produtos]");
                 Log.Error(ex.Message);
             }
-
-
-        
+      
         }
 
-
     }
+
 }

@@ -22,8 +22,7 @@ namespace PDV.Cliente.Telas.Splash
         public SplashScreen()
         {
             InitializeComponent();
-            _ioc = new IoC();
-          
+            _ioc = new IoC();   
             Loaded += WindowLoaded;
                   
         }
@@ -45,15 +44,15 @@ namespace PDV.Cliente.Telas.Splash
 
                     AtualizarInformacoes("Configurando Serviços");
 
-                    _ioc.Configurar();
-                    _provider = _ioc.Services.BuildServiceProvider();
+                         _ioc.Configurar();
+                         _provider = _ioc.Services.BuildServiceProvider();
 
                     AtualizarInformacoes("Serviços Configurados");
 
                     AtualizarInformacoes("Configurando Linguagem");
-                    Linguagem.Configurar();
-                    System.Threading.Thread.Sleep(1000);
 
+                        Linguagem.Configurar();
+                       
                     AtualizarInformacoes("Linguagem Configurada");
 
                     AtualizarInformacoes("Iniciando Sistema");
@@ -62,9 +61,13 @@ namespace PDV.Cliente.Telas.Splash
                     {
 
                         var main = _provider.GetRequiredService<WFVenda>();
+
                         var op = _provider.GetRequiredService<UCOperacao>();
+
                         main.CaixaConteudo.Children.Add(op);
+
                         main.Show();
+
                         this.Close();
                     });
 
@@ -86,7 +89,7 @@ namespace PDV.Cliente.Telas.Splash
                 Info.Content = text;
             });
 
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(300);
         }
     }
 }
