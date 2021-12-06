@@ -15,13 +15,13 @@ namespace PDV.Cliente.Telas.Caixa.Controles
     public partial class UCOperacao : UserControl
     {
 
-        private IServiceProvider _sp;
+        private IServiceProvider _serviceProvider;
 
-        public UCOperacao(OperacaoVendaViewModel viewModel, IServiceProvider sp)
+        public UCOperacao(OperacaoVendaViewModel viewModel, IServiceProvider serviceProvider)
         {
             InitializeComponent();
-            _sp = sp;
-            DataContext = _sp.GetRequiredService<OperacaoVendaViewModel>();
+            DataContext = viewModel;
+            _serviceProvider = serviceProvider;
         }
 
 
@@ -45,7 +45,7 @@ namespace PDV.Cliente.Telas.Caixa.Controles
             try
             {
                 var viewModel = (OperacaoVendaViewModel)DataContext;
-                var wfPagamento = _sp.GetRequiredService<WFPagamento>();
+                var wfPagamento = _serviceProvider.GetRequiredService<WFPagamento>();
                 wfPagamento.BindContext(viewModel);
                 wfPagamento.ShowDialog();
 
@@ -75,7 +75,7 @@ namespace PDV.Cliente.Telas.Caixa.Controles
                         return;
                     }
 
-                    var wfBuscaProdutos = _sp.GetRequiredService<WFBuscaProdutos>();
+                    var wfBuscaProdutos = _serviceProvider.GetRequiredService<WFBuscaProdutos>();
                     wfBuscaProdutos.BindContext(viewModel);
                     wfBuscaProdutos.ShowDialog();
                 }

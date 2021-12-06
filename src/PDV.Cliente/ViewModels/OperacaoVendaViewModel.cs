@@ -376,6 +376,7 @@ namespace PDV.Cliente.ViewModels
 
         private void LimparPagamentos()
         {
+             Venda.Descricao = String.Empty;
              Pagamento = null;
              ValorPagamento = 0M;
              ParcelaPagamento.Valor = 1;
