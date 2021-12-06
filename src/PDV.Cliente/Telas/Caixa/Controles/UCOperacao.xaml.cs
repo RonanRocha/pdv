@@ -15,15 +15,13 @@ namespace PDV.Cliente.Telas.Caixa.Controles
     public partial class UCOperacao : UserControl
     {
 
-        private OperacaoVendaViewModel _viewModel;
         private IServiceProvider _sp;
 
         public UCOperacao(OperacaoVendaViewModel viewModel, IServiceProvider sp)
         {
             InitializeComponent();
-            _viewModel = viewModel;
             _sp = sp;
-            DataContext = viewModel;
+            DataContext = _sp.GetRequiredService<OperacaoVendaViewModel>();
         }
 
 
@@ -31,7 +29,8 @@ namespace PDV.Cliente.Telas.Caixa.Controles
         {
             try
             {
-                _viewModel.IniciarVendaCommand.Execute(null);
+                var viewModel = (OperacaoVendaViewModel)DataContext;
+                viewModel.IniciarVendaCommand.Execute(null);
             }
             catch (Exception ex)
             {
@@ -45,8 +44,9 @@ namespace PDV.Cliente.Telas.Caixa.Controles
         {
             try
             {
-
+                var viewModel = (OperacaoVendaViewModel)DataContext;
                 var wfPagamento = _sp.GetRequiredService<WFPagamento>();
+                wfPagamento.BindContext(viewModel);
                 wfPagamento.ShowDialog();
 
 
@@ -63,17 +63,20 @@ namespace PDV.Cliente.Telas.Caixa.Controles
 
             try
             {
+                var viewModel = (OperacaoVendaViewModel)DataContext;
+
                 if (e.Key == Key.Return)
                 {
-                    _viewModel.BuscarProdutoCommand.Execute(null);
+                    viewModel.BuscarProdutoCommand.Execute(null);
 
-                    if (_viewModel.Produtos.Count == 1)
+                    if (viewModel.Produtos.Count == 1)
                     {
-                        _viewModel.Venda.AdicionarProduto(_viewModel.Produtos.FirstOrDefault(), _viewModel.Quantidade);
+                        viewModel.Venda.AdicionarProduto(viewModel.Produtos.FirstOrDefault(), viewModel.Quantidade);
                         return;
                     }
 
                     var wfBuscaProdutos = _sp.GetRequiredService<WFBuscaProdutos>();
+                    wfBuscaProdutos.BindContext(viewModel);
                     wfBuscaProdutos.ShowDialog();
                 }
 
@@ -92,8 +95,11 @@ namespace PDV.Cliente.Telas.Caixa.Controles
         {
             try
             {
+                var viewModel = (OperacaoVendaViewModel)DataContext;
+
                 VendaProdutoViewModel vendaProdutoVm = ((FrameworkElement)sender).DataContext as VendaProdutoViewModel;
-                _viewModel.RemoverProdutoVendaCommand.Execute(vendaProdutoVm);
+
+                viewModel.RemoverProdutoVendaCommand.Execute(vendaProdutoVm);
             }
             catch (Exception ex)
             {

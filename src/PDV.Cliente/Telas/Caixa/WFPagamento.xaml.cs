@@ -16,7 +16,6 @@ namespace PDV.Cliente.Telas.Caixa
     public partial class WFPagamento : Window
     {
 
-        private OperacaoVendaViewModel _viewModel;
         private readonly IValidator<Venda> _validator;
         private readonly IMapper _mapper;
         private readonly IServiceProvider _sp;
@@ -25,9 +24,7 @@ namespace PDV.Cliente.Telas.Caixa
         {
 
             InitializeComponent();
-            viewModel.FecharJanelaPagamentoAction = new Action(this.Close);
-            DataContext = viewModel;
-            _viewModel = viewModel;
+            BindContext(viewModel);
             this._validator = validator;
             this._sp = sp;
             this._mapper = mapper;
@@ -38,6 +35,13 @@ namespace PDV.Cliente.Telas.Caixa
             winActions.ButtonMaximize.Click += WindowMaximize;
             winActions.ButtonClose.Click += WindowClose;
                        
+        }
+
+
+        public void BindContext(OperacaoVendaViewModel context)
+        {
+            context.FecharJanelaPagamentoAction = new Action(this.Close);
+            DataContext = context;
         }
 
         private void WindowMinimize(object sender, RoutedEventArgs e)
@@ -66,7 +70,9 @@ namespace PDV.Cliente.Telas.Caixa
         {
             try
             {
-                _viewModel.AbrirJanelaPagamentoCommand.Execute(null);
+                var viewModel = (OperacaoVendaViewModel)DataContext;
+
+                viewModel.AbrirJanelaPagamentoCommand.Execute(null);
 
             }
             catch(Exception ex)
@@ -82,7 +88,8 @@ namespace PDV.Cliente.Telas.Caixa
 
             try
             {
-                _viewModel.FecharJanelaPagamentoCommand.Execute(null);
+                var viewModel = (OperacaoVendaViewModel)DataContext;
+                viewModel.FecharJanelaPagamentoCommand.Execute(null);
 
             }
             catch (Exception ex)
@@ -96,7 +103,8 @@ namespace PDV.Cliente.Telas.Caixa
         {
             try
             {
-                _viewModel.TrocarFormaPagamentoCommand.Execute(null);
+                var viewModel = (OperacaoVendaViewModel)DataContext;
+                viewModel.TrocarFormaPagamentoCommand.Execute(null);
 
             }catch(Exception ex)
             {
@@ -110,7 +118,8 @@ namespace PDV.Cliente.Telas.Caixa
         {
             try
             {
-                _viewModel.AdicionarPagamentoCommand.Execute(null);
+                var viewModel = (OperacaoVendaViewModel)DataContext;
+                viewModel.AdicionarPagamentoCommand.Execute(null);
 
             }
             catch (Exception ex)
@@ -125,9 +134,12 @@ namespace PDV.Cliente.Telas.Caixa
         {
             try
             {
+
+                var viewModel = (OperacaoVendaViewModel)DataContext;
+
                 var vendaProdutoVm = ((FrameworkElement)sender).DataContext as VendaFormaPagamentoViewModel;
 
-                _viewModel.RemovePagamentoCommand.Execute(vendaProdutoVm);
+                viewModel.RemovePagamentoCommand.Execute(vendaProdutoVm);
             }
             catch (Exception ex)
             {
@@ -141,13 +153,15 @@ namespace PDV.Cliente.Telas.Caixa
         {
             try
             {
-                var venda = _mapper.Map<Venda>(_viewModel.Venda);
+                var viewModel = (OperacaoVendaViewModel)DataContext;
+
+                var venda = _mapper.Map<Venda>(viewModel.Venda);
 
                 var validationResult = this._validator.Validate(venda);
 
                 if (!validationResult.IsValid) throw new Exception("Erro de validação de venda");
 
-               _viewModel.FecharVendaCommand.Execute(venda);
+               viewModel.FecharVendaCommand.Execute(venda);
 
                 var wfVendaConcluida = _sp.GetRequiredService<WFVendaConcluida>();
 

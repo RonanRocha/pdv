@@ -1,4 +1,5 @@
-﻿using PDV.Cliente.ViewModels;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PDV.Cliente.ViewModels;
 using Serilog;
 using System;
 using System.Windows;
@@ -12,18 +13,24 @@ namespace PDV.Cliente.Telas.Caixa
     public partial class WFBuscaProdutos : Window
     {
 
-       private OperacaoVendaViewModel _viewModel;
-
+      
         public WFBuscaProdutos(OperacaoVendaViewModel viewModel)
         {
             InitializeComponent();
-            viewModel.FecharJanelaProdutosAction = new Action(this.Close);
-            DataContext = viewModel;
-            _viewModel = viewModel;
+
+            BindContext(viewModel);
+            
             winActions.ButtonMaximize.Visibility = Visibility.Collapsed;
             winActions.ButtonMaximize.Click += WindowMaximize;
             winActions.ButtonMinimize.Click += WindowMinimize;
             winActions.ButtonClose.Click += WindowClose;
+        }
+
+
+        public void BindContext(OperacaoVendaViewModel context)
+        {
+            context.FecharJanelaProdutosAction = new Action(this.Close);
+            DataContext = context;
         }
 
         private void WindowMinimize(object sender, RoutedEventArgs e)
@@ -54,10 +61,11 @@ namespace PDV.Cliente.Telas.Caixa
 
             try
             {
+                var viewModel = (OperacaoVendaViewModel)DataContext;
 
                 var produtoVm = ((FrameworkElement)sender).DataContext as ProdutoViewModel;
 
-                _viewModel.SelecionarProdutoCommand.Execute(produtoVm);
+                viewModel.SelecionarProdutoCommand.Execute(produtoVm);
 
             }
             catch(Exception ex)
@@ -86,7 +94,9 @@ namespace PDV.Cliente.Telas.Caixa
         {
             try
             {
-                _viewModel.ConsultarProdutosCommand.Execute(null);
+                var viewModel = (OperacaoVendaViewModel)DataContext;
+
+                viewModel.ConsultarProdutosCommand.Execute(null);
 
             }
             catch (Exception ex)
@@ -101,12 +111,13 @@ namespace PDV.Cliente.Telas.Caixa
 
             try
             {
+                var viewModel = (OperacaoVendaViewModel)DataContext;
 
                 if (e.Key == Key.Return)
                 {
                     var  produtoVm = ((FrameworkElement)sender).DataContext as ProdutoViewModel;
 
-                    _viewModel.SelecionarProdutoCommand.Execute(produtoVm);
+                    viewModel.SelecionarProdutoCommand.Execute(produtoVm);
                 }
 
             }
