@@ -96,6 +96,8 @@ namespace PDV.Cliente.Telas.Caixa
                 Log.Error(ex.Message);
             }
 
+            bw.RunWorkerAsync();
+
         }
 
         private void Window_Onclose(object sender, EventArgs e)
