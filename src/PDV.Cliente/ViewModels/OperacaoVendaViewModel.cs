@@ -44,7 +44,6 @@ namespace PDV.Cliente.ViewModels
  
         public Action FecharJanelaPagamentoAction { get; set; }
         public Action FecharJanelaProdutosAction { get; set; }
-
         public Action FecharJanelaConclusaoVenda { get; set; }
 
         #endregion
@@ -271,6 +270,7 @@ namespace PDV.Cliente.ViewModels
         private void SelecionarProduto(ProdutoViewModel produto)
         {
             AdicionarProduto(produto);
+            Busca = String.Empty;
             FecharJanelaProdutosAction.Invoke();
         }
 

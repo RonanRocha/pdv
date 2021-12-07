@@ -5,6 +5,7 @@ using PDV.Cliente.ViewModels;
 using PDV.Dominio.Entidades;
 using Serilog;
 using System;
+using System.ComponentModel;
 using System.Windows;
 
 
@@ -41,6 +42,7 @@ namespace PDV.Cliente.Telas.Caixa
         public void DefinirContexto(OperacaoVendaViewModel context)
         {
             context.FecharJanelaPagamentoAction = new Action(this.Close);
+
             DataContext = context;
         }
 
@@ -60,6 +62,7 @@ namespace PDV.Cliente.Telas.Caixa
             if (this.WindowState == WindowState.Maximized)
             {
                 this.WindowState = WindowState.Normal;
+
                 return;
             }
 
@@ -68,11 +71,23 @@ namespace PDV.Cliente.Telas.Caixa
 
         private void  Window_Onload(object sender, RoutedEventArgs e)
         {
+
+
+            var bw = new BackgroundWorker();
+
             try
             {
-                var viewModel = (OperacaoVendaViewModel)DataContext;
 
-                viewModel.AbrirJanelaPagamentoCommand.Execute(null);
+                bw.DoWork += (sender, args) =>
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        var viewModel = (OperacaoVendaViewModel)DataContext;
+
+                        viewModel.AbrirJanelaPagamentoCommand.Execute(null);
+
+                    });
+                };
 
             }
             catch(Exception ex)
@@ -80,7 +95,7 @@ namespace PDV.Cliente.Telas.Caixa
                 Log.Error("Erro ao carregar tela de pagamentos");
                 Log.Error(ex.Message);
             }
-           
+
         }
 
         private void Window_Onclose(object sender, EventArgs e)
@@ -89,6 +104,7 @@ namespace PDV.Cliente.Telas.Caixa
             try
             {
                 var viewModel = (OperacaoVendaViewModel)DataContext;
+
                 viewModel.FecharJanelaPagamentoCommand.Execute(null);
 
             }
@@ -104,6 +120,7 @@ namespace PDV.Cliente.Telas.Caixa
             try
             {
                 var viewModel = (OperacaoVendaViewModel)DataContext;
+
                 viewModel.TrocarFormaPagamentoCommand.Execute(null);
 
             }catch(Exception ex)
@@ -119,6 +136,7 @@ namespace PDV.Cliente.Telas.Caixa
             try
             {
                 var viewModel = (OperacaoVendaViewModel)DataContext;
+
                 viewModel.AdicionarPagamentoCommand.Execute(null);
 
             }
@@ -148,30 +166,62 @@ namespace PDV.Cliente.Telas.Caixa
             }
         }
 
+        private void CancelarOperacao_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
 
         public void FecharVenda_OnClick(object sender, RoutedEventArgs e)
         {
-            try
+
+
+            var bw = new BackgroundWorker();
+
+            LoadingPagamentos.Visibility = Visibility.Visible;
+
+            bw.DoWork += (sender, args) =>
             {
-                var viewModel = (OperacaoVendaViewModel)DataContext;
 
-                var venda = _mapper.Map<Venda>(viewModel.Venda);
 
-                var validationResult = this._validator.Validate(venda);
+                try
+                {
 
-                if (!validationResult.IsValid) throw new Exception("Erro de validação de venda");
+                    Dispatcher.Invoke(() =>
+                    {
+                        var viewModel = (OperacaoVendaViewModel)DataContext;
 
-               viewModel.FecharVendaCommand.Execute(venda);
+                        var venda = _mapper.Map<Venda>(viewModel.Venda);
 
-                var wfVendaConcluida = _sp.GetRequiredService<WFVendaConcluida>();
+                        var validationResult = this._validator.Validate(venda);
 
-                wfVendaConcluida.ShowDialog();
-            }
-            catch (Exception ex)
+                        if (!validationResult.IsValid) throw new Exception("Erro de validação de venda");
+
+                        viewModel.FecharVendaCommand.Execute(venda);
+
+                        var wfVendaConcluida = _sp.GetRequiredService<WFVendaConcluida>();
+
+                        wfVendaConcluida.ShowDialog();
+
+                    });
+
+                }
+                catch(Exception ex)
+                {
+                    Log.Error("Erro ao fechar venda");
+                    Log.Error(ex.Message);
+                }
+
+            };
+
+            bw.RunWorkerCompleted += (sender, args) =>
             {
-                Log.Error("Erro ao fechar venda");
-                Log.Error(ex.Message);
-            }
+
+                LoadingPagamentos.Visibility = Visibility.Collapsed;
+            };
+
+            bw.RunWorkerAsync();
+
         }
 
 

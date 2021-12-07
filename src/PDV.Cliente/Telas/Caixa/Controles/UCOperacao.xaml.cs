@@ -2,6 +2,7 @@
 using PDV.Cliente.ViewModels;
 using Serilog;
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,7 +31,9 @@ namespace PDV.Cliente.Telas.Caixa.Controles
             try
             {
                 var viewModel = (OperacaoVendaViewModel)DataContext;
+
                 viewModel.IniciarVendaCommand.Execute(null);
+
             }
             catch (Exception ex)
             {
@@ -42,52 +45,118 @@ namespace PDV.Cliente.Telas.Caixa.Controles
 
         private void IniciaPagamento_OnClick(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var viewModel = (OperacaoVendaViewModel)DataContext;
-                var wfPagamento = _serviceProvider.GetRequiredService<WFPagamento>();
-                wfPagamento.DefinirContexto(viewModel);
-                wfPagamento.ShowDialog();
 
+            var bw = new BackgroundWorker();
 
-            }
-            catch (Exception ex)
+            bw.DoWork += (sender, args) =>
             {
-                Log.Error("Erro ao inicia pagamentos");
-                Log.Error(ex.Message);
-            }
+
+                try
+                {
+
+                    Dispatcher.Invoke(() =>
+                    {
+
+                        LoadingProgress.Visibility = Visibility.Visible;
+
+                        var viewModel = (OperacaoVendaViewModel)DataContext;
+
+                        var wfPagamento = _serviceProvider.GetRequiredService<WFPagamento>();
+
+                        wfPagamento.DefinirContexto(viewModel);
+
+                        wfPagamento.ShowDialog();
+                    });
+
+                }catch(Exception ex)
+                {
+
+                    Log.Error("Erro ao inicia pagamentos");
+                    Log.Error(ex.Message);
+                }
+
+            };
+
+            bw.RunWorkerCompleted += (sender, args) =>
+            {
+                LoadingProgress.Visibility = Visibility.Collapsed;
+            };
+
+            bw.RunWorkerAsync();
+        
         }
 
         private void TxtBusca_OnKeyDown(object sender, KeyEventArgs e)
         {
 
-            try
+            if (e.Key == Key.Return)
             {
-                var viewModel = (OperacaoVendaViewModel)DataContext;
+                BuscarProduto();
+            }
 
-                if (e.Key == Key.Return)
+        }
+
+
+        private void BuscarProduto()
+        {
+
+            var bw = new BackgroundWorker();
+
+            bw.DoWork += (sender, args) =>
+            {
+
+                try
                 {
-                    viewModel.BuscarProdutoCommand.Execute(null);
 
-                    if (viewModel.Produtos.Count == 1)
+
+                    Dispatcher.Invoke(() =>
                     {
-                        viewModel.Venda.AdicionarProduto(viewModel.Produtos.FirstOrDefault(), viewModel.Quantidade);
-                        return;
-                    }
 
-                    var wfBuscaProdutos = _serviceProvider.GetRequiredService<WFBuscaProdutos>();
-                    wfBuscaProdutos.DefinirContexto(viewModel);
-                    wfBuscaProdutos.ShowDialog();
+                        LoadingProgress.Visibility = Visibility.Visible;
+
+                        var viewModel = (OperacaoVendaViewModel)DataContext;
+
+                        viewModel.BuscarProdutoCommand.Execute(null);
+
+
+                        if (viewModel.Produtos.Count == 1)
+                        {
+                            viewModel.Venda.AdicionarProduto(viewModel.Produtos.FirstOrDefault(), viewModel.Quantidade);
+
+                            return;
+                        }
+
+                        var wfBuscaProdutos = _serviceProvider.GetRequiredService<WFBuscaProdutos>();
+
+                        wfBuscaProdutos.DefinirContexto(viewModel);
+
+                        wfBuscaProdutos.ShowDialog();
+
+                    });
+
+                }
+                catch (Exception ex)
+                {
+                  
+                    Log.Error("Erro ao buscar produtos");
+                    Log.Error(ex.Message);
                 }
 
-            }
-            catch (Exception ex)
+            };
+
+            bw.RunWorkerCompleted += (sender, args) =>
             {
-                Log.Error("Erro ao buscar produtos");
-                Log.Error(ex.Message);
-            }
+                Dispatcher.Invoke(() =>
+                {
+                    LoadingProgress.Visibility = Visibility.Collapsed;
+                });
+            };
+
+            bw.RunWorkerAsync();
 
 
+
+          
         }
 
 

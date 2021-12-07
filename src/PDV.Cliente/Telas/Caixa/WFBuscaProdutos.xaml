@@ -21,6 +21,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="10" ></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="8*"></RowDefinition>
         </Grid.RowDefinitions>
@@ -45,15 +46,16 @@
 
         </materialDesign:ColorZone>
 
+        <ProgressBar x:Name="LoadingBuscaProduto" Visibility="Collapsed" Grid.Row="1" IsIndeterminate="True" />
 
-        <WrapPanel Grid.Row="1" Margin="5" VerticalAlignment="Center">
+        <WrapPanel Grid.Row="2" Margin="5" VerticalAlignment="Center">
             <TextBox Text="{Binding Quantidade, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Padding="10" materialDesign:HintAssist.Hint="Quantidade" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" MinWidth="130" Margin="0,0,5,0" Cursor="IBeam"></TextBox>
             <TextBox KeyDown="TxtPesquisar_OnKeyDown" Text="{Binding Busca,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Padding="10" Width="500" materialDesign:HintAssist.Hint="Busca por nome ou código do produto"  materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="0,0,5,0" Cursor="IBeam" >
           
             </TextBox>
             <Button Click="Pesquisar_OnClick"  Cursor="Hand"> Pesquisar</Button>
         </WrapPanel>
-        <DataGrid Margin="10" Grid.Row="2"
+        <DataGrid Margin="10" Grid.Row="3"
                       x:Name="GridProdutos" 
                     IsSynchronizedWithCurrentItem="True"
                       AutoGenerateColumns="False"   
