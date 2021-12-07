@@ -21,7 +21,12 @@ namespace PDV.Cliente.Telas.Caixa
         private readonly IMapper _mapper;
         private readonly IServiceProvider _sp;
 
-        public WFPagamento(OperacaoVendaViewModel viewModel, IValidator<Venda> validator, IMapper mapper, IServiceProvider sp)
+        public WFPagamento(
+            OperacaoVendaViewModel viewModel,
+            IValidator<Venda> validator,
+            IMapper mapper,
+            IServiceProvider sp
+        )
         {
 
             InitializeComponent();
@@ -51,7 +56,7 @@ namespace PDV.Cliente.Telas.Caixa
             this.WindowState = WindowState.Minimized;
         }
 
-        public void WindowClose(object sender, RoutedEventArgs e)
+        private void WindowClose(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
@@ -132,7 +137,6 @@ namespace PDV.Cliente.Telas.Caixa
             }
         }
 
-
         private void AdicionarFormaPagamento_OnClick(object sender, RoutedEventArgs e)
         {
             try
@@ -148,7 +152,6 @@ namespace PDV.Cliente.Telas.Caixa
                 Log.Error(ex.Message);
             }
         }
-
 
         private void DataRowGrid_OnClick(object sender, RoutedEventArgs e)
         {
@@ -173,8 +176,7 @@ namespace PDV.Cliente.Telas.Caixa
             this.Close();
         }
 
-
-        public void FecharVenda_OnClick(object sender, RoutedEventArgs e)
+        private void FecharVenda_OnClick(object sender, RoutedEventArgs e)
         {
 
 
