@@ -46,7 +46,7 @@ namespace PDV.Cliente.Telas.Caixa.Controles
             {
                 var viewModel = (OperacaoVendaViewModel)DataContext;
                 var wfPagamento = _serviceProvider.GetRequiredService<WFPagamento>();
-                wfPagamento.BindContext(viewModel);
+                wfPagamento.DefinirContexto(viewModel);
                 wfPagamento.ShowDialog();
 
 
@@ -76,7 +76,7 @@ namespace PDV.Cliente.Telas.Caixa.Controles
                     }
 
                     var wfBuscaProdutos = _serviceProvider.GetRequiredService<WFBuscaProdutos>();
-                    wfBuscaProdutos.BindContext(viewModel);
+                    wfBuscaProdutos.DefinirContexto(viewModel);
                     wfBuscaProdutos.ShowDialog();
                 }
 

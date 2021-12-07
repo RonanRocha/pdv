@@ -24,7 +24,7 @@ namespace PDV.Cliente.Telas.Caixa
         {
 
             InitializeComponent();
-            BindContext(viewModel);
+            DefinirContexto(viewModel);
             this._validator = validator;
             this._sp = sp;
             this._mapper = mapper;
@@ -38,7 +38,7 @@ namespace PDV.Cliente.Telas.Caixa
         }
 
 
-        public void BindContext(OperacaoVendaViewModel context)
+        public void DefinirContexto(OperacaoVendaViewModel context)
         {
             context.FecharJanelaPagamentoAction = new Action(this.Close);
             DataContext = context;

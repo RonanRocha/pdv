@@ -395,16 +395,9 @@ namespace PDV.Cliente.ViewModels
 
             var scopo = _serviceProvider.CreateScope();
             var novaOperacao = scopo.ServiceProvider.GetRequiredService<OperacaoVendaViewModel>();
-
-           var ucOperacao = _serviceProvider.GetRequiredService<UCOperacao>();
-           var wfProdutos = _serviceProvider.GetRequiredService<WFBuscaProdutos>();
-           var wfPagamentos = _serviceProvider.GetRequiredService<WFPagamento>();
-
-
+            var ucOperacao = _serviceProvider.GetRequiredService<UCOperacao>();
             ucOperacao.DataContext = novaOperacao;
-            wfPagamentos.DataContext = novaOperacao;
-            wfProdutos.DataContext = wfProdutos;
-            
+        
                 
         }
 

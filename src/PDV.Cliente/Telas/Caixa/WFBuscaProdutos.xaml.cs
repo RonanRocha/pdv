@@ -18,7 +18,7 @@ namespace PDV.Cliente.Telas.Caixa
         {
             InitializeComponent();
 
-            BindContext(viewModel);
+            DefinirContexto(viewModel);
             
             winActions.ButtonMaximize.Visibility = Visibility.Collapsed;
             winActions.ButtonMaximize.Click += WindowMaximize;
@@ -27,7 +27,7 @@ namespace PDV.Cliente.Telas.Caixa
         }
 
 
-        public void BindContext(OperacaoVendaViewModel context)
+        public void DefinirContexto(OperacaoVendaViewModel context)
         {
             context.FecharJanelaProdutosAction = new Action(this.Close);
             DataContext = context;
