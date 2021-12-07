@@ -2,6 +2,7 @@
 using PDV.Cliente.ViewModels;
 using Serilog;
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 
@@ -13,13 +14,13 @@ namespace PDV.Cliente.Telas.Caixa
     public partial class WFBuscaProdutos : Window
     {
 
-      
+
         public WFBuscaProdutos(OperacaoVendaViewModel viewModel)
         {
             InitializeComponent();
 
             DefinirContexto(viewModel);
-            
+
             winActions.ButtonMaximize.Visibility = Visibility.Collapsed;
             winActions.ButtonMaximize.Click += WindowMaximize;
             winActions.ButtonMinimize.Click += WindowMinimize;
@@ -30,6 +31,7 @@ namespace PDV.Cliente.Telas.Caixa
         public void DefinirContexto(OperacaoVendaViewModel context)
         {
             context.FecharJanelaProdutosAction = new Action(this.Close);
+
             DataContext = context;
         }
 
@@ -49,6 +51,7 @@ namespace PDV.Cliente.Telas.Caixa
             if (this.WindowState == WindowState.Maximized)
             {
                 this.WindowState = WindowState.Normal;
+
                 return;
             }
 
@@ -68,12 +71,12 @@ namespace PDV.Cliente.Telas.Caixa
                 viewModel.SelecionarProdutoCommand.Execute(produtoVm);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Error("Erro no double click row [produtos]");
                 Log.Error(ex.Message);
             }
- 
+
         }
 
         private void TxtPesquisar_OnKeyDown(object sender, KeyEventArgs e)
@@ -92,18 +95,51 @@ namespace PDV.Cliente.Telas.Caixa
 
         private void Pesquisar()
         {
-            try
-            {
-                var viewModel = (OperacaoVendaViewModel)DataContext;
 
-                viewModel.ConsultarProdutosCommand.Execute(null);
 
-            }
-            catch (Exception ex)
+
+            var bw = new BackgroundWorker();
+
+            LoadingBuscaProduto.Visibility = Visibility.Visible;
+
+            bw.DoWork += (sender, args) =>
             {
-                Log.Error("Erro no botão de pesquisar");
-                Log.Error(ex.Message);
-            }
+                try
+                {
+
+
+                    Dispatcher.Invoke(() =>
+                    {
+
+
+                        var viewModel = (OperacaoVendaViewModel)DataContext;
+
+                        viewModel.ConsultarProdutosCommand.Execute(null);
+
+
+                    });
+
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("Erro no botão de pesquisar");
+                    Log.Error(ex.Message);
+                }
+
+
+            };
+
+            bw.RunWorkerCompleted += (sender, args) =>
+            {
+
+                LoadingBuscaProduto.Visibility = Visibility.Collapsed;
+
+            };
+
+
+            bw.RunWorkerAsync();
+
+
         }
 
         private void DatagridRow_KeyDown(object sender, KeyEventArgs e)
@@ -115,7 +151,7 @@ namespace PDV.Cliente.Telas.Caixa
 
                 if (e.Key == Key.Return)
                 {
-                    var  produtoVm = ((FrameworkElement)sender).DataContext as ProdutoViewModel;
+                    var produtoVm = ((FrameworkElement)sender).DataContext as ProdutoViewModel;
 
                     viewModel.SelecionarProdutoCommand.Execute(produtoVm);
                 }
@@ -126,7 +162,7 @@ namespace PDV.Cliente.Telas.Caixa
                 Log.Error("Erro no enter  row [produtos]");
                 Log.Error(ex.Message);
             }
-      
+
         }
 
     }

@@ -21,6 +21,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
             <RowDefinition Height="100"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="5*"></RowDefinition>
@@ -50,9 +51,9 @@
         </materialDesign:ColorZone>
 
 
+        <ProgressBar x:Name="LoadingPagamentos" Visibility="Collapsed" Grid.Row="1" IsIndeterminate="True" />
 
-
-        <StackPanel Grid.Row="1" Margin="10" VerticalAlignment="Center">
+        <StackPanel Grid.Row="2" Margin="10" VerticalAlignment="Center">
             <TextBox materialDesign:HintAssist.Hint="Descrição"   
                      Height="70"
                      Padding="10"
@@ -61,7 +62,7 @@
                      Text="{Binding Venda.Descricao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                      materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" MinWidth="200"  Cursor="IBeam"></TextBox>
         </StackPanel>
-        <WrapPanel Grid.Row="2" Margin="10" VerticalAlignment="Center"  >
+        <WrapPanel Grid.Row="3" Margin="10" VerticalAlignment="Center"  >
             <ComboBox   x:Name="CmbFormasPagamento"
                         Style="{StaticResource MaterialDesignOutlinedComboBox}"
                         
@@ -89,7 +90,7 @@
             <TextBox Text="{Binding ValorPagamento, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=C}" materialDesign:HintAssist.Hint="Valor" Padding="10" materialDesign:TextFieldAssist.HasClearButton="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" MinWidth="100"  Margin="5,0,0,0" Cursor="IBeam" ></TextBox>
             <Button  Margin="5,0,0,0" Cursor="Hand" Click="AdicionarFormaPagamento_OnClick">Adicionar</Button>
         </WrapPanel>
-        <GroupBox Grid.Row="3" Margin="10" Header="Pagamentos">
+        <GroupBox Grid.Row="4" Margin="10" Header="Pagamentos">
             <DataGrid 
                       x:Name="GridPagamentos" 
                       AutoGenerateColumns="False"   
@@ -116,7 +117,7 @@
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
-        <Grid Grid.Row="4" Margin="10">
+        <Grid Grid.Row="5" Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="6*"></ColumnDefinition>
                 <ColumnDefinition Width="4*"></ColumnDefinition>
@@ -150,7 +151,7 @@
                 </StackPanel>
             </WrapPanel>
             <WrapPanel Grid.Column="1"   VerticalAlignment="Center" HorizontalAlignment="Right" >
-                <Button Margin="0,0,5, 0">CANCELAR</Button>
+                <Button Margin="0,0,5, 0" Click="CancelarOperacao_OnClick">CANCELAR</Button>
                 <Button Click="FecharVenda_OnClick" Cursor="Hand">FECHAR VENDA</Button>
             </WrapPanel>
         </Grid>
