@@ -16,44 +16,66 @@
         WindowState="Maximized"
         WindowStyle="None"
         Title="Venda" Height="768" Width="1360">
-    <Grid>
+    <materialDesign:DrawerHost
+        x:Name="DrawerHost"
+        IsLeftDrawerOpen="{Binding ElementName=MenuToggle, Path=IsChecked}"
+        BorderBrush="{DynamicResource MaterialDesignDivider}"
+        BottomDrawerBackground="{DynamicResource SecondaryHueLightBrush}">
+        <materialDesign:DrawerHost.Style>
+            <Style
+              TargetType="materialDesign:DrawerHost"
+              BasedOn="{StaticResource {x:Type materialDesign:DrawerHost}}">
+                <Style.Triggers>
+                    <DataTrigger
+                      Binding="{Binding IsChecked, ElementName=BackgroundToggle}"
+                      Value="True">
+                        <Setter
+                            Property="OverlayBackground"
+                            Value="{DynamicResource PrimaryHueMidBrush}" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </materialDesign:DrawerHost.Style>
+        <materialDesign:DrawerHost.LeftDrawerContent>
+            <StackPanel Margin="16" Width="250">
+                <ToggleButton 
+                        Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
+                        DockPanel.Dock="Top"
+                        HorizontalAlignment="Right" 
+                        Margin="16"
+                        IsChecked="{Binding ElementName=MenuToggle, Path=IsChecked, Mode=TwoWay}"/>
+                <ListView>
+                    <ListViewItem Content="CONFIGURAÇÕES" />
+                    <ListViewItem Content="VENDAS" />
+                </ListView>
+            </StackPanel>
+        </materialDesign:DrawerHost.LeftDrawerContent>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <materialDesign:ColorZone Grid.Row="0"   Mode="PrimaryMid" Padding="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"></RowDefinition>
-            <RowDefinition Height="6*"></RowDefinition>
-        </Grid.RowDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <ToggleButton x:Name="MenuToggle" Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />
+                        <TextBlock VerticalAlignment="Center" Margin="16 0 0 0" Text="TOUTI UNIDADE SP" />
+                    </StackPanel>
 
-
-        <materialDesign:ColorZone  Grid.Row="0" Mode="PrimaryMid" Padding="5">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"></ColumnDefinition>
-                    <ColumnDefinition Width="3*"></ColumnDefinition>
-                    <ColumnDefinition Width="3*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Grid.Column="0" Orientation="Horizontal">
-                    <ToggleButton Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />
-                    <TextBlock VerticalAlignment="Center" Margin="16 0 0 0" Text="TOUTI UNIDADE SP" />
-                </StackPanel>
-
-                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,5,0" >
-                    <controles:UCWindowActions x:Name="winActions"></controles:UCWindowActions>
-                </StackPanel>
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,5,0" >
+                        <controles:UCWindowActions x:Name="winActions"></controles:UCWindowActions>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:ColorZone>
+            <Grid Grid.Row="1" x:Name="CaixaConteudo">
+                <controles:UCCaixaFechado></controles:UCCaixaFechado>
             </Grid>
-                
-        </materialDesign:ColorZone>
-
-        <Grid Grid.Row="1" x:Name="CaixaConteudo">
-
-            <!--<controles:UCCaixaFechado></controles:UCCaixaFechado>-->
-
-           
-
         </Grid>
-        
-        
-        
-
-    </Grid>
+    </materialDesign:DrawerHost>
 </Window>
