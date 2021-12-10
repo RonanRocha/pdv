@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PDV.Dal.Interfaces
 {
-    public interface IVendaProdutoRepositorio
+    public interface IVendaProdutoRepositorio : IDisposable
     {
         void Salvar(VendaProduto vendaProduto);
     }

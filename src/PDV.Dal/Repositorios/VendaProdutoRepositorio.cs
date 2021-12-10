@@ -2,6 +2,7 @@
 using PDV.Dal.Contexto;
 using PDV.Dal.Interfaces;
 using PDV.Dominio.Entidades;
+using System;
 
 namespace PDV.Dal.Repositorios
 {
@@ -9,6 +10,7 @@ namespace PDV.Dal.Repositorios
     {
 
         private readonly AppDataContext _contexto;
+        private bool _disposed = false;
 
         public VendaProdutoRepositorio(AppDataContext contexto)
         {
@@ -18,6 +20,18 @@ namespace PDV.Dal.Repositorios
         public void Salvar(VendaProduto vendaProduto)
         {
             _contexto.Entry(vendaProduto).State = EntityState.Added;
+        }
+
+        ~VendaProdutoRepositorio() => Dispose();
+
+        public void Dispose()
+        {
+            if (!_disposed)
+            {
+                _contexto.Dispose();
+                GC.SuppressFinalize(this);
+            }
+
         }
     }
 }

@@ -19,8 +19,6 @@ namespace PDV.Dal.Repositorios
             _contexto = contexto;
         }
 
-  
-
         public void Salvar(Venda venda)
         {
             _contexto.Entry(venda).State = EntityState.Added;
@@ -38,9 +36,5 @@ namespace PDV.Dal.Repositorios
                 GC.SuppressFinalize(this);
             }
         }
-
-
-
-
     }
 }

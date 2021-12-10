@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using PDV.Cliente.Telas.Caixa;
 using PDV.Dal.Interfaces;
 using PDV.Dominio.Entidades;
 using FluentValidation;
@@ -260,18 +259,14 @@ namespace PDV.Cliente.ViewModels
         private void CarregarVendedores()
         {
 
-
             var  usuarios = _mapper.Map<List<Usuario>, List<UsuarioViewModel>>(_usuarioRepositorio.RecuperTodos());
 
             Vendedores = new ObservableCollection<UsuarioViewModel>(usuarios);
-
 
         }
 
         private void CarregarPagamentos()
         {
-
-
 
             var pagamentos = _mapper.Map<List<FormaPagamento>, List<FormaPagamentoViewModel>>(_formaPagamentoRepositorio.RecuperarTodas());
 
@@ -353,8 +348,6 @@ namespace PDV.Cliente.ViewModels
             IniciarOperacao();
 
         }
-
-
 
         private void IniciarOperacao()
         {

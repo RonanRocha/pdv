@@ -12,6 +12,7 @@ namespace PDV.Dal.Repositorios
     {
 
         private readonly AppDataContext _contexto;
+        private bool _disposed = false;
 
         public UnitOfWork(AppDataContext contexto)
         {
@@ -21,6 +22,18 @@ namespace PDV.Dal.Repositorios
         public void Commit()
         {
             _contexto.SaveChanges();
+        }
+
+
+        ~UnitOfWork() => Dispose();
+
+        public void Dispose()
+        {
+            if(!_disposed)
+            {
+                _contexto.Dispose();
+                GC.SuppressFinalize(this);
+            }
         }
     }
 }

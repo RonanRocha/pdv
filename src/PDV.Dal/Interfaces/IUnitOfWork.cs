@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PDV.Dal.Interfaces
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
 
         void Commit();

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PDV.Dal.Interfaces
 {
-    public interface IVendaFormaPagamentoRepositorio
+    public interface IVendaFormaPagamentoRepositorio : IDisposable
     {
         void Salvar(VendaFormaPagamento vendaFormaPagamento);
        

@@ -15,7 +15,7 @@ namespace PDV.Dominio.Entidades
         public int FormaPagamentoId  { get; set; }
         public int VendaId { get; set; }
         public decimal ValorPago { get; set; }
-        public virtual FormaPagamento FormaPagamento { get; set; }
+        public FormaPagamento FormaPagamento { get; set; }
         public Venda Venda { get; set; }
         public int? DivididoEm { get; set; }
         public SituacaoEntidade SituacaoEntidade { get; set; }
