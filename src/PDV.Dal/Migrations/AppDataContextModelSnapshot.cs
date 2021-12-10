@@ -164,7 +164,7 @@ namespace PDV.Dal.Migrations
                         {
                             Id = 1,
                             Codigo = "04",
-                            DataCadastro = new DateTime(2021, 12, 1, 10, 32, 22, 984, DateTimeKind.Local).AddTicks(32),
+                            DataCadastro = new DateTime(2021, 12, 10, 15, 18, 34, 508, DateTimeKind.Local).AddTicks(5985),
                             Descricao = "Maestro",
                             Parcelas = 1,
                             SituacaoEntidade = 1,
@@ -174,7 +174,7 @@ namespace PDV.Dal.Migrations
                         {
                             Id = 2,
                             Codigo = "04",
-                            DataCadastro = new DateTime(2021, 12, 1, 10, 32, 22, 984, DateTimeKind.Local).AddTicks(320),
+                            DataCadastro = new DateTime(2021, 12, 10, 15, 18, 34, 508, DateTimeKind.Local).AddTicks(6260),
                             Descricao = "Visa Débito",
                             Parcelas = 1,
                             SituacaoEntidade = 1,
@@ -184,7 +184,7 @@ namespace PDV.Dal.Migrations
                         {
                             Id = 3,
                             Codigo = "04",
-                            DataCadastro = new DateTime(2021, 12, 1, 10, 32, 22, 984, DateTimeKind.Local).AddTicks(323),
+                            DataCadastro = new DateTime(2021, 12, 10, 15, 18, 34, 508, DateTimeKind.Local).AddTicks(6263),
                             Descricao = "Elo Débito",
                             Parcelas = 1,
                             SituacaoEntidade = 1,
@@ -194,7 +194,7 @@ namespace PDV.Dal.Migrations
                         {
                             Id = 4,
                             Codigo = "01",
-                            DataCadastro = new DateTime(2021, 12, 1, 10, 32, 22, 984, DateTimeKind.Local).AddTicks(324),
+                            DataCadastro = new DateTime(2021, 12, 10, 15, 18, 34, 508, DateTimeKind.Local).AddTicks(6264),
                             Descricao = "Dinheiro",
                             Parcelas = 1,
                             SituacaoEntidade = 1,
@@ -204,7 +204,7 @@ namespace PDV.Dal.Migrations
                         {
                             Id = 5,
                             Codigo = "03",
-                            DataCadastro = new DateTime(2021, 12, 1, 10, 32, 22, 984, DateTimeKind.Local).AddTicks(325),
+                            DataCadastro = new DateTime(2021, 12, 10, 15, 18, 34, 508, DateTimeKind.Local).AddTicks(6265),
                             Descricao = "Master Crédito",
                             Parcelas = 12,
                             SituacaoEntidade = 1,
@@ -241,21 +241,21 @@ namespace PDV.Dal.Migrations
                         new
                         {
                             Id = 1,
-                            DataCadastro = new DateTime(2021, 12, 1, 10, 32, 22, 982, DateTimeKind.Local).AddTicks(3433),
+                            DataCadastro = new DateTime(2021, 12, 10, 15, 18, 34, 506, DateTimeKind.Local).AddTicks(9771),
                             Descricao = "Perfumes",
                             SituacaoEntidade = 1
                         },
                         new
                         {
                             Id = 2,
-                            DataCadastro = new DateTime(2021, 12, 1, 10, 32, 22, 982, DateTimeKind.Local).AddTicks(9692),
+                            DataCadastro = new DateTime(2021, 12, 10, 15, 18, 34, 507, DateTimeKind.Local).AddTicks(5522),
                             Descricao = "Sabonetes",
                             SituacaoEntidade = 1
                         },
                         new
                         {
                             Id = 3,
-                            DataCadastro = new DateTime(2021, 12, 1, 10, 32, 22, 982, DateTimeKind.Local).AddTicks(9704),
+                            DataCadastro = new DateTime(2021, 12, 10, 15, 18, 34, 507, DateTimeKind.Local).AddTicks(5532),
                             Descricao = "Essencias",
                             SituacaoEntidade = 1
                         });
@@ -324,7 +324,7 @@ namespace PDV.Dal.Migrations
                             Cest = "2000800",
                             Codigo = "001",
                             CodigoDeBarras = "SEM GTIN",
-                            DataCadastro = new DateTime(2021, 12, 1, 10, 32, 22, 983, DateTimeKind.Local).AddTicks(7522),
+                            DataCadastro = new DateTime(2021, 12, 10, 15, 18, 34, 508, DateTimeKind.Local).AddTicks(3403),
                             Descricao = "VIP 01 - MASCULINO",
                             GrupoProdutoId = 1,
                             Ncm = "33030020",
@@ -338,7 +338,7 @@ namespace PDV.Dal.Migrations
                             Cest = "2000800",
                             Codigo = "002",
                             CodigoDeBarras = "SEM GTIN",
-                            DataCadastro = new DateTime(2021, 12, 1, 10, 32, 22, 983, DateTimeKind.Local).AddTicks(7801),
+                            DataCadastro = new DateTime(2021, 12, 10, 15, 18, 34, 508, DateTimeKind.Local).AddTicks(3671),
                             Descricao = "VIP 02 - FEMININO",
                             GrupoProdutoId = 1,
                             Ncm = "33030020",
@@ -352,7 +352,7 @@ namespace PDV.Dal.Migrations
                             Cest = "2000800",
                             Codigo = "003",
                             CodigoDeBarras = "SEM GTIN",
-                            DataCadastro = new DateTime(2021, 12, 1, 10, 32, 22, 983, DateTimeKind.Local).AddTicks(7805),
+                            DataCadastro = new DateTime(2021, 12, 10, 15, 18, 34, 508, DateTimeKind.Local).AddTicks(3675),
                             Descricao = "VIP 03 - MASCULINO",
                             GrupoProdutoId = 1,
                             Ncm = "33030020",
@@ -403,7 +403,7 @@ namespace PDV.Dal.Migrations
                         {
                             Id = 1,
                             Cpf = "388477898",
-                            DataCadastro = new DateTime(2021, 12, 1, 10, 32, 22, 983, DateTimeKind.Local).AddTicks(8764),
+                            DataCadastro = new DateTime(2021, 12, 10, 15, 18, 34, 508, DateTimeKind.Local).AddTicks(4790),
                             Email = "ronan.rochasouza@gmail.com",
                             Nome = "Ronan Rocha",
                             Senha = "1234",
@@ -413,7 +413,7 @@ namespace PDV.Dal.Migrations
                         {
                             Id = 2,
                             Cpf = "67371822080",
-                            DataCadastro = new DateTime(2021, 12, 1, 10, 32, 22, 983, DateTimeKind.Local).AddTicks(9055),
+                            DataCadastro = new DateTime(2021, 12, 10, 15, 18, 34, 508, DateTimeKind.Local).AddTicks(5048),
                             Email = "mvp@gmail.com",
                             Nome = "Marcos Poli",
                             Senha = "1234",
@@ -423,7 +423,7 @@ namespace PDV.Dal.Migrations
                         {
                             Id = 3,
                             Cpf = "69947008010",
-                            DataCadastro = new DateTime(2021, 12, 1, 10, 32, 22, 983, DateTimeKind.Local).AddTicks(9058),
+                            DataCadastro = new DateTime(2021, 12, 10, 15, 18, 34, 508, DateTimeKind.Local).AddTicks(5051),
                             Email = "michael@gmail.com",
                             Nome = "Michael",
                             Senha = "1234",

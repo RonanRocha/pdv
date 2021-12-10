@@ -10,7 +10,7 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System;
-
+using PDV.Dal.Contexto;
 
 namespace PDV.Cliente.Config
 {
@@ -29,12 +29,15 @@ namespace PDV.Cliente.Config
             try
             {
 
-           
+                Services.AddDbContext<AppDataContext>();
 
                 Services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
                 Services.AddScoped<IFormaPagamentoRepositorio, FormaPagamentoRepositorio>();
                 Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
                 Services.AddScoped<IVendaRepositorio, VendaRepositorio>();
+                Services.AddScoped<IVendaProdutoRepositorio, VendaProdutoRepositorio>();
+                Services.AddScoped<IVendaFormaPagamentoRepositorio, VendaFormaPagamentoRepositorio>();
+                Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
                 Services.AddScoped<OperacaoVendaViewModel>();
                 Services.AddScoped<VendaViewModel>();

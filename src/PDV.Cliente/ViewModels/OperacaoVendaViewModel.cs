@@ -24,7 +24,15 @@ namespace PDV.Cliente.ViewModels
 
         private readonly IServiceProvider _serviceProvider;
         private readonly IServiceScopeFactory _serviceScopeFactory;
-      
+        private readonly IVendaRepositorio _vendaRepositorio;
+        private readonly IVendaProdutoRepositorio _vendaProdutoRepositorio;
+        private readonly IVendaFormaPagamentoRepositorio _vendaFormaPagamentoRepositorio;
+        private readonly IProdutoRepositorio _produtoRepositorio;
+        private readonly IFormaPagamentoRepositorio _formaPagamentoRepositorio;
+        private readonly IUsuarioRepositorio _usuarioRepositorio;
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+
         private string _busca = String.Empty;
         private bool _cpfNota;
         private bool _enviarEmail;
@@ -51,13 +59,28 @@ namespace PDV.Cliente.ViewModels
         #region constructors
         public OperacaoVendaViewModel(
             IServiceProvider serviceProvider,
-            IServiceScopeFactory serviceScopeFactory
+            IServiceScopeFactory serviceScopeFactory,
+            IVendaRepositorio vendaRepositorio,
+            IVendaProdutoRepositorio vendaProdutoRepositorio,
+            IVendaFormaPagamentoRepositorio vendaFormaPagamentoRepositorio,
+            IFormaPagamentoRepositorio formaPagamentoRepositorio,
+            IProdutoRepositorio produtoRepositorio,
+            IUsuarioRepositorio usuarioRepositorio,
+            IMapper mapper,
+            IUnitOfWork unitOfWork
   
 
         )
         {
 
-
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+            _vendaRepositorio = vendaRepositorio;
+            _vendaFormaPagamentoRepositorio = vendaFormaPagamentoRepositorio;
+            _vendaProdutoRepositorio = vendaProdutoRepositorio;
+            _produtoRepositorio = produtoRepositorio;
+            _usuarioRepositorio = usuarioRepositorio;
+            _formaPagamentoRepositorio = formaPagamentoRepositorio;
             _serviceProvider = serviceProvider;
             _serviceScopeFactory = serviceScopeFactory;
             _venda = _serviceProvider.GetRequiredService<VendaViewModel>();
@@ -236,11 +259,9 @@ namespace PDV.Cliente.ViewModels
 
         private void CarregarVendedores()
         {
-            var mapper = _serviceProvider.GetRequiredService<IMapper>();
 
-            var usuarioRepositorio = _serviceProvider.GetRequiredService<IUsuarioRepositorio>();
 
-            var  usuarios = mapper.Map<List<Usuario>, List<UsuarioViewModel>>(usuarioRepositorio.RecuperTodos());
+            var  usuarios = _mapper.Map<List<Usuario>, List<UsuarioViewModel>>(_usuarioRepositorio.RecuperTodos());
 
             Vendedores = new ObservableCollection<UsuarioViewModel>(usuarios);
 
@@ -250,11 +271,9 @@ namespace PDV.Cliente.ViewModels
         private void CarregarPagamentos()
         {
 
-            var mapper = _serviceProvider.GetRequiredService<IMapper>();
 
-            var formaPagamentoRepositorio = _serviceProvider.GetRequiredService<IFormaPagamentoRepositorio>();
 
-            var pagamentos = mapper.Map<List<FormaPagamento>, List<FormaPagamentoViewModel>>(formaPagamentoRepositorio.RecuperarTodas());
+            var pagamentos = _mapper.Map<List<FormaPagamento>, List<FormaPagamentoViewModel>>(_formaPagamentoRepositorio.RecuperarTodas());
 
             Pagamentos = new ObservableCollection<FormaPagamentoViewModel>(pagamentos);
         
@@ -296,11 +315,9 @@ namespace PDV.Cliente.ViewModels
 
             if (String.IsNullOrEmpty(Busca)) Busca = String.Empty;
 
-            var mapper = _serviceProvider.GetRequiredService<IMapper>();
 
-            var produtoRepositorio = _serviceProvider.GetRequiredService<IProdutoRepositorio>();
 
-            var produtos = mapper.Map<List<Produto>, List<ProdutoViewModel>>(produtoRepositorio.BuscarProduto(Busca));
+            var produtos = _mapper.Map<List<Produto>, List<ProdutoViewModel>>(_produtoRepositorio.BuscarProduto(Busca));
 
             Produtos = new ObservableCollection<ProdutoViewModel>(produtos);
             
@@ -309,11 +326,22 @@ namespace PDV.Cliente.ViewModels
         private void FecharVenda(Venda venda)
         {
 
-            var vendaRepositorio = _serviceProvider.GetRequiredService<IVendaRepositorio>();
 
             venda.DataFechamento = DateTime.Now;
 
-            vendaRepositorio.Salvar(venda);
+            _vendaRepositorio.Salvar(venda);
+
+            foreach (var item in venda.Produtos)
+            {
+                _vendaProdutoRepositorio.Salvar(item);
+            }
+
+            foreach (var item in venda.Pagamentos)
+            {
+                _vendaFormaPagamentoRepositorio.Salvar(item);
+            }
+
+            _unitOfWork.Commit();
 
 
         }
