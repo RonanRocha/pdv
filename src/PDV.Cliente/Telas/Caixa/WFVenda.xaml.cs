@@ -12,11 +12,10 @@ namespace PDV.Cliente.Telas.Caixa
     {
 
 
-        public WFVenda(OperacaoVendaViewModel viewModel)
+        public WFVenda()
         {
 
             InitializeComponent();
-            DataContext = viewModel;
             winActions.ButtonClose.Click += WindowClose;
             winActions.ButtonMaximize.Click += WindowMaximize;
             winActions.ButtonMinimize.Click += WindowMinimize;

@@ -21,8 +21,8 @@ namespace PDV.Cliente.ViewModels
         #region private attributes
 
 
-        private readonly IServiceProvider _serviceProvider;
-        private readonly IServiceScopeFactory _serviceScopeFactory;
+        private  IServiceProvider _serviceProvider;
+        private  IServiceScopeFactory _serviceScopeFactory;
         private readonly IVendaRepositorio _vendaRepositorio;
         private readonly IVendaProdutoRepositorio _vendaProdutoRepositorio;
         private readonly IVendaFormaPagamentoRepositorio _vendaFormaPagamentoRepositorio;
@@ -66,7 +66,8 @@ namespace PDV.Cliente.ViewModels
             IProdutoRepositorio produtoRepositorio,
             IUsuarioRepositorio usuarioRepositorio,
             IMapper mapper,
-            IUnitOfWork unitOfWork
+            IUnitOfWork unitOfWork,
+            VendaViewModel venda
   
 
         )
@@ -82,7 +83,7 @@ namespace PDV.Cliente.ViewModels
             _formaPagamentoRepositorio = formaPagamentoRepositorio;
             _serviceProvider = serviceProvider;
             _serviceScopeFactory = serviceScopeFactory;
-            _venda = _serviceProvider.GetRequiredService<VendaViewModel>();
+            _venda = venda;
 
             
          
@@ -414,12 +415,13 @@ namespace PDV.Cliente.ViewModels
         private void IniciarVenda()
         {
 
-            var scopo = _serviceProvider.CreateScope();
+            var scopo = _serviceScopeFactory.CreateScope();
             var novaOperacao = scopo.ServiceProvider.GetRequiredService<OperacaoVendaViewModel>();
-            var ucOperacao = _serviceProvider.GetRequiredService<UCOperacao>();
+            var ucOperacao = _serviceProvider.GetRequiredService<UCOperacao>();   
             ucOperacao.DataContext = novaOperacao;
-        
-                
+
+
+
         }
 
         #endregion

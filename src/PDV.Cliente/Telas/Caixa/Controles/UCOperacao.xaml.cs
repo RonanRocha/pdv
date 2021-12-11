@@ -17,12 +17,16 @@ namespace PDV.Cliente.Telas.Caixa.Controles
     {
 
         private IServiceProvider _serviceProvider;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public UCOperacao(OperacaoVendaViewModel viewModel, IServiceProvider serviceProvider)
+        public UCOperacao(OperacaoVendaViewModel viewModel, IServiceProvider serviceProvider, IServiceScopeFactory serviceScopeFactory)
         {
             InitializeComponent();
-            DataContext = viewModel;
             _serviceProvider = serviceProvider;
+            _serviceScopeFactory = serviceScopeFactory;
+
+            DataContext = viewModel;
+            
         }
 
 
@@ -30,6 +34,8 @@ namespace PDV.Cliente.Telas.Caixa.Controles
         {
             try
             {
+
+
                 var viewModel = (OperacaoVendaViewModel)DataContext;
 
                 viewModel.IniciarVendaCommand.Execute(null);

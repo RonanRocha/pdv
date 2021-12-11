@@ -13,8 +13,14 @@ namespace PDV.Cliente.Telas.Caixa
         public WFVendaConcluida(OperacaoVendaViewModel viewModel)
         {
             InitializeComponent();
-            viewModel.FecharJanelaConclusaoVenda = new Action(this.Close);
             DataContext = viewModel;
+        }
+
+
+        public void DefinirContexto(OperacaoVendaViewModel context)
+        {
+            context.FecharJanelaConclusaoVenda = new Action(this.Close);
+            DataContext = context;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

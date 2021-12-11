@@ -74,7 +74,7 @@
                 </Grid>
             </materialDesign:ColorZone>
             <Grid Grid.Row="1" x:Name="CaixaConteudo">
-                <controles:UCCaixaFechado></controles:UCCaixaFechado>
+                <!--<controles:UCCaixaFechado></controles:UCCaixaFechado>-->
             </Grid>
         </Grid>
     </materialDesign:DrawerHost>

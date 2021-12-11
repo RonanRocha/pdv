@@ -205,6 +205,8 @@ namespace PDV.Cliente.Telas.Caixa
 
                         var wfVendaConcluida = _sp.GetRequiredService<WFVendaConcluida>();
 
+                        wfVendaConcluida.DefinirContexto(viewModel);
+
                         wfVendaConcluida.ShowDialog();
 
                     });
